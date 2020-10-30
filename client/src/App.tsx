@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './styles/App.css';
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Image, DotGroup } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import MenuButtonGroup from './components/MenuButtonGroup';
 import { apiServer } from './config';
 import { FileDesc } from './models/file';
 import FilePreviewGridLayout from './components/FilePreviewGridLayout';
 import FilePreviewListLayout from './components/FilePreviewListLayout';
+import FilePreviewGalleryLayout from './components/FilePreviewGalleryLayout';
 
 interface BrowseResponse {
   ok: 0 | 1;
@@ -87,36 +87,12 @@ function App() {
 
   function renderGallery(files: FileDesc[]) {
     return (
-      <CarouselProvider
-        naturalSlideWidth={100}
-        naturalSlideHeight={100}
-        totalSlides={files.length}
-        infinite={true}
-        currentSlide={currIndex}
-      >
-        <Slider classNameAnimation={"slide-animation"}>
-          {
-            files.map(({name, path}, i) =>
-              <Slide key={i} index={i} style={{
-                paddingBottom: 'calc(90vh - 25px)'
-              }}>
-                <Image
-                  key={i}
-                  className="image"
-                  hasMasterSpinner={false}
-                  src={`${apiServer}/file/${path}`}
-                  alt={name}
-                />
-              </Slide>
-            )
-          }
-        </Slider>
-        <div className="control-group">
-          <ButtonBack className="btn-back">&#x3C;</ButtonBack>
-          <DotGroup dotNumbers={false}/>
-          <ButtonNext className="btn-next">&#x3E;</ButtonNext>
-        </div>
-      </CarouselProvider>
+      <FilePreviewGalleryLayout
+        files={files}
+        currSelected={currIndex}
+        setCurrSelected={setCurrIndex}
+        onOpen={onOpen}
+      />
     )
   }
 }
