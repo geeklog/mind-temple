@@ -37,25 +37,28 @@ function Carousel({files, onOpen, currSelected, setCurrSelected}: Props) {
                 setCurrSelected(i)
               }}
             >
-              <Image
-                key={i}
-                className="image"
-                hasMasterSpinner={false}
-                src={`${apiServer}/file/${file.path}`}
-                alt={file.name}
-              />
+              <div className="image-box">
+                <ButtonBack className="btn btn-back">
+                  <Icon name="chevron-left"/>
+                </ButtonBack>
+                <Image
+                    key={i}
+                    className="image"
+                    hasMasterSpinner={false}
+                    src={`${apiServer}/file/${file.path}`}
+                    alt={file.name}
+                />
+                <ButtonNext className="btn btn-next">
+                  <Icon name="chevron-right"/>
+                </ButtonNext>
+              </div>
             </Slide>
           )
         }
       </Slider>
       <div className="control-group">
-        <ButtonBack className="btn btn-back">
-          <Icon name="chevron-left"/>
-        </ButtonBack>
+        
         <DotGroup dotNumbers={false}/>
-        <ButtonNext className="btn btn-next">
-          <Icon name="chevron-right"/>
-        </ButtonNext>
       </div>
     </>
   )

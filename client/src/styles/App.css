@@ -52,7 +52,12 @@
   margin-right: auto;
 }
 
+.image-box {
+  display: flex;
+}
+
 .image {
+  display: inline-block !important;
   height: 90vh !important;
   width: auto !important;
   margin-left: auto;
@@ -172,8 +177,8 @@
   align-items: center;
 }
 .btn .icon {
-  width: 25px;
-  height: 25px;
+  width: 50px;
+  height: 50px;
   fill: white;
 }
 
