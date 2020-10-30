@@ -64,7 +64,9 @@ function App() {
         </CarouselProvider>
       }
       {res && !res.ok &&
-        <p className="ap p-intro">{res.message}</p>
+        <div className="error-msg">
+          {res.message}
+        </div>
       }
       
     </div>
