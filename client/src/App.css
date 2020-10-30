@@ -2,11 +2,12 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  color: white;
   --color-pink: #AE4951;
   --color-chameisee: #B98D72;
   --color-wineberry: #57233A;
   --color-black: #161B1F;
-  --color-shadow: #161b1f;
+  --color-shadow: #161b1f32;
 }
 
 .app {
@@ -30,6 +31,7 @@
 .addressbar {
   outline: none;
   border: none;
+  color: var(--color-black);
   width: 60%;
   padding: 0 8px;
   border-radius: 5px;
@@ -65,6 +67,37 @@
   transition: none;
 }
 
+.files-layout-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  text-align: initial;
+  max-width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.files-layout-grid > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 200px;
+  overflow: auto;
+  border: 5px solid transparent;
+  cursor: pointer;
+}
+
+.files-layout-grid > div.selected {
+  border: 5px solid var(--color-chameisee);
+}
+
+.files-layout-grid > div > .file-name {
+  max-width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .files-layout-list {
   /* background-color: orange; */
   display: inline-block;
@@ -73,6 +106,7 @@
   margin-left: auto;
   margin-right: auto;
 }
+
 .files-layout-list li {
   list-style: none;
   color: white;

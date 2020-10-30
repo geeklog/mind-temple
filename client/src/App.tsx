@@ -3,11 +3,9 @@ import './App.css';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Image, DotGroup } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import MenuButtonGroup from './components/MenuButtonGroup';
-
-interface FileDesc {
-  name: string;
-  path: string;
-}
+import { apiServer } from './config';
+import { FileDesc } from './models/file';
+import FilePreviewGridLayout from './components/FilePreviewGridLayout';
 
 interface BrowseResponse {
   ok: 0 | 1;
@@ -18,8 +16,9 @@ interface BrowseResponse {
 type LayoutMode = 'list' | 'grid' | 'gallery';
 
 function App() {
-  const apiServer = 'http://localhost:9000'
-  const [layoutMode, setLayoutMode] = useState<LayoutMode>('gallery');
+  console.log('draw app');
+  const [layoutMode, setLayoutMode] = useState<LayoutMode>('grid');
+  const [currIndex, setCurrIndex] = useState(0);
   const [folderPath, setFolderPath] = useState('~/Downloads/imgs');
   const [res, setRes] = useState<BrowseResponse|null>(null);
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +30,11 @@ function App() {
       .then(res => res.json())
       .then(r => setRes(r as any))
       .catch(err => err);
+  }
+
+  const onOpen = (index: number, file: FileDesc) => {
+    setCurrIndex(index);
+    setLayoutMode('gallery');
   }
 
   useEffect(() => {
@@ -60,7 +64,12 @@ function App() {
 
   function renderGrid(files: FileDesc[]) {
     return (
-      <div>Grid</div>
+      <FilePreviewGridLayout
+        currSelected={currIndex}
+        setCurrSelected={setCurrIndex}
+        files={files}
+        onOpen={onOpen}
+      />
     );
   }
 
@@ -88,6 +97,7 @@ function App() {
         naturalSlideHeight={100}
         totalSlides={files.length}
         infinite={true}
+        currentSlide={currIndex}
       >
         <Slider classNameAnimation={"slide-animation"}>
           {
