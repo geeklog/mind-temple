@@ -2,7 +2,7 @@ import React from 'react';
 
 interface Props {
   name: string;
-  className: string;
+  className?: string;
   onClick?: (event: any) => void;
 }
 

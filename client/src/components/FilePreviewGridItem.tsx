@@ -15,17 +15,17 @@ function FilePreviewGridItem({
 }: Props) {
   return (
     <div
-      className={`${className || ''} ${selected && 'selected' || ''}`}
+      className={`${className || ''}`}
       key={file.path}
       onClick={onClick}
       onDoubleClick={onDoubleClick}
     >
-      <span className="thumb-large">
+      <div className={`thumb ${selected && 'selected' || ''}`}>
         <img src={`${apiServer}/thumb/${file.path}?h=100`}></img>
-      </span>
-      <span className="file-name">
+      </div>
+      <div className="file-name">
         {file.name}
-      </span>
+      </div>
     </div>
   )
 }

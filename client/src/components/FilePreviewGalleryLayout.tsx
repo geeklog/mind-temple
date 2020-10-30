@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { FileDesc } from '../models/file';
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, Image, DotGroup, CarouselContext } from 'pure-react-carousel';
 import { apiServer } from '../config';
+import Icon from './Icon';
 
 interface Props {
   files: FileDesc[];
@@ -48,9 +49,13 @@ function Carousel({files, onOpen, currSelected, setCurrSelected}: Props) {
         }
       </Slider>
       <div className="control-group">
-        <ButtonBack className="btn-back">&#x3C;</ButtonBack>
+        <ButtonBack className="btn btn-back">
+          <Icon name="chevron-left"/>
+        </ButtonBack>
         <DotGroup dotNumbers={false}/>
-        <ButtonNext className="btn-next">&#x3E;</ButtonNext>
+        <ButtonNext className="btn btn-next">
+          <Icon name="chevron-right"/>
+        </ButtonNext>
       </div>
     </>
   )
