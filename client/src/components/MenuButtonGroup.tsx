@@ -10,7 +10,7 @@ interface Props {
 
 function MenuButtonGroup({btns, choices, onSelected}: Props) {
   return (
-    <div>
+    <>
       {btns.map((btnName, i) =>
         <Icon
           key={i}
@@ -19,7 +19,7 @@ function MenuButtonGroup({btns, choices, onSelected}: Props) {
           onClick={() => onSelected(choices[i] as LayoutMode)
         }/>
       )}
-    </div>
+    </>
   )
 }
 

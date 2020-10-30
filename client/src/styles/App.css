@@ -23,9 +23,9 @@
 
 .menu {
   margin: 10px auto;
-  padding: 5px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .addressbar {
@@ -33,15 +33,15 @@
   border: none;
   color: var(--color-black);
   width: 60%;
-  padding: 0 8px;
-  border-radius: 5px;
+  padding: 4px 10px;
+  border-radius: 100px;
   margin-right: 10px;
 }
 
 .menu-icon {
   display: inline-block;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   fill: white;
   margin: 0 5px;
   cursor: pointer;
