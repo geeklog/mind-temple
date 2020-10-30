@@ -26,7 +26,6 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
   render() {
     const { file, className, selected }: Props = this.props;
 
-    console.log('render FilePreviewGridItem');
     return (
       <div
         className={`${className || ''}`}
@@ -34,8 +33,8 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
         onClick={this.onClick}
         onDoubleClick={this.onDoubleClick}
       >
-        <div className={`thumb ${selected && 'selected' || ''}`}>
-          <img src={`${apiServer}/thumb/${file.path}?h=100`}></img>
+        <div className={`thumb ${selected ? 'selected' : ''}`}>
+          <img src={`${apiServer}/thumb/${file.path}?h=100`} alt=""></img>
         </div>
         <div className="file-name">
           {file.name}

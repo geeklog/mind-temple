@@ -23,7 +23,7 @@ export default class FilePreviewListLayout extends React.PureComponent<Props> {
             onDoubleClick={() => control.open(i, file)}
           >
             <span className="thumb">
-              <img src={`${apiServer}/thumb/${file.path}?w=100`}></img>
+              <img src={`${apiServer}/thumb/${file.path}?w=100`} alt=""></img>
             </span>
             <span>
               {file.name}

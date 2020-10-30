@@ -47,11 +47,6 @@
   cursor: pointer;
 }
 
-.carousel {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .image-box {
   display: flex;
   margin-left: auto;
@@ -60,8 +55,20 @@
 }
 
 .image-frame {
-  display: inline-block !important;
   position: relative;
+  height: calc(100vh - 100px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  max-height: calc(100vh - 100px);
+  object-fit: cover;
+  /* width: auto; */
+  max-width: 85vw;
+  /* margin-top: auto; */
+  /* margin-bottom: auto; */
 }
 
 .image-frame-overlay-left {
@@ -84,10 +91,7 @@
   cursor: pointer;
 }
 
-.image {
-  height: 90vh !important;
-  width: auto !important;
-}
+
 
 .slide-animation {
   transition: none;
@@ -159,22 +163,16 @@
   height: 50px;
 }
 
-.control-group {
-  display: inline-flex;
-  align-items: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.carousel__dot-group {
-  /* width: 100%; */
+.gallery-dot-group {
   display: inline-flex;
   align-items: center;
   align-content: center;
   flex-wrap: wrap;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.carousel__dot {
+.gallery-dot {
   border-radius: 5px;
   height: 5px;
   width: 5px;
@@ -182,9 +180,8 @@
   background-color: white;
   border: none;
   outline: none;
-  /* background-color: var(--color-chameisee); */
 }
-.carousel__dot--selected {
+.gallery-dot.selected {
   background-color: var(--color-chameisee);
 }
 

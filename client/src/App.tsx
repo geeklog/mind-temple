@@ -17,6 +17,7 @@ interface BrowseResponse {
 
 interface State {
   layoutMode: LayoutMode,
+  prevLayoutMode: LayoutMode,
   currIndex: number,
   folderPath: string,
   res: BrowseResponse|null
@@ -34,6 +35,7 @@ export interface AppControl {
 export default class App extends React.Component {
 
   state: State = {
+    prevLayoutMode: 'grid',
     layoutMode: 'grid',
     currIndex: 0,
     folderPath: '~/Downloads/imgs',
@@ -60,6 +62,7 @@ export default class App extends React.Component {
   }
 
   setLayoutMode = (layoutMode: LayoutMode) => {
+    this.setState({ prevLayoutMode: this.state.layoutMode });
     this.setState({ layoutMode });
   }
 
@@ -71,19 +74,26 @@ export default class App extends React.Component {
     if (!this.state.res) {
       return;
     }
-    this.setState({currIndex: Math.max(this.state.currIndex - 1, 0)})
+    let currIndex = this.state.currIndex - 1;
+    if (currIndex < 0) {
+      currIndex = this.state.res.files.length - 1;
+    }
+    this.setState({currIndex});
   };
 
   selectNext = () => {
     if (!this.state.res) {
       return;
     }
-    this.setState({
-      currIndex: Math.min(this.state.currIndex + 1, this.state.res.files.length - 1)
-    })
+    let currIndex = this.state.currIndex + 1;
+    if (currIndex >= this.state.res.files.length) {
+      currIndex = 0;
+    }
+    this.setState({ currIndex });
   };
 
-  onKeyUp = (event: KeyboardEvent) => {
+  onKeyDown = (event: KeyboardEvent) => {
+    const {layoutMode} = this.state;
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
       this.selectPrev();
@@ -93,6 +103,14 @@ export default class App extends React.Component {
       event.preventDefault();
       this.selectNext();
       return;
+    }
+    if (event.key === ' ') {
+      event.preventDefault();
+      if (layoutMode !== 'gallery') {
+        this.setLayoutMode('gallery');
+      } else {
+        this.setLayoutMode(this.state.prevLayoutMode);
+      }
     }
   }
 
@@ -106,13 +124,12 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
     this.callAPI();
-    document.addEventListener('keyup', this.onKeyUp);
+    document.addEventListener('keydown', this.onKeyDown);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keyup', this.onKeyUp);
+    document.removeEventListener('keydown', this.onKeyDown);
   }
 
   componentDidUpdate(prevProps: any, prevState: State) {
