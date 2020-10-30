@@ -14,7 +14,7 @@ export default (req, res) => {
       fs.readdirSync(folderPath)
         .filter(isImage)
         .map(fileName => ({
-          path: path.join('/file/', resourcePath, fileName),
+          path: path.join(resourcePath, fileName),
           name: fileName
         }))
       ;

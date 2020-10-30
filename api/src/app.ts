@@ -7,6 +7,7 @@ import cors from "cors";
 
 import browseController from './controllers/browse';
 import fileController from './controllers/file';
+import thumbController from './controllers/thumb';
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.get(/browse\/?.*/, browseController);
 app.get(/file\/?.*/, fileController);
+app.get(/thumb\/?.*/, thumbController);
 
 app.get('/', (req, res) => {
   res.render('index');
