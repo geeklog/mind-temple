@@ -25,7 +25,7 @@ export default (req, res) => {
   } catch (error) {
     res.json({
       ok: 0,
-      message: 'Folder not exist',
+      message: 'Folder not found',
       files: []
     });
   }
