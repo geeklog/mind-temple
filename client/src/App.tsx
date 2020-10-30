@@ -6,6 +6,7 @@ import MenuButtonGroup from './components/MenuButtonGroup';
 import { apiServer } from './config';
 import { FileDesc } from './models/file';
 import FilePreviewGridLayout from './components/FilePreviewGridLayout';
+import FilePreviewListLayout from './components/FilePreviewListLayout';
 
 interface BrowseResponse {
   ok: 0 | 1;
@@ -75,18 +76,12 @@ function App() {
 
   function renderList(files: FileDesc[]) {
     return (
-      <div className="files-layout-list">
-        {files.map(({name, path}) =>
-          <li key={path}>
-            <span className="thumb">
-              <img src={`${apiServer}/thumb/${path}?w=100`}></img>
-            </span>
-            <span>
-              {name}
-            </span>
-          </li>
-        )}
-      </div>
+      <FilePreviewListLayout
+        files={files}
+        currSelected={currIndex}
+        setCurrSelected={setCurrIndex}
+        onOpen={onOpen}
+      />
     );
   }
 
