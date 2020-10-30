@@ -1,10 +1,11 @@
 import React from 'react';
+import { LayoutMode } from '../models/layout';
 import Icon from './Icon';
 
 interface Props {
   btns: string[];
   choices: string[];
-  onSelected: (selected: string) => void;
+  onSelected: (selected: LayoutMode) => void;
 }
 
 function MenuButtonGroup({btns, choices, onSelected}: Props) {
@@ -15,7 +16,7 @@ function MenuButtonGroup({btns, choices, onSelected}: Props) {
           key={i}
           name={btnName}
           className="menu-icon"
-          onClick={() => onSelected(choices[i])
+          onClick={() => onSelected(choices[i] as LayoutMode)
         }/>
       )}
     </div>

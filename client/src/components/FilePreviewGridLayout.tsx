@@ -1,34 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { AppControl } from '../App';
 import { FileDesc } from '../models/file';
 import FilePreviewGridItem from './FilePreviewGridItem';
 
 interface Props {
   files: FileDesc[];
   currSelected: number;
-  setCurrSelected: (selected: number) => void;
-  onOpen?: (index: number, file: FileDesc) => void 
+  control: AppControl;
 }
 
-function FilePreviewGridLayout(
-  {files, onOpen, currSelected, setCurrSelected}: Props
-) {
+export default class FilePreviewGridLayout extends React.PureComponent<Props> {
 
-  const onSelected = (i: number) => {
-    setCurrSelected(i);
+  items: {[id: string]: FilePreviewGridItem | null} = {};
+
+  render() {
+    const {files, currSelected, control} = this.props;
+    return (
+      <div className="files-layout-grid">
+        {files.map((file, i) =>
+          <FilePreviewGridItem
+            index={i}
+            key={i}
+            file={file}
+            selected={i===currSelected}
+            control={control}
+          />
+        )}
+      </div>
+    )
   }
-
-  return (
-    <div className="files-layout-grid">
-      {files.map((file, i) =>
-        <FilePreviewGridItem
-          file={file}
-          selected={i===currSelected}
-          onClick={() => onSelected(i)}
-          onDoubleClick={() => onOpen?.(i, file)}
-        />
-      )}
-    </div>
-  )
 }
-
-export default FilePreviewGridLayout;

@@ -54,19 +54,39 @@
 
 .image-box {
   display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+}
+
+.image-frame {
+  display: inline-block !important;
+  position: relative;
+}
+
+.image-frame-overlay-left {
+  position: absolute;
+  background-color: transparent;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.image-frame-overlay-right {
+  position: absolute;
+  background-color: transparent;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  cursor: pointer;
 }
 
 .image {
-  display: inline-block !important;
   height: 90vh !important;
   width: auto !important;
-  margin-left: auto;
-  margin-right: auto;
-  /* 
-  
-  max-height: 100px;
-  max-width: 100px;
-  object-fit: cover; */
 }
 
 .slide-animation {

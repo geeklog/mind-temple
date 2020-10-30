@@ -6,12 +6,13 @@ interface Props {
   onClick?: (event: any) => void;
 }
 
-function Icon({name, className, onClick}: Props) {
-  return (
-    <svg className={`icon icon-${name} ${className || ''}`} onClick={onClick}>
-      <use xlinkHref={`icons.svg#icon-${name}`}></use>
-    </svg>
-  )
+export default class Icon extends React.PureComponent<Props> {
+  render() {
+    const {name, className, onClick} = this.props;
+    return (
+      <svg className={`icon icon-${name} ${className || ''}`} onClick={onClick}>
+        <use xlinkHref={`icons.svg#icon-${name}`}></use>
+      </svg>
+    )
+  }
 }
-
-export default Icon;
