@@ -4,7 +4,6 @@ import { apiServer } from '../config';
 import Icon from './Icon';
 import { AppControl } from '../App';
 
-
 export default class FilePreviewGalleryLayout extends React.PureComponent<{
   files: FileDesc[];
   currIndex: number;
@@ -45,4 +44,3 @@ export default class FilePreviewGalleryLayout extends React.PureComponent<{
     );
   }
 }
-
