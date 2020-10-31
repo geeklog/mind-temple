@@ -4,7 +4,7 @@ import path from 'path';
 import { endsWith } from 'mikov/fn/op';
 
 const IMAGE_EXTS = ['.jpg', '.jpeg', '.png', '.gif'];
-const isImage = endsWith(IMAGE_EXTS);
+const isImage = (s: string) => endsWith(IMAGE_EXTS)(s.toLowerCase());
 
 export default (req, res) => {
   try {
