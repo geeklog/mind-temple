@@ -23,7 +23,12 @@ export default class FilePreviewListLayout extends React.PureComponent<Props> {
             onClick={() => control.setCurrIndex(i)}
             onDoubleClick={() => control.open(i, file)}
           >
-            <Thumb type="list" selected={currSelected === i} file={file}/>
+            <Thumb
+              type="list"
+              size={25}
+              selected={currSelected === i}
+              file={file}
+            />
             <span>
               {file.name}
             </span>

@@ -33,7 +33,12 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
         onClick={this.onClick}
         onDoubleClick={this.onDoubleClick}
       >
-        <Thumb type="grid" selected={selected} file={file}/>
+        <Thumb
+          type="grid"
+          size={90}
+          selected={selected}
+          file={file}
+        />
         <div className="file-name">
           {file.name}
         </div>

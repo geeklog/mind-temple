@@ -18,6 +18,9 @@ function resolveExtension(ext: string) {
   if (ext.startsWith('.')) {
     ext = ext.replace('.', '');
   }
+  if (ext === 'jpeg') {
+    ext = 'jpg'
+  }
   if (ext === 'md') {
     ext = 'txt'
   }
@@ -43,6 +46,7 @@ function resolveExtension(ext: string) {
 }
 
 interface Props {
+  size: number;
   file: FileDesc;
   selected: boolean;
   type: 'grid' | 'list';
@@ -50,7 +54,7 @@ interface Props {
 
 export default class Thumb extends React.PureComponent<Props> {
   render() {
-    const {file, selected, type} = this.props;
+    const {file, selected, type, size} = this.props;
     let ext = resolveExtension(file.ext)
     let aImage = isImage(ext);
     const src = aImage
@@ -58,7 +62,6 @@ export default class Thumb extends React.PureComponent<Props> {
       : `filetypes/${ext}.svg`;
 
     const img = file as ImageDesc;
-    const gridSize = 90;
     const classesSelected = (...classNames: string[]) =>
       classnames(...classNames, selected ? 'selected' : '');
 
@@ -71,11 +74,11 @@ export default class Thumb extends React.PureComponent<Props> {
               alt=""
               style={{
                 width: img.width > img.height
-                  ? `${gridSize}px`
-                  : (gridSize * img.width / img.height) + 'px',
+                  ? `${size}px`
+                  : (size * img.width / img.height) + 'px',
                 height: img.height > img.width
-                  ? `${gridSize}px`
-                  : (gridSize * img.height / img.width) + 'px'
+                  ? `${size}px`
+                  : (size * img.height / img.width) + 'px'
               }}
             />
           : <img
@@ -84,11 +87,6 @@ export default class Thumb extends React.PureComponent<Props> {
               )}
               src={src}
               alt=""
-              // style={{
-              //   marginLeft: '-9px',
-              //   marginBottom: '-3px',
-              //   marginRight: '-9px'
-              // }}
             />
         }
       </div>
