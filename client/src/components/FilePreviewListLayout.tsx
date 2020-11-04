@@ -1,7 +1,7 @@
 import React from 'react';
-import { apiServer } from '../config';
 import { FileDesc } from '../models/file';
 import { AppControl } from '../App';
+import { thumb } from '../services/fileService';
 
 interface Props {
   files: FileDesc[];
@@ -23,7 +23,7 @@ export default class FilePreviewListLayout extends React.PureComponent<Props> {
             onDoubleClick={() => control.open(i, file)}
           >
             <span className="thumb">
-              <img src={`${apiServer}/thumb/${file.path}?w=100`} alt=""></img>
+              <img src={thumb(file.path, {w:100})} alt=""></img>
             </span>
             <span>
               {file.name}

@@ -8,7 +8,8 @@ const isImage = (s: string) => endsWith(IMAGE_EXTS)(s.toLowerCase());
 
 export default (req, res) => {
   try {
-    const resourcePath: string = req.url.replace(/\/browse\/?/, '');
+    let resourcePath: string = req.url.replace(/\/browse\/?/, '');
+    resourcePath = decodeURIComponent(resourcePath);
     const folderPath = resourcePath.replace('~', os.homedir());
     const files =
       fs.readdirSync(folderPath)

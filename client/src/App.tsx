@@ -1,12 +1,12 @@
 import React from 'react';
 import './styles/App.css';
-import { apiServer } from './config';
 import { FileDesc } from './models/file';
 import FilePreviewGridLayout from './components/FilePreviewGridLayout';
 import FilePreviewListLayout from './components/FilePreviewListLayout';
 import FilePreviewGalleryLayout from './components/FilePreviewGalleryLayout';
 import { LayoutMode } from './models/layout';
 import TopMenubar from './components/TopMenubar';
+import { browse } from './services/fileService';
 
 interface BrowseResponse {
   ok: 0 | 1;
@@ -41,12 +41,10 @@ export default class App extends React.Component {
     res: null
   };
 
-  callAPI = () => {
+  browse = async () => {
     const {folderPath} = this.state;
-    fetch(`${apiServer}/browse/${folderPath}`)
-      .then(res => res.json())
-      .then(r => this.setState({res: r}))
-      .catch(err => err);
+    const res = await browse(folderPath);
+    this.setState({res});
   }
 
   open = (currIndex: number, file: FileDesc) => {
@@ -123,7 +121,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    this.callAPI();
+    this.browse();
     document.addEventListener('keydown', this.onKeyDown);
   }
 
@@ -133,7 +131,7 @@ export default class App extends React.Component {
 
   componentDidUpdate(prevProps: any, prevState: State) {
     if (prevState.folderPath !== this.state.folderPath) {
-      this.callAPI();
+      this.browse();
     }
   }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppControl } from '../App';
-import { apiServer } from '../config';
 import { FileDesc } from '../models/file';
+import { thumb } from '../services/fileService';
 
 interface Props {
   index: number;
@@ -34,7 +34,7 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
         onDoubleClick={this.onDoubleClick}
       >
         <div className={`thumb ${selected ? 'selected' : ''}`}>
-          <img src={`${apiServer}/thumb/${file.path}?h=100`} alt=""></img>
+          <img src={thumb(file.path, {h:50})} alt=""></img>
         </div>
         <div className="file-name">
           {file.name}

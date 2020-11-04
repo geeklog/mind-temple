@@ -21,9 +21,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get(/browse\/?.*/, browseController);
-app.get(/file\/?.*/, fileController);
-app.get(/thumb\/?.*/, thumbController);
+app.get(/browse\/.*/, browseController);
+app.get(/file\/.*/, fileController);
+app.get(/thumb\/.*/, thumbController);
 
 app.get('/', (req, res) => {
   res.render('index');

@@ -4,8 +4,9 @@ import sharp from 'sharp';
 export default async (req, res) => {
   try {
     const w = Number(req.query.w) || 100;
-    let filePath = req.path.replace(/\/thumb\/?/, '');
-    filePath = filePath.replace('~', os.homedir());
+    let resourcePath = req.path.replace(/\/thumb\/?/, '');
+    resourcePath = decodeURIComponent(resourcePath);
+    const filePath = resourcePath.replace('~', os.homedir());
     const image = sharp(filePath, { failOnError: false });
     const { width, height } = await image.metadata();
     const thumbWidth = Math.round(w * width / height);
@@ -17,7 +18,7 @@ export default async (req, res) => {
     console.log(error);
     res.status(404);
     res.json({
-      ok: 0,
+      ok: 1,
       message: 'File not exist',
       files: []
     });
