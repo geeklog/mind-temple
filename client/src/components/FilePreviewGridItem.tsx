@@ -1,13 +1,13 @@
 import React from 'react';
+import classnames from 'classnames';
 import { AppControl } from '../App';
 import { FileDesc } from '../models/file';
-import { thumb } from '../services/fileService';
+import Thumb from './Thumb';
 
 interface Props {
   index: number;
   file: FileDesc;
   selected: boolean;
-  className?: string;
   control: AppControl;
 }
 
@@ -24,18 +24,16 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
   }
 
   render() {
-    const { file, className, selected }: Props = this.props;
+    const { file, selected }: Props = this.props;
 
     return (
       <div
-        className={`${className || ''}`}
+        className={classnames('grid-item', selected? 'selected' : '')}
         key={file.path}
         onClick={this.onClick}
         onDoubleClick={this.onDoubleClick}
       >
-        <div className={`thumb ${selected ? 'selected' : ''}`}>
-          <img src={thumb(file.path, {h:50})} alt=""></img>
-        </div>
+        <Thumb type="grid" selected={selected} file={file}/>
         <div className="file-name">
           {file.name}
         </div>

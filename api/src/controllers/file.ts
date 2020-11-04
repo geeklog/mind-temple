@@ -1,12 +1,9 @@
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
 import send from 'send';
+import { resolvePath } from '../util/fileUtil';
 
-export default (req, res) => {
+export default async (req, res) => {
   try {
-    let filePath = req.url.replace(/\/file\/?/, '');
-    filePath = filePath.replace('~', os.homedir());
+    const filePath = resolvePath(req.url.replace(/\/file\/?/, ''));
     send(req, filePath).pipe(res);
   } catch (error) {
     console.log(error);

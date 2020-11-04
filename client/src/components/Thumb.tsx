@@ -1,0 +1,97 @@
+import React from 'react';
+import { FileDesc, ImageDesc } from '../models/file';
+import { endsWith } from 'mikov/fn/op';
+import { thumb } from '../services/fileService';
+import classnames from 'classnames';
+
+const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif'];
+const isImage = (s: string) => endsWith(IMAGE_EXTS)(s.toLowerCase());
+
+const supportExtensions = new Set([
+  '7z', 'aac', 'ai', 'archive', 'arj', 'audio', 'avi', 'css', 'csv', 'dbf', 'doc', 'dwg', 'exe', 'fla', 'flac', 'gif', 'html', 'iso', 'jpg', 'js', 'json', 'mdf', 'mp2', 'mp3', 'mp4', 'mxf', 'nrg', 'pdf', 'png', 'ppt', 'psd', 'rar', 'rtf', 'svg', 'text', 'tiff', 'txt', 'video', 'wav', 'wma', 'xls', 'xml', 'zip'
+]);
+
+function resolveExtension(ext: string) {
+  if (!ext) {
+    ext = 'unknown';
+  }
+  if (ext.startsWith('.')) {
+    ext = ext.replace('.', '');
+  }
+  if (ext === 'md') {
+    ext = 'txt'
+  }
+  if (ext === 'apk') {
+    ext = 'zip'
+  }
+  if (ext === 'dmg') {
+    ext = 'doc';
+  }
+  if (ext === 'docx') {
+    ext = 'doc';
+  }
+  if (ext === 'xlsx') {
+    ext = 'xls';
+  }
+  if (ext === 'br') {
+    ext = 'zip'
+  }
+  if (!supportExtensions.has(ext)) {
+    ext = 'unknown';
+  }
+  return ext;
+}
+
+interface Props {
+  file: FileDesc;
+  selected: boolean;
+  type: 'grid' | 'list';
+}
+
+export default class Thumb extends React.PureComponent<Props> {
+  render() {
+    const {file, selected, type} = this.props;
+    let ext = resolveExtension(file.ext)
+    let aImage = isImage(ext);
+    const src = aImage
+      ? thumb(file, type==='grid'? {h:50} : {w:100})
+      : `filetypes/${ext}.svg`;
+
+    const img = file as ImageDesc;
+    const gridSize = 90;
+    const classesSelected = (...classNames: string[]) =>
+      classnames(...classNames, selected ? 'selected' : '');
+
+    return (
+      <div className={classesSelected(`${type}-item-thumb`)}>
+        {aImage
+          ? <img
+              className={classesSelected('preview-img')}
+              src={src}
+              alt=""
+              style={{
+                width: img.width > img.height
+                  ? `${gridSize}px`
+                  : (gridSize * img.width / img.height) + 'px',
+                height: img.height > img.width
+                  ? `${gridSize}px`
+                  : (gridSize * img.height / img.width) + 'px'
+              }}
+            />
+          : <img
+              className={classesSelected(
+                'preview-img', 'svg-filetype-icon'
+              )}
+              src={src}
+              alt=""
+              // style={{
+              //   marginLeft: '-9px',
+              //   marginBottom: '-3px',
+              //   marginRight: '-9px'
+              // }}
+            />
+        }
+      </div>
+    );
+  }
+}

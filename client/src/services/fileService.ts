@@ -21,7 +21,7 @@ export async function browse(folderPath: string): Promise<BrowseResponse> {
   }
 }
 
-export function thumb(filePath: string, size?: {w?: number, h?: number}): string {
+export function thumb(file: FileDesc, size?: {w?: number, h?: number}): string {
   let postfix = '';
   if (size) {
     postfix += '?'
@@ -33,5 +33,5 @@ export function thumb(filePath: string, size?: {w?: number, h?: number}): string
       postfix += 'h=' + h;
     }
   }
-  return `${apiServer}/thumb/${encodeURIComponent(filePath)}${postfix}`;
+  return `${apiServer}/thumb/${encodeURIComponent(file.path)}${postfix}`;
 }

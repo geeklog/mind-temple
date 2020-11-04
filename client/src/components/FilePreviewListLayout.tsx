@@ -2,6 +2,7 @@ import React from 'react';
 import { FileDesc } from '../models/file';
 import { AppControl } from '../App';
 import { thumb } from '../services/fileService';
+import Thumb from './Thumb';
 
 interface Props {
   files: FileDesc[];
@@ -22,9 +23,7 @@ export default class FilePreviewListLayout extends React.PureComponent<Props> {
             onClick={() => control.setCurrIndex(i)}
             onDoubleClick={() => control.open(i, file)}
           >
-            <span className="thumb">
-              <img src={thumb(file.path, {w:100})} alt=""></img>
-            </span>
+            <Thumb type="list" selected={currSelected === i} file={file}/>
             <span>
               {file.name}
             </span>

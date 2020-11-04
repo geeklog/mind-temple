@@ -1,12 +1,12 @@
-import os from 'os';
 import sharp from 'sharp';
+import { resolvePath } from '../util/fileUtil';
 
 export default async (req, res) => {
   try {
     const w = Number(req.query.w) || 100;
     let resourcePath = req.path.replace(/\/thumb\/?/, '');
     resourcePath = decodeURIComponent(resourcePath);
-    const filePath = resourcePath.replace('~', os.homedir());
+    const filePath = resolvePath(resourcePath);
     const image = sharp(filePath, { failOnError: false });
     const { width, height } = await image.metadata();
     const thumbWidth = Math.round(w * width / height);
