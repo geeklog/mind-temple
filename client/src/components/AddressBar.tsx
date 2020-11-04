@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import { AppControl } from '../App';
 import { explode } from 'mikov/str';
 import PathIndicator from './PathIndicator';
@@ -10,13 +10,17 @@ interface Props {
 
 interface State {
   longestPath: string;
+  editMode: boolean;
 }
 
 export default class AddressBar extends React.Component<Props, State> {
 
   state = {
-    longestPath : ''
+    longestPath : '',
+    editMode: false
   };
+
+  input: HTMLInputElement | null = null;
 
   componentDidMount() {
     if (!this.state.longestPath || this.state.longestPath.length < this.props.path.length) {
@@ -31,6 +35,15 @@ export default class AddressBar extends React.Component<Props, State> {
     this.props.control.setFolderPath(event.target.value);
   };
 
+  onInputBlur = () => {
+    this.setState({editMode: false});
+  }
+
+  onBarClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.preventDefault();
+    this.setState({editMode: true});
+  }
+
   onPathClick = (index: number) => {
     let {longestPath} = this.state;
     longestPath = explode(longestPath, '/').slice(0, index + 1).join('');
@@ -39,7 +52,8 @@ export default class AddressBar extends React.Component<Props, State> {
 
   render() {
     const {path} = this.props;
-    let { longestPath } = this.state;
+    let { longestPath, editMode } = this.state;
+
     if (longestPath.length < path.length) {
       longestPath = path;
     }
@@ -47,13 +61,21 @@ export default class AddressBar extends React.Component<Props, State> {
     const parts = explode(path, '/');
 
     return (
-      <div className="address-bar">
-        <input
+      <div
+        className="address-bar"
+        onClick={this.onBarClick}
+      >
+        {editMode && <input
           type="text"
+          ref={(ref) => {
+            this.input = ref;
+            ref?.focus();
+          }}
           value={path}
           onChange={this.onInputChange}
-        />
-        <div className="address-bar-content">
+          onBlur={this.onInputBlur}
+        />}
+        {!editMode && <div className="address-bar-content">
           {longestParts.map((p, i) => {
             if (p === '/') {
               return <PathIndicator solid={false} key={i} index={i} path={'/'}/>
@@ -64,7 +86,7 @@ export default class AddressBar extends React.Component<Props, State> {
               return <PathIndicator solid={false} key={i} index={i} path={p} onClick={this.onPathClick}/>
             }
           })}
-        </div>
+        </div>}
       </div>
     )
   }

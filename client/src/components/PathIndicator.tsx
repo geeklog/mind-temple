@@ -9,7 +9,9 @@ interface Props {
 
 export default class PathIndicator extends Component<Props> {
   
-  onClick = () => {
+  onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.preventDefault();
+    event.stopPropagation();
     const {index} = this.props;
     this.props.onClick?.(index);
   }
