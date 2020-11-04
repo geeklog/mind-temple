@@ -8,6 +8,7 @@
   --color-wineberry: #57233A;
   --color-black: #161B1F;
   --color-shadow: #161b1f32;
+  --color-faded: #161b1f32;
 }
 
 .app {
@@ -28,14 +29,53 @@
   align-items: center;
 }
 
-.addressbar {
+.address-bar {
+  position: relative;
+  width: 60%;
+}
+
+.address-bar > input {
   outline: none;
   border: none;
+  width: 100%;
+  height: 24px;
   color: var(--color-black);
-  width: 60%;
   padding: 4px 10px;
   border-radius: 100px;
   margin-right: 10px;
+  /* opacity: 0; */
+}
+.address-bar-content {
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  color: var(--color-black);
+  outline: none;
+  border: none;
+  width: 100%;
+  padding: 4px 10px;
+  border-radius: 100px;
+  margin-right: 10px;
+}
+.address-bar-content > * {
+  color: var(--color-black);
+}
+
+.path-indicator {
+  margin-right: 5px;
+  padding: 2px 0px;
+  padding-bottom: 4px;
+  user-select: none;
+  cursor: pointer;
+  color: var(--color-faded);
+}
+.path-indicator.solid {
+  color: var(--color-black);
 }
 
 .menu-icon {

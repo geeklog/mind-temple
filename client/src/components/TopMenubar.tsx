@@ -1,6 +1,7 @@
 import React from "react";
 import MenuButtonGroup from "./MenuButtonGroup";
 import { AppControl } from '../App';
+import AddressBar from './AddressBar';
 
 interface Props {
   control: AppControl;
@@ -9,19 +10,13 @@ interface Props {
 
 export default class TopMenubar extends React.PureComponent<Props> {
   
-  onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.control.setFolderPath(event.target.value);
-  };
-  
   render() {
     const { folderPath, control } = this.props;
     return (
       <div className="menu">
-        <input
-          className="addressbar"
-          type="text"
-          value={folderPath}
-          onChange={this.onInputChange}
+        <AddressBar
+          path={folderPath}
+          control={control}
         />
         <MenuButtonGroup
           btns={['grid', 'list', 'monitor']}

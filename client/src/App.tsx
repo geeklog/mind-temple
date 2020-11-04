@@ -1,6 +1,5 @@
 import React from 'react';
 import './styles/App.css';
-import 'pure-react-carousel/dist/react-carousel.es.css';
 import { apiServer } from './config';
 import { FileDesc } from './models/file';
 import FilePreviewGridLayout from './components/FilePreviewGridLayout';
