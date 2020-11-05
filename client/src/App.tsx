@@ -19,6 +19,7 @@ interface State {
   prevLayoutMode: LayoutMode,
   currIndex: number,
   folderPath: string,
+  showHiddenFiles: boolean,
   res: BrowseResponse|null
 }
 
@@ -29,6 +30,7 @@ export interface AppControl {
   selectPrev: () => void;
   selectNext: () => void;
   setFolderPath: (path: string) => void;
+  toggleHiddenFiles: (showHidden: boolean) => void;
 }
 
 export default class App extends React.Component {
@@ -38,7 +40,8 @@ export default class App extends React.Component {
     layoutMode: 'grid',
     currIndex: 0,
     folderPath: '~/Downloads/imgs',
-    res: null
+    showHiddenFiles: false,
+    res: null,
   };
 
   browse = async () => {
@@ -96,6 +99,12 @@ export default class App extends React.Component {
     this.setState({ currIndex });
   };
 
+  toggleHiddenFiles = (showHiddenFiles: boolean) => {
+    this.setState({
+      showHiddenFiles
+    });
+  }
+
   onKeyDown = (event: KeyboardEvent) => {
     const {layoutMode} = this.state;
     if (event.key === 'ArrowLeft') {
@@ -124,7 +133,8 @@ export default class App extends React.Component {
     setLayoutMode: this.setLayoutMode,
     selectPrev: this.selectPrev,
     selectNext: this.selectNext,
-    setFolderPath: this.setFolderPath
+    setFolderPath: this.setFolderPath,
+    toggleHiddenFiles: this.toggleHiddenFiles
   }
 
   componentDidMount() {
@@ -143,25 +153,41 @@ export default class App extends React.Component {
   }
 
   render() {
-    const {folderPath, res, layoutMode} = this.state;
-  
+    const {folderPath} = this.state;
     return (
       <div className="main">
         <TopMenubar
           folderPath={folderPath}
+          showHiddenFiles={this.state.showHiddenFiles}
           control={this.control}
         />
-        {res?.ok && layoutMode === 'grid' && this.renderGrid(res.files) || undefined}
-        {res?.ok && layoutMode === 'list' && this.renderList(res.files) || undefined}
-        {res?.ok && layoutMode === 'gallery' && this.renderGallery(res.files) || undefined}
-        {res && !res.ok &&
-          <div className="error-msg">
-            {res.message}
-          </div> || undefined
-        }
+        {this.renderMain()}
       </div>
     );
-  
+  }
+
+  renderMain() {
+    const {res, layoutMode, showHiddenFiles} = this.state;
+    if (!res) {
+      return;
+    }
+    if (!res.ok) {
+      return <div className="error-msg">
+        {res.message}
+      </div>
+    }
+    
+    const files = showHiddenFiles
+      ? res.files
+      : res.files.filter(({name}) => !name.startsWith('.'));
+    
+    return (
+      <>
+        {layoutMode === 'grid' && this.renderGrid(files)}
+        {layoutMode === 'list' && this.renderList(files)}
+        {layoutMode === 'gallery' && this.renderGallery(files)}
+      </>
+    );
   }
 
   renderGrid(files: FileDesc[]) {
