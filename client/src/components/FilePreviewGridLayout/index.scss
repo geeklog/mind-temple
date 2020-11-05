@@ -22,13 +22,33 @@
     .thumb {
       width: 90px;
       height: 90px;
-      
       border-radius: 5px;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 1;
+      &.folder {
+        background-color: #317a94;
+      }
       &.selected {
         background-color: var(--color-chameisee);
+      }
+      .preview-img {
+        &.offset-1 {
+          z-index: 0;
+          position: absolute;
+          top: 5px;
+          left: 5px;
+          transform: rotate(-5deg);
+        }
+        &.offset-2 {
+          z-index: 0;
+          position: absolute;
+          top: 5px;
+          left: 5px;
+          transform: rotate(5deg);
+        }
       }
       .svg-filetype-icon {
         height: 80px;

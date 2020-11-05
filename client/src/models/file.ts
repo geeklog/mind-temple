@@ -1,4 +1,5 @@
 export interface FileDesc {
+  type: 'file' | 'directory' | 'image';
   name: string;
   path: string;
   ext: string;

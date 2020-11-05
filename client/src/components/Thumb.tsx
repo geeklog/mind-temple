@@ -2,7 +2,7 @@ import React from 'react';
 import { FileDesc, ImageDesc } from '../models/file';
 import { endsWith } from 'mikov/fn/op';
 import { thumb } from '../services/fileService';
-import classnames from 'classnames';
+import classes from 'classnames';
 
 const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif'];
 const IS_IMAGE = (s: string) => endsWith(IMAGE_EXTS)(s.toLowerCase());
@@ -56,14 +56,17 @@ export default class Thumb extends React.PureComponent<Props> {
   render() {
     const {file, selected, type, size} = this.props;
     let ext = resolveExtension(file.ext)
-    let isImage = IS_IMAGE(ext);
+    let isDirectory = file.type === 'directory';
+    let isImage = !isDirectory && IS_IMAGE(ext);
+    let isFile = !isImage && !isDirectory;
     const src = isImage
       ? thumb(file, type==='grid'? {h:size} : {w:size})
       : `filetypes/${ext}.svg`;
 
     const img = file as ImageDesc;
-    const classesSelected = (...classNames: string[]) =>
-      classnames(...classNames, selected ? 'selected' : '');
+    
+    const selectClassed = selected ? 'selected' : '';
+    const folderClassed = isDirectory ? 'folder' : '';
     
     const imgStyle = img && (
       img.width > img.height
@@ -72,21 +75,40 @@ export default class Thumb extends React.PureComponent<Props> {
     );
 
     return (
-      <div className={classesSelected(`thumb`)}>
-        {isImage
-          ? <img
-              className={classesSelected('preview-img')}
-              src={src}
-              alt=""
-              style={imgStyle}
-            />
-          : <img
-              className={classesSelected(
-                'preview-img', 'svg-filetype-icon'
-              )}
+      <div className={classes('thumb', selectClassed, folderClassed)}>
+        {isDirectory &&
+          <div>
+            <img
+              className={classes('preview-img', 'svg-filetype-icon', 'offset-2')}
               src={src}
               alt=""
             />
+            <img
+              className={classes('preview-img', 'svg-filetype-icon', 'offset-1')}
+              src={src}
+              alt=""
+            />
+            <img
+              className={classes('preview-img', 'svg-filetype-icon')}
+              src={src}
+              alt=""
+            />
+          </div>
+        }
+        {isImage &&
+          <img
+            className={classes('preview-img', selectClassed)}
+            src={src}
+            alt=""
+            style={imgStyle}
+          />
+        }
+        {isFile &&
+          <img
+            className={classes('preview-img', 'svg-filetype-icon')}
+            src={src}
+            alt=""
+          />
         }
       </div>
     );

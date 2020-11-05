@@ -18,22 +18,25 @@
     }
     .thumb {
       margin-right: 10px;
+      position: relative;
       width: 25px;
       height: 25px;
       display: flex;
       align-items: center;
       justify-content: center;
       .preview-img {
-        border: 2px solid transparent;
-        &.selected {
-          border: 2px solid var(--color-chameisee);
+        &.offset-1 {
+          position: absolute;
+          transform: rotate(-10deg);
+        }
+        &.offset-2 {
+          position: absolute;
+          transform: rotate(10deg);
         }
       }
       .svg-filetype-icon {
         height: 25px;
         width: 25px;
-        margin-left: -9px;
-        margin-right: -9px;
       }
     }
     .file-name {
