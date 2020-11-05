@@ -1,8 +1,9 @@
 import React from 'react';
-import { FileDesc } from '../models/file';
-import { apiServer } from '../config';
-import Icon from './Icon';
-import { AppControl } from '../App';
+import { FileDesc } from '../../models/file';
+import { apiServer } from '../../config';
+import Icon from '../Icon';
+import { AppControl } from '../../App';
+import './index.scss';
 
 export default class FilePreviewGalleryLayout extends React.PureComponent<{
   files: FileDesc[];

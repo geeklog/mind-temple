@@ -5,7 +5,7 @@ import { thumb } from '../services/fileService';
 import classnames from 'classnames';
 
 const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif'];
-const isImage = (s: string) => endsWith(IMAGE_EXTS)(s.toLowerCase());
+const IS_IMAGE = (s: string) => endsWith(IMAGE_EXTS)(s.toLowerCase());
 
 const supportExtensions = new Set([
   '7z', 'aac', 'ai', 'archive', 'arj', 'audio', 'avi', 'css', 'csv', 'dbf', 'doc', 'dwg', 'exe', 'fla', 'flac', 'gif', 'html', 'iso', 'jpg', 'js', 'json', 'mdf', 'mp2', 'mp3', 'mp4', 'mxf', 'nrg', 'pdf', 'png', 'ppt', 'psd', 'rar', 'rtf', 'svg', 'text', 'tiff', 'txt', 'video', 'wav', 'wma', 'xls', 'xml', 'zip'
@@ -56,30 +56,29 @@ export default class Thumb extends React.PureComponent<Props> {
   render() {
     const {file, selected, type, size} = this.props;
     let ext = resolveExtension(file.ext)
-    let aImage = isImage(ext);
-    const src = aImage
+    let isImage = IS_IMAGE(ext);
+    const src = isImage
       ? thumb(file, type==='grid'? {h:50} : {w:100})
       : `filetypes/${ext}.svg`;
 
     const img = file as ImageDesc;
     const classesSelected = (...classNames: string[]) =>
       classnames(...classNames, selected ? 'selected' : '');
+    
+    const imgStyle = img && (
+      img.width > img.height
+        ? { width: `${size}px`}
+        : { height: `${size}px`}
+    );
 
     return (
-      <div className={classesSelected(`${type}-item-thumb`)}>
-        {aImage
+      <div className={classesSelected(`thumb`)}>
+        {isImage
           ? <img
               className={classesSelected('preview-img')}
               src={src}
               alt=""
-              style={{
-                width: img.width > img.height
-                  ? `${size}px`
-                  : (size * img.width / img.height) + 'px',
-                height: img.height > img.width
-                  ? `${size}px`
-                  : (size * img.height / img.width) + 'px'
-              }}
+              style={imgStyle}
             />
           : <img
               className={classesSelected(

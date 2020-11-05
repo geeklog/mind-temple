@@ -1,0 +1,132 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  color: white;
+  --color-pink: #AE4951;
+  --color-chameisee: #B98D72;
+  --color-wineberry: #57233A;
+  --color-black: #161B1F;
+  --color-shadow: #161b1f32;
+  --color-faded: #161b1f32;
+}
+
+.app {
+  margin: auto;
+}
+
+.main {
+  width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.menu {
+  margin: 10px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.address-bar {
+  position: relative;
+  width: 60%;
+  height: 24px;
+}
+
+.address-bar > input {
+  outline: none;
+  border: none;
+  width: 100%;
+  height: 24px;
+  color: var(--color-black);
+  font-size: 16px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  margin-right: 10px;
+  /* opacity: 0; */
+}
+.address-bar-content {
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  color: var(--color-black);
+  outline: none;
+  border: none;
+  width: 100%;
+  padding: 4px 10px;
+  border-radius: 100px;
+  margin-right: 10px;
+  > * {
+    color: var(--color-black);
+  }
+}
+
+.path-indicator {
+  margin-right: 5px;
+  padding: 2px 0px;
+  padding-bottom: 4px;
+  user-select: none;
+  cursor: pointer;
+  color: var(--color-faded);
+}
+.path-indicator.solid {
+  color: var(--color-black);
+}
+
+.menu-icon {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  fill: white;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+svg.thumb {
+  fill: white;
+}
+
+.image-box {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-between;
+}
+
+.image-frame {
+  position: relative;
+  height: calc(100vh - 100px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  outline: none;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+.btn .icon {
+  width: 50px;
+  height: 50px;
+  fill: white;
+}
+
+.error-msg {
+  display: flex;
+  height: calc(100vh - 50px);
+  font-size: 30px;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+}

@@ -1,7 +1,8 @@
 import React from 'react';
-import { AppControl } from '../App';
-import { FileDesc } from '../models/file';
+import { AppControl } from '../../App';
+import { FileDesc } from '../../models/file';
 import FilePreviewGridItem from './FilePreviewGridItem';
+import './index.scss';
 
 interface Props {
   files: FileDesc[];

@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles/App.css';
+import './styles/App.scss';
 import { FileDesc } from './models/file';
 import FilePreviewGridLayout from './components/FilePreviewGridLayout';
 import FilePreviewListLayout from './components/FilePreviewListLayout';

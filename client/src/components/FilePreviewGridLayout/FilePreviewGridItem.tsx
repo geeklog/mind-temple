@@ -1,8 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
-import { AppControl } from '../App';
-import { FileDesc } from '../models/file';
-import Thumb from './Thumb';
+import { AppControl } from '../../App';
+import { FileDesc } from '../../models/file';
+import Thumb from '../Thumb';
 
 interface Props {
   index: number;

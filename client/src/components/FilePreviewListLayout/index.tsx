@@ -1,8 +1,9 @@
 import React from 'react';
-import { FileDesc } from '../models/file';
-import { AppControl } from '../App';
-import { thumb } from '../services/fileService';
-import Thumb from './Thumb';
+import { FileDesc } from '../../models/file';
+import { AppControl } from '../../App';
+import Thumb from '../Thumb';
+import classnames from 'classnames';
+import './index.scss';
 
 interface Props {
   files: FileDesc[];
@@ -19,7 +20,7 @@ export default class FilePreviewListLayout extends React.PureComponent<Props> {
         {files.map((file, i) =>
           <li
             key={file.path}
-            className={`${currSelected === i ? 'selected' : ''}`}
+            className={classnames('list-item', `${currSelected === i ? 'selected' : ''}`)}
             onClick={() => control.setCurrIndex(i)}
             onDoubleClick={() => control.open(i, file)}
           >

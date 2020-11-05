@@ -1,0 +1,51 @@
+.image {
+  max-height: calc(100vh - 100px);
+  object-fit: cover;
+  max-width: 85vw;
+}
+
+.image-frame-overlay-left {
+  position: absolute;
+  background-color: transparent;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.image-frame-overlay-right {
+  position: absolute;
+  background-color: transparent;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.slide-animation {
+  transition: none;
+}
+
+.gallery-dot-group {
+  display: inline-flex;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.gallery-dot {
+  border-radius: 5px;
+  height: 5px;
+  width: 5px;
+  margin: 2px;
+  background-color: white;
+  border: none;
+  outline: none;
+}
+.gallery-dot.selected {
+  background-color: var(--color-chameisee);
+}
