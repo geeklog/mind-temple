@@ -3,7 +3,7 @@ import { resolvePath } from '../util/fileUtil';
 
 export default async (req, res) => {
   try {
-    const filePath = resolvePath(req.url.replace(/\/file\/?/, ''));
+    const filePath = resolvePath(req.path.replace('\/file\/', ''));
     send(req, filePath).pipe(res);
   } catch (error) {
     console.log(error);

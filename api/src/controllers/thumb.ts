@@ -4,7 +4,7 @@ import { resolvePath } from '../util/fileUtil';
 export default async (req, res) => {
   try {
     const w = Number(req.query.w) || 100;
-    let resourcePath = req.path.replace(/\/thumb\/?/, '');
+    let resourcePath = req.path.replace('\/thumb\/', '');
     resourcePath = decodeURIComponent(resourcePath);
     const filePath = resolvePath(resourcePath);
     const image = sharp(filePath, { failOnError: false });

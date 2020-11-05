@@ -19,17 +19,17 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
   }
 
   onDoubleClick = () => {
-    const { index, file }: Props = this.props;
-    this.props.control.open(index, file);
+    const { file }: Props = this.props;
+    this.props.control.open(file);
   }
 
   onContextMenu = (event: any) => {
-    const {control} = this.props;
+    const {file, control} = this.props;
     event.preventDefault();
     event.stopPropagation();
     const x = event.pageX;
     const y = event.pageY;
-    control.toggleFileContextMenu(true, x, y);
+    control.toggleFileContextMenu(true, x, y, file);
   }
 
   render() {

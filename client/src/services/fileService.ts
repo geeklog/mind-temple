@@ -35,3 +35,16 @@ export function thumb(file: FileDesc, size?: {w?: number, h?: number}): string {
   }
   return `${apiServer}/thumb/${encodeURIComponent(file.path)}${postfix}`;
 }
+
+export async function command(cmd: string, filePath: string) {
+  try {
+    const res = await fetch(`${apiServer}/cmd/${encodeURIComponent(filePath)}?cmd=${cmd}`);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return {
+      ok: 1,
+      message: error.message,
+    };
+  }
+}

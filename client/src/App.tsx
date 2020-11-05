@@ -6,7 +6,7 @@ import FilePreviewListLayout from './components/FilePreviewListLayout';
 import FilePreviewGalleryLayout from './components/FilePreviewGalleryLayout';
 import { LayoutMode } from './models/layout';
 import TopMenubar from './components/TopMenubar';
-import { browse } from './services/fileService';
+import * as remote from './services/fileService';
 import FileContextMenu, { ContextMenuProps } from './components/FileContextMenu';
 
 interface BrowseResponse {
@@ -26,25 +26,29 @@ interface State {
 }
 
 export interface AppControl {
-  open: (currIndex: number, file: FileDesc) => void;
+  open: (file: FileDesc) => void;
+  openInServer: (file: FileDesc) => void;
+  openFolderInServer: (file: FileDesc) => void;
+  gotoColsoleInServer: (file: FileDesc) => void;
+  trash: (file: FileDesc) => Promise<void>;
   setCurrIndex: (currIndex: number) => void
   setLayoutMode: (layoutMode: LayoutMode) => void;
   selectPrev: () => void;
   selectNext: () => void;
   setFolderPath: (path: string) => void;
   toggleHiddenFiles: (showHidden: boolean) => void;
-  toggleFileContextMenu: (show: boolean, x?: number, y?: number) => void;
+  toggleFileContextMenu: (show: boolean, x?: number, y?: number, file?: FileDesc) => void;
 }
 
 export default class App extends React.Component<any, State> {
 
   browse = async () => {
     const {folderPath} = this.state;
-    const res = await browse(folderPath);
+    const res = await remote.browse(folderPath);
     this.setState({res});
   }
 
-  open = (currIndex: number, file: FileDesc) => {
+  open = (file: FileDesc) => {
     if (file.type === 'image') {
       this.setState({
         layoutMode: 'gallery',
@@ -56,6 +60,23 @@ export default class App extends React.Component<any, State> {
         folderPath: this.state.folderPath + '/' + file.name
       })
     }
+  }
+
+  openInServer = (file: FileDesc) => {
+    remote.command('open', file.path);
+  }
+
+  openFolderInServer = (file: FileDesc) => {
+    remote.command('open-folder', file.path);
+  }
+
+  gotoColsoleInServer = (file: FileDesc) => {
+    remote.command('open-console', file.path);
+  }
+
+  trash = async (file: FileDesc) => {
+    await remote.command('trash', file.path);
+    this.browse();
   }
 
   setCurrIndex = (currIndex: number) => {
@@ -99,13 +120,14 @@ export default class App extends React.Component<any, State> {
     });
   }
 
-  toggleFileContextMenu = (visible: boolean, x?: number, y?: number) => {
+  toggleFileContextMenu = (visible: boolean, x?: number, y?: number, file?: FileDesc) => {
     this.setState({
       fileContextMenu: {
         ...this.state.fileContextMenu,
         visible,
         x,
-        y
+        y,
+        file
       }
     });
   }
@@ -134,13 +156,17 @@ export default class App extends React.Component<any, State> {
 
   control: AppControl = {
     open: this.open,
+    openInServer: this.openInServer,
     setCurrIndex: this.setCurrIndex,
     setLayoutMode: this.setLayoutMode,
     selectPrev: this.selectPrev,
     selectNext: this.selectNext,
     setFolderPath: this.setFolderPath,
     toggleHiddenFiles: this.toggleHiddenFiles,
-    toggleFileContextMenu: this.toggleFileContextMenu
+    toggleFileContextMenu: this.toggleFileContextMenu,
+    openFolderInServer: this.openFolderInServer,
+    gotoColsoleInServer: this.gotoColsoleInServer,
+    trash: this.trash
   }
 
   state: State = {
@@ -173,7 +199,6 @@ export default class App extends React.Component<any, State> {
 
   render() {
     const {folderPath, fileContextMenu} = this.state;
-    console.log('fileContextMenu', fileContextMenu);
     return (
       <div className="main">
         <TopMenubar
@@ -199,7 +224,6 @@ export default class App extends React.Component<any, State> {
         </div>
       )
     }
-    
     const files = showHiddenFiles
       ? res.files
       : res.files.filter(({name}) => !name.startsWith('.'));

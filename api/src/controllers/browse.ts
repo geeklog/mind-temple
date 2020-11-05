@@ -4,7 +4,7 @@ import { describeFile, resolvePath } from '../util/fileUtil';
 
 export default async (req, res) => {
   try {
-    let resourcePath: string = req.url.replace(/\/browse\/?/, '');
+    let resourcePath: string = req.path.replace('\/browse\/', '');
     resourcePath = decodeURIComponent(resourcePath);
     const folderPath = resolvePath(resourcePath);
     const files = await Promise.all(

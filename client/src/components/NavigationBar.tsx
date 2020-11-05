@@ -32,7 +32,6 @@ export default class NavigationBar extends React.Component<Props, State> {
 
   componentDidMount() {
     if (!this.state.longestPath || this.state.longestPath.length < this.props.path.length) {
-      console.log('setLongestPath:', this.props.path);
       this.setState({
         longestPath: this.props.path
       });

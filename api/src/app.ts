@@ -8,6 +8,7 @@ import cors from "cors";
 import browseController from './controllers/browse';
 import fileController from './controllers/file';
 import thumbController from './controllers/thumb';
+import commandController from './controllers/command';
 
 const app = express();
 
@@ -21,9 +22,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get(/browse\/.*/, browseController);
-app.get(/file\/.*/, fileController);
-app.get(/thumb\/.*/, thumbController);
+app.get(/^\/browse\/.*/, browseController);
+app.get(/^\/file\/.*/, fileController);
+app.get(/^\/thumb\/.*/, thumbController);
+app.get(/^\/cmd\/.*/, commandController);
 
 app.get('/', (req, res) => {
   res.render('index');
