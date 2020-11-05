@@ -13,7 +13,7 @@ interface State {
   editMode: boolean;
 }
 
-export default class AddressBar extends React.Component<Props, State> {
+export default class NavigationBar extends React.Component<Props, State> {
 
   state = {
     longestPath : '',
@@ -21,6 +21,14 @@ export default class AddressBar extends React.Component<Props, State> {
   };
 
   input: HTMLInputElement | null = null;
+
+  componentDidUpdate() {
+    if (!this.state.longestPath.startsWith(this.props.path)) {
+      this.setState({
+        longestPath: this.props.path
+      });
+    }
+  }
 
   componentDidMount() {
     if (!this.state.longestPath || this.state.longestPath.length < this.props.path.length) {

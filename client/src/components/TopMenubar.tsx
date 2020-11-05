@@ -1,7 +1,7 @@
 import React from "react";
 import MenuButtonGroup from "./MenuButtonGroup";
 import { AppControl } from '../App';
-import AddressBar from './AddressBar';
+import NavigationBar from './NavigationBar';
 
 interface Props {
   control: AppControl;
@@ -14,7 +14,7 @@ export default class TopMenubar extends React.PureComponent<Props> {
     const { folderPath, control } = this.props;
     return (
       <div className="menu">
-        <AddressBar
+        <NavigationBar
           path={folderPath}
           control={control}
         />
