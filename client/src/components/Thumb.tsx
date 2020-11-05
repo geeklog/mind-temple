@@ -58,7 +58,7 @@ export default class Thumb extends React.PureComponent<Props> {
     let ext = resolveExtension(file.ext)
     let isImage = IS_IMAGE(ext);
     const src = isImage
-      ? thumb(file, type==='grid'? {h:50} : {w:100})
+      ? thumb(file, type==='grid'? {h:size} : {w:size})
       : `filetypes/${ext}.svg`;
 
     const img = file as ImageDesc;

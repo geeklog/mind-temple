@@ -35,7 +35,7 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
       >
         <Thumb
           type="grid"
-          size={90}
+          size={80}
           selected={selected}
           file={file}
         />
