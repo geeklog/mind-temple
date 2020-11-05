@@ -20,8 +20,19 @@ export async function describeFile(fpath: string) {
   let height: number;
   let type: string = 'file';
 
-  const stats = fs.statSync(fpath);
-  console.log(stats);
+  let stats;
+  try {
+    stats = fs.statSync(fpath);
+  } catch (error) {
+    console.log(error);
+    return {
+      path: fpath,
+      name,
+      ext,
+      type,
+      broken: true
+    };
+  }
 
   if (stats.isDirectory()) {
     type = 'folder';

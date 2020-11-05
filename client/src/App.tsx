@@ -151,13 +151,13 @@ export default class App extends React.Component {
           folderPath={folderPath}
           control={this.control}
         />
-        {res?.ok && layoutMode === 'grid' && this.renderGrid(res.files) }
-        {res?.ok && layoutMode === 'list' && this.renderList(res.files) }
-        {res?.ok && layoutMode === 'gallery' && this.renderGallery(res.files) }
+        {res?.ok && layoutMode === 'grid' && this.renderGrid(res.files) || undefined}
+        {res?.ok && layoutMode === 'list' && this.renderList(res.files) || undefined}
+        {res?.ok && layoutMode === 'gallery' && this.renderGallery(res.files) || undefined}
         {res && !res.ok &&
           <div className="error-msg">
             {res.message}
-          </div>
+          </div> || undefined
         }
       </div>
     );
