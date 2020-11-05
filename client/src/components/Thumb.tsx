@@ -56,7 +56,7 @@ export default class Thumb extends React.PureComponent<Props> {
   render() {
     const {file, selected, type, size} = this.props;
     let ext = resolveExtension(file.ext)
-    let isDirectory = file.type === 'directory';
+    let isDirectory = file.type === 'folder';
     let isImage = !isDirectory && IS_IMAGE(ext);
     let isFile = !isImage && !isDirectory;
     const src = isImage

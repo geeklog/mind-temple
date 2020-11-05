@@ -24,7 +24,7 @@ export async function describeFile(fpath: string) {
   console.log(stats);
 
   if (stats.isDirectory()) {
-    type = 'directory';
+    type = 'folder';
   }
 
   if (isImage(fpath)) {

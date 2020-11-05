@@ -48,10 +48,17 @@ export default class App extends React.Component {
   }
 
   open = (currIndex: number, file: FileDesc) => {
-    this.setState({
-      layoutMode: 'gallery',
-      currIndex
-    });
+    if (file.type === 'image') {
+      this.setState({
+        layoutMode: 'gallery',
+      });
+      return;
+    }
+    if (file.type === 'folder') {
+      this.setState({
+        folderPath: this.state.folderPath + '/' + file.name
+      })
+    }
   }
 
   setCurrIndex = (currIndex: number) => {
