@@ -7,6 +7,7 @@ import FilePreviewGalleryLayout from './components/FilePreviewGalleryLayout';
 import { LayoutMode } from './models/layout';
 import TopMenubar from './components/TopMenubar';
 import { browse } from './services/fileService';
+import FileContextMenu, { ContextMenuProps } from './components/FileContextMenu';
 
 interface BrowseResponse {
   ok: 0 | 1;
@@ -15,12 +16,13 @@ interface BrowseResponse {
 }
 
 interface State {
-  layoutMode: LayoutMode,
-  prevLayoutMode: LayoutMode,
-  currIndex: number,
-  folderPath: string,
-  showHiddenFiles: boolean,
-  res: BrowseResponse|null
+  layoutMode: LayoutMode;
+  prevLayoutMode: LayoutMode;
+  currIndex: number;
+  folderPath: string;
+  showHiddenFiles: boolean;
+  res: BrowseResponse|null;
+  fileContextMenu: ContextMenuProps
 }
 
 export interface AppControl {
@@ -31,18 +33,10 @@ export interface AppControl {
   selectNext: () => void;
   setFolderPath: (path: string) => void;
   toggleHiddenFiles: (showHidden: boolean) => void;
+  toggleFileContextMenu: (show: boolean, x?: number, y?: number) => void;
 }
 
-export default class App extends React.Component {
-
-  state: State = {
-    prevLayoutMode: 'grid',
-    layoutMode: 'grid',
-    currIndex: 0,
-    folderPath: '~/Downloads/imgs',
-    showHiddenFiles: false,
-    res: null,
-  };
+export default class App extends React.Component<any, State> {
 
   browse = async () => {
     const {folderPath} = this.state;
@@ -105,6 +99,17 @@ export default class App extends React.Component {
     });
   }
 
+  toggleFileContextMenu = (visible: boolean, x?: number, y?: number) => {
+    this.setState({
+      fileContextMenu: {
+        ...this.state.fileContextMenu,
+        visible,
+        x,
+        y
+      }
+    });
+  }
+
   onKeyDown = (event: KeyboardEvent) => {
     const {layoutMode} = this.state;
     if (event.key === 'ArrowLeft') {
@@ -134,8 +139,22 @@ export default class App extends React.Component {
     selectPrev: this.selectPrev,
     selectNext: this.selectNext,
     setFolderPath: this.setFolderPath,
-    toggleHiddenFiles: this.toggleHiddenFiles
+    toggleHiddenFiles: this.toggleHiddenFiles,
+    toggleFileContextMenu: this.toggleFileContextMenu
   }
+
+  state: State = {
+    prevLayoutMode: 'grid',
+    layoutMode: 'grid',
+    currIndex: 0,
+    folderPath: '~/Downloads/imgs',
+    showHiddenFiles: false,
+    res: null,
+    fileContextMenu: {
+      visible: false,
+      control: this.control
+    }
+  };
 
   componentDidMount() {
     this.browse();
@@ -153,7 +172,8 @@ export default class App extends React.Component {
   }
 
   render() {
-    const {folderPath} = this.state;
+    const {folderPath, fileContextMenu} = this.state;
+    console.log('fileContextMenu', fileContextMenu);
     return (
       <div className="main">
         <TopMenubar
@@ -162,6 +182,7 @@ export default class App extends React.Component {
           control={this.control}
         />
         {this.renderMain()}
+        <FileContextMenu {...fileContextMenu} />
       </div>
     );
   }
@@ -172,9 +193,11 @@ export default class App extends React.Component {
       return;
     }
     if (!res.ok) {
-      return <div className="error-msg">
-        {res.message}
-      </div>
+      return (
+        <div className="error-msg">
+          {res.message}
+        </div>
+      )
     }
     
     const files = showHiddenFiles

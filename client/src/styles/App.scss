@@ -1,8 +1,6 @@
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  color: white;
+
+.app {
+  margin: auto;
   --color-pink: #AE4951;
   --color-chameisee: #B98D72;
   --color-wineberry: #57233A;
@@ -11,15 +9,10 @@
   --color-faded: #161b1f32;
 }
 
-.app {
-  margin: auto;
-}
-
 .main {
   width: 90vw;
   margin-left: auto;
   margin-right: auto;
-  text-align: center;
 }
 
 .menu {

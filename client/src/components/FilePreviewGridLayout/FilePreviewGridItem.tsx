@@ -13,7 +13,7 @@ interface Props {
 
 export default class FilePreviewGridItem extends React.PureComponent<Props> {
 
-  onClick = () => {
+  onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const {index} = this.props;
     this.props.control.setCurrIndex(index);
   }
@@ -21,6 +21,15 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
   onDoubleClick = () => {
     const { index, file }: Props = this.props;
     this.props.control.open(index, file);
+  }
+
+  onContextMenu = (event: any) => {
+    const {control} = this.props;
+    event.preventDefault();
+    event.stopPropagation();
+    const x = event.pageX;
+    const y = event.pageY;
+    control.toggleFileContextMenu(true, x, y);
   }
 
   render() {
@@ -32,6 +41,7 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
         key={file.path}
         onClick={this.onClick}
         onDoubleClick={this.onDoubleClick}
+        onContextMenu={this.onContextMenu}
       >
         <Thumb type="grid" size={80} selected={selected} file={file} />
         <div className="file-name">
