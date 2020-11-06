@@ -8,6 +8,8 @@ import { LayoutMode } from './models/layout';
 import TopMenubar from './components/TopMenubar';
 import * as remote from './services/fileService';
 import FileContextMenu, { ContextMenuProps } from './components/FileContextMenu';
+import { between } from 'mikov';
+import { watchPropORStateChanges } from './debug';
 
 interface BrowseResponse {
   ok: 0 | 1;
@@ -22,6 +24,8 @@ interface State {
   folderPath: string;
   showHiddenFiles: boolean;
   res: BrowseResponse|null;
+  files: FileDesc[],
+  showingFiles: FileDesc[],
   fileContextMenu: ContextMenuProps
 }
 
@@ -40,12 +44,21 @@ export interface AppControl {
   toggleFileContextMenu: (show: boolean, x?: number, y?: number, file?: FileDesc) => void;
 }
 
-export default class App extends React.Component<any, State> {
+export default class App extends React.PureComponent<any, State> {
 
   browse = async () => {
-    const {folderPath} = this.state;
+    const {folderPath, currIndex, showHiddenFiles} = this.state;
     const res = await remote.browse(folderPath);
-    this.setState({res});
+    const changed: Partial<State> = {res};
+    if (res.ok) {
+      changed.files = res.files;
+      changed.showingFiles =
+        showHiddenFiles ? res.files : res.files.filter(({name}) => !name.startsWith('.'))
+    }
+    if (res && res.files.length > 0) {
+      changed.currIndex = between(0, currIndex, res.files.length - 1);
+    }
+    this.setState(changed as State);
   }
 
   open = (file: FileDesc) => {
@@ -121,6 +134,9 @@ export default class App extends React.Component<any, State> {
   }
 
   toggleFileContextMenu = (visible: boolean, x?: number, y?: number, file?: FileDesc) => {
+    if (!this.state.fileContextMenu.visible && !visible) {
+      return;
+    }
     this.setState({
       fileContextMenu: {
         ...this.state.fileContextMenu,
@@ -173,9 +189,11 @@ export default class App extends React.Component<any, State> {
     prevLayoutMode: 'grid',
     layoutMode: 'grid',
     currIndex: 0,
-    folderPath: '~/Downloads/imgs',
+    folderPath: '~/Downloads/test',
     showHiddenFiles: false,
     res: null,
+    files: [],
+    showingFiles: [],
     fileContextMenu: {
       visible: false,
       control: this.control
@@ -189,6 +207,10 @@ export default class App extends React.Component<any, State> {
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.onKeyDown);
+  }
+
+  componentWillUpdate(prevProps: any, prevState: State) {
+    watchPropORStateChanges('App', prevProps, prevState, this.props, this.state);
   }
 
   componentDidUpdate(prevProps: any, prevState: State) {
@@ -213,7 +235,7 @@ export default class App extends React.Component<any, State> {
   }
 
   renderMain() {
-    const {res, layoutMode, showHiddenFiles} = this.state;
+    const {res, layoutMode, files, showingFiles, showHiddenFiles} = this.state;
     if (!res) {
       return;
     }
@@ -224,15 +246,14 @@ export default class App extends React.Component<any, State> {
         </div>
       )
     }
-    const files = showHiddenFiles
-      ? res.files
-      : res.files.filter(({name}) => !name.startsWith('.'));
+
+    const renderFiles = showHiddenFiles ? files : showingFiles;
     
     return (
       <>
-        {layoutMode === 'grid' && this.renderGrid(files)}
-        {layoutMode === 'list' && this.renderList(files)}
-        {layoutMode === 'gallery' && this.renderGallery(files)}
+        {layoutMode === 'grid' && this.renderGrid(renderFiles)}
+        {layoutMode === 'list' && this.renderList(renderFiles)}
+        {layoutMode === 'gallery' && this.renderGallery(renderFiles)}
       </>
     );
   }

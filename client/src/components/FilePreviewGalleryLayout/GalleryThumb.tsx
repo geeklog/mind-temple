@@ -9,6 +9,7 @@ interface Props {
 }
 
 export default class GalleryThumb extends React.PureComponent<Props> {
+  
   render() {
     const {file} = this.props;
     let ext = service.resolveExtension(file.ext)
@@ -36,7 +37,9 @@ export default class GalleryThumb extends React.PureComponent<Props> {
     }
 
     return (
-      <div className={classes('thumb', folderClassed)}>
+      <div
+        className={classes('thumb', folderClassed)}
+      >
         {isDirectory &&
           <>
             <Icon
