@@ -28,7 +28,6 @@ export default class FilePreviewListItem extends Component<Props> {
     const selectedClassed = `${ selected ? 'selected' : ''}`;
     return (
       <li
-        key={file.path}
         className={classnames('list-item', selectedClassed)}
         onClick={this.onClick}
         onDoubleClick={this.onDoubleClick}

@@ -54,9 +54,11 @@ export default class App extends React.PureComponent<any, State> {
       changed.files = res.files;
       changed.showingFiles =
         showHiddenFiles ? res.files : res.files.filter(({name}) => !name.startsWith('.'))
-    }
-    if (res && res.files.length > 0) {
-      changed.currIndex = between(0, currIndex, res.files.length - 1);
+      if (res.files.length > 0) {
+        changed.currIndex = between(0, currIndex, changed.showingFiles!.length - 1);
+      } else {
+        changed.currIndex = 0;
+      }
     }
     this.setState(changed as State);
   }
@@ -106,22 +108,22 @@ export default class App extends React.PureComponent<any, State> {
   }
 
   selectPrev = () => {
-    if (!this.state.res) {
+    if (!this.state.showingFiles) {
       return;
     }
     let currIndex = this.state.currIndex - 1;
     if (currIndex < 0) {
-      currIndex = this.state.res.files.length - 1;
+      currIndex = this.state.showingFiles.length - 1;
     }
     this.setState({currIndex});
   };
 
   selectNext = () => {
-    if (!this.state.res) {
+    if (!this.state.showingFiles) {
       return;
     }
     let currIndex = this.state.currIndex + 1;
-    if (currIndex >= this.state.res.files.length) {
+    if (currIndex >= this.state.showingFiles.length) {
       currIndex = 0;
     }
     this.setState({ currIndex });
@@ -189,7 +191,7 @@ export default class App extends React.PureComponent<any, State> {
     prevLayoutMode: 'grid',
     layoutMode: 'grid',
     currIndex: 0,
-    folderPath: '~/Downloads/test',
+    folderPath: '~/Downloads/imgs',
     showHiddenFiles: false,
     res: null,
     files: [],

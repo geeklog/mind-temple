@@ -22,6 +22,15 @@ export default class FilePreviewGalleryLayout extends React.PureComponent<Props>
     const y = event.pageY;
     control.toggleFileContextMenu(true, x, y, file);
   }
+  
+  onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
+    const {control} = this.props;
+    if (event.deltaY > 0) {
+      control.selectNext();
+    } else if (event.deltaY < 0) {
+      control.selectPrev();
+    }
+  }
 
   render() {
     const {files, control, currIndex} = this.props;
@@ -36,6 +45,7 @@ export default class FilePreviewGalleryLayout extends React.PureComponent<Props>
           <div
             className="frame"
             onContextMenu={this.onContextMenu}
+            onWheel={this.onWheel}
           >
             <GalleryThumb file={file}/>
             <div

@@ -19,6 +19,7 @@ export default class FilePreviewListLayout extends React.PureComponent<Props> {
       <div className="files-layout-list">
         {files.map((file, i) =>
           <FilePreviewListItem
+            key={i}
             file={file}
             control={control}
             index={i}
