@@ -1,9 +1,9 @@
 import React from 'react';
 import { FileDesc } from '../../models/file';
-import { apiServer } from '../../config';
 import Icon from '../Icon';
 import { AppControl } from '../../App';
 import './index.scss';
+import GalleryThumb from './GalleryThumb';
 
 export default class FilePreviewGalleryLayout extends React.PureComponent<{
   files: FileDesc[];
@@ -11,36 +11,35 @@ export default class FilePreviewGalleryLayout extends React.PureComponent<{
   control: AppControl;
 }> {
   render() {
-    const {files, control, currIndex} = this.props;
+    const {files, control: {selectPrev, selectNext}, currIndex} = this.props;
     const file = files[currIndex];
+
     return (
-      <div>
-        <div className="image-box">
-          <div className="btn btn-prev" onClick={control.selectPrev}>
+      <div className="files-layout-gallery">
+        <div className="image-control">
+          <div className="btn btn-prev" onClick={selectPrev}>
             <Icon className="" name="chevron-left"/>
           </div>
-          <div className="image-frame">
-            <img
-              className="image"
-              src={`${apiServer}/file/${file.path}`}
-              alt={file.name}
+          <div className="frame">
+            <GalleryThumb file={file}/>
+            <div
+              className="overlay-left"
+              onClick={selectPrev}
             />
             <div
-              className="image-frame-overlay-left"
-              onClick={control.selectPrev}
-            />
-            <div
-              className="image-frame-overlay-right"
-              onClick={control.selectNext}
+              className="overlay-right"
+              onClick={selectNext}
             />
           </div>
-          <div className="btn btn-next" onClick={control.selectNext}>
+          <div className="btn btn-next" onClick={selectNext}>
             <Icon name="chevron-right"/>
           </div>
         </div>
-        <div className="gallery-dot-group">{
-          files.map((file, i) => <div key={i} className={`gallery-dot ${i===currIndex ? 'selected' : ''}`} />)
-        }</div>
+        <div className="bottom-bar">
+          <div className="dot-group">{
+            files.map((file, i) => <div key={i} className={`dot ${i===currIndex ? 'selected' : ''}`} />)
+          }</div>
+        </div>
       </div>
     );
   }

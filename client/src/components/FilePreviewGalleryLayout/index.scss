@@ -1,51 +1,78 @@
-.image {
-  max-height: calc(100vh - 100px);
-  object-fit: cover;
-  max-width: 85vw;
-}
-
-.image-frame-overlay-left {
-  position: absolute;
-  background-color: transparent;
-  width: 50%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  cursor: pointer;
-}
-
-.image-frame-overlay-right {
-  position: absolute;
-  background-color: transparent;
-  width: 50%;
-  height: 100%;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-}
-
-.slide-animation {
-  transition: none;
-}
-
-.gallery-dot-group {
-  display: inline-flex;
-  align-items: center;
-  align-content: center;
-  flex-wrap: wrap;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.gallery-dot {
-  border-radius: 5px;
-  height: 5px;
-  width: 5px;
-  margin: 2px;
-  background-color: white;
-  border: none;
-  outline: none;
-}
-.gallery-dot.selected {
-  background-color: var(--color-chameisee);
+.files-layout-gallery {
+  .image-control {
+    align-self: stretch;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-between;
+    .btn {
+      outline: none;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      .icon {
+        width: 50px;
+        height: 50px;
+        fill: white;
+      }
+    }
+    .frame {
+      position: relative;
+      height: calc(100vh - 80px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .thumb {
+        .file-name {
+          padding-top: 10px;
+          text-align: center;
+        }
+        .icon {
+          fill: white;
+        }
+      }
+      .overlay-left {
+        position: absolute;
+        background-color: transparent;
+        width: 50%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+      }
+      .overlay-right {
+        position: absolute;
+        background-color: transparent;
+        width: 50%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+      }
+    }
+  }
+  .bottom-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .dot-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      .dot {
+        border-radius: 5px;
+        height: 5px;
+        width: 5px;
+        margin: 2px;
+        background-color: white;
+        border: none;
+        outline: none;
+        &.selected {
+          background-color: var(--color-chameisee);
+        }
+      }
+    }
+  }
 }
