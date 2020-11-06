@@ -1,7 +1,9 @@
 import React from 'react'
-import { AppControl } from '../App';
+import { AppControl } from '../../App';
 import { explode } from 'mikov/str';
-import PathIndicator from './PathIndicator';
+import PathIndicator from '../PathIndicator';
+import './index.scss'
+import classnames from 'classnames';
 
 interface Props {
   path: string;
@@ -21,14 +23,7 @@ export default class NavigationBar extends React.Component<Props, State> {
   };
 
   input: HTMLInputElement | null = null;
-
-  componentDidUpdate() {
-    if (!this.state.longestPath.startsWith(this.props.path)) {
-      this.setState({
-        longestPath: this.props.path
-      });
-    }
-  }
+  pathView: HTMLDivElement | null = null;
 
   componentDidMount() {
     if (!this.state.longestPath || this.state.longestPath.length < this.props.path.length) {
@@ -36,6 +31,15 @@ export default class NavigationBar extends React.Component<Props, State> {
         longestPath: this.props.path
       });
     }
+  }
+
+  componentDidUpdate() {
+    if (!this.state.longestPath.startsWith(this.props.path)) {
+      this.setState({
+        longestPath: this.props.path
+      });
+    }
+    this.pathView!.addEventListener('wheel', this.onWheel, {passive: false});
   }
   
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +61,12 @@ export default class NavigationBar extends React.Component<Props, State> {
     this.props.control.setFolderPath(longestPath)
   }
 
+  onWheel = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+    this.pathView?.scrollBy(event.deltaY, 0);
+  }
+
   render() {
     const {path} = this.props;
     let { longestPath, editMode } = this.state;
@@ -69,10 +79,11 @@ export default class NavigationBar extends React.Component<Props, State> {
 
     return (
       <div
-        className="address-bar"
+        className="navigation-bar"
         onClick={this.onBarClick}
       >
-        {editMode && <input
+        <input
+          className={classnames(editMode ? '' : 'hide')}
           type="text"
           ref={(ref) => {
             this.input = ref;
@@ -81,8 +92,11 @@ export default class NavigationBar extends React.Component<Props, State> {
           value={path}
           onChange={this.onInputChange}
           onBlur={this.onInputBlur}
-        />}
-        {!editMode && <div className="address-bar-content">
+        />
+        <div
+          className={classnames('content', editMode ? 'hide' : '')}
+          ref={(ref) => this.pathView = ref}
+        >
           {longestParts.map((p, i) => {
             if (p === '/') {
               return <PathIndicator solid={false} key={i} index={i} path={'/'}/>
@@ -93,7 +107,7 @@ export default class NavigationBar extends React.Component<Props, State> {
               return <PathIndicator solid={false} key={i} index={i} path={p} onClick={this.onPathClick}/>
             }
           })}
-        </div>}
+        </div>
       </div>
     )
   }
