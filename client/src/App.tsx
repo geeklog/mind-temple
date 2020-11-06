@@ -10,6 +10,8 @@ import * as remote from './services/fileService';
 import FileContextMenu, { ContextMenuProps } from './components/FileContextMenu';
 import { between } from 'mikov';
 import { watchPropORStateChanges } from './debug';
+import {connect} from 'react-redux';
+import { RootState, Dispatch } from './store'
 
 interface BrowseResponse {
   ok: 0 | 1;
@@ -44,7 +46,20 @@ export interface AppControl {
   toggleFileContextMenu: (show: boolean, x?: number, y?: number, file?: FileDesc) => void;
 }
 
-export default class App extends React.PureComponent<any, State> {
+const mapState = (state: RootState) => ({
+	dolphins: state.dolphins,
+})
+
+const mapDispatch = (dispatch: Dispatch) => ({
+	incrementDolphins: () => dispatch.dolphins.increment(1),
+	incrementDolphinsAsync: dispatch.dolphins.incrementAsync,
+})
+
+type StateProps = ReturnType<typeof mapState>;
+type DispatchProps = ReturnType<typeof mapDispatch>;
+type Props = StateProps & DispatchProps;
+
+class App extends React.PureComponent<Props, State> {
 
   browse = async () => {
     const {folderPath, currIndex, showHiddenFiles} = this.state;
@@ -205,6 +220,9 @@ export default class App extends React.PureComponent<any, State> {
   componentDidMount() {
     this.browse();
     document.addEventListener('keydown', this.onKeyDown);
+    document.addEventListener('click', () => {
+      this.props.incrementDolphins();
+    })
   }
 
   componentWillUnmount() {
@@ -222,9 +240,11 @@ export default class App extends React.PureComponent<any, State> {
   }
 
   render() {
+    const {dolphins} = this.props;
     const {folderPath, fileContextMenu} = this.state;
     return (
       <div className="main">
+        {dolphins}
         <TopMenubar
           folderPath={folderPath}
           showHiddenFiles={this.state.showHiddenFiles}
@@ -294,3 +314,5 @@ export default class App extends React.PureComponent<any, State> {
   }
   
 }
+
+export default connect(mapState, mapDispatch)(App);
