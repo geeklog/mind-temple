@@ -47,15 +47,7 @@ export default class FilePreviewGalleryLayout extends React.PureComponent<Props>
             onContextMenu={this.onContextMenu}
             onWheel={this.onWheel}
           >
-            <GalleryThumb file={file}/>
-            <div
-              className="overlay-left"
-              onClick={control.selectPrev}
-            />
-            <div
-              className="overlay-right"
-              onClick={control.selectNext}
-            />
+            <GalleryThumb file={file} control={control} />
           </div>
           <div className="btn btn-next" onClick={control.selectNext}>
             <Icon name="chevron-right"/>

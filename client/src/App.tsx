@@ -191,7 +191,7 @@ export default class App extends React.PureComponent<any, State> {
     prevLayoutMode: 'grid',
     layoutMode: 'grid',
     currIndex: 0,
-    folderPath: '~/Downloads/imgs',
+    folderPath: '~/Downloads/test',
     showHiddenFiles: false,
     res: null,
     files: [],

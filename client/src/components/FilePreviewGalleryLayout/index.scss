@@ -25,13 +25,60 @@
       align-items: center;
       justify-content: center;
       .thumb {
-        .file-name {
+        > .file-name {
           padding-top: 10px;
           text-align: center;
         }
         .icon {
           fill: white;
         }
+        .folder {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .folder-content {
+            border: 5px solid white;
+            border-radius: 15px;
+            background-color: #37444d;
+            padding: 15px 10px;
+            height: calc(100vh - 200px);
+            width: calc(100vw - 200px);
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            overflow: auto;
+            .grid-item {
+              margin: 15px 5px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              .svg-icon {
+                height: 40px;
+                width: 35px;
+              }
+              > .file-name {
+                font-size: 10px;
+                width: 60px;
+                overflow: hidden;
+                text-align: center;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
+            }
+          }
+          > .file-name {
+            padding-top: 10px;
+            display: flex;
+            align-items: center;
+            > .icon {
+              width: 20px;
+              height: 20px;
+              fill: white;
+              margin-right: 5px;
+            }
+          }
+        }
+        
       }
       .overlay-left {
         position: absolute;

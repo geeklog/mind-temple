@@ -1,7 +1,7 @@
 import { endsWith } from 'mikov/fn/op';
 import path from 'path';
 import os from 'os';
-import fs, { stat } from 'fs';
+import fs from 'fs';
 import sharp from 'sharp';
 
 const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'];
@@ -12,14 +12,14 @@ export const isImage = (filePath: string) =>
 export const resolvePath = (fpath: string) =>
   fpath.replace('~', os.homedir());
 
-export async function describeFile(fpath: string) {
+export async function describeFile(fpath: string, deep = 2) {
   fpath = resolvePath(fpath);
   const name = path.basename(fpath);
   const ext = path.extname(name);
   let width: number;
   let height: number;
   let type: string = 'file';
-
+  let subs;
   let stats;
   try {
     stats = fs.statSync(fpath);
@@ -36,6 +36,12 @@ export async function describeFile(fpath: string) {
 
   if (stats.isDirectory()) {
     type = 'folder';
+    if (deep > 0) {
+      subs = await Promise.all(fs.readdirSync(fpath).map(subFname => {
+        const subFile = describeFile(path.join(fpath, subFname), deep - 1);
+        return subFile;
+      }));
+    }
   }
 
   if (isImage(fpath)) {
@@ -52,6 +58,7 @@ export async function describeFile(fpath: string) {
     ext,
     type,
     width,
-    height
+    height,
+    subs
   };
 }

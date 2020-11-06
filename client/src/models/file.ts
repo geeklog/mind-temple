@@ -3,6 +3,7 @@ export interface FileDesc {
   name: string;
   path: string;
   ext: string;
+  subs?: FileDesc[];
 }
 
 export interface ImageDesc extends FileDesc {

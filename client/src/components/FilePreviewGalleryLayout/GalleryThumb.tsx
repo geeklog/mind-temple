@@ -2,16 +2,18 @@ import React from 'react';
 import { FileDesc } from '../../models/file';
 import * as service from '../../services/fileService';
 import classes from 'classnames';
-import Icon from '../Icon';
+import GalleryFolderItem from './GalleryFolderItem';
+import { AppControl } from '../../App';
 
 interface Props {
   file: FileDesc;
+  control: AppControl;
 }
 
 export default class GalleryThumb extends React.PureComponent<Props> {
   
   render() {
-    const {file} = this.props;
+    const {file, control} = this.props;
     let ext = service.resolveExtension(file.ext)
     let isDirectory = file.type === 'folder';
     let isImage = !isDirectory && service.isImage(ext);
@@ -41,23 +43,28 @@ export default class GalleryThumb extends React.PureComponent<Props> {
         className={classes('thumb', folderClassed)}
       >
         {isDirectory &&
-          <>
-            <Icon
-              className="icon"
-              name="folder"
-            />
-            <div className="file-name">
-              {file.name}
-            </div>
-          </>
+          <GalleryFolderItem
+            file={file}
+            control={control}
+          />
         }
         {isImage &&
-          <img
-            className="image"
-            src={src}
-            style={style}
-            alt={file.name}
-          />
+          <>
+            <img
+              className="image"
+              src={src}
+              style={style}
+              alt={file.name}
+            />
+            <div
+              className="overlay-left"
+              onClick={control.selectPrev}
+            />
+            <div
+              className="overlay-right"
+              onClick={control.selectNext}
+            />
+          </>
         }
         {isFile &&
           <>
