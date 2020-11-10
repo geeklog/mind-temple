@@ -72,6 +72,7 @@ export const app = createModel<RootModel>()({
       };
     },
     open: (state: AppState, file: FileDesc) => {
+      console.log('open', file);
       if (file.type === 'image') {
         return {
           ...state,
@@ -81,7 +82,7 @@ export const app = createModel<RootModel>()({
       if (file.type === 'folder') {
         return {
           ...state,
-          currPath: state.currPath + '/' + file.name
+          currPath: file.path
         }
       }
       return state;
