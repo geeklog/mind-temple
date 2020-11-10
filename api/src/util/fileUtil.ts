@@ -13,18 +13,19 @@ export const resolvePath = (fpath: string) =>
   fpath.replace('~', os.homedir());
 
 export async function describeFile(fpath: string, deep = 2) {
-  fpath = resolvePath(fpath);
   const name = path.basename(fpath);
   const ext = path.extname(name);
+
   let width: number;
   let height: number;
   let type: string = 'file';
   let subs;
   let stats;
+  let broken: boolean = false;
   try {
     stats = fs.statSync(fpath);
   } catch (error) {
-    console.log(error);
+    console.log('Error when load file stat:', fpath, error);
     return {
       path: fpath,
       name,
@@ -46,10 +47,15 @@ export async function describeFile(fpath: string, deep = 2) {
 
   if (isImage(fpath)) {
     type = 'image';
-    const image = sharp(fpath, { failOnError: false });
-    const meta = await image.metadata();
-    width = meta.width;
-    height = meta.height;
+    try {
+      const image = sharp(fpath, { failOnError: false });
+      const meta = await image.metadata();
+      width = meta.width;
+      height = meta.height;
+      broken = true;
+    } catch (error) {
+      console.log('Error when load image meta:', fpath, error);
+    }
   }
 
   return {
@@ -57,6 +63,7 @@ export async function describeFile(fpath: string, deep = 2) {
     name,
     ext,
     type,
+    broken,
     width,
     height,
     subs
