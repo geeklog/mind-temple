@@ -30,7 +30,7 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
     const file = showingFiles[currIndex];
 
     return (
-      <div className="files-layout-gallery">
+      <div className="files-layout-gallery" onWheel={this.onWheel}>
         <div className="image-control">
           <div className="btn btn-prev" onClick={selectPrev}>
             <Icon className="" name="chevron-left"/>
@@ -38,7 +38,6 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
           <div
             className="frame"
             onContextMenu={this.onContextMenu}
-            onWheel={this.onWheel}
           >
             <GalleryThumb file={file} />
           </div>

@@ -22,22 +22,22 @@ export default async (req, res) => {
     }
 
     if (command === 'open') {
-      await exec(`open ${filePath}`);
+      await exec(`open '${filePath}'`);
       return res.json({ ok: 1 });
     }
 
     if (command === 'open-folder') {
-      await exec(`open ${dirname(filePath)}`);
+      await exec(`open '${dirname(filePath)}'`);
       return res.json({ ok: 1 });
     }
 
     if (command === 'open-console') {
-      await exec(`open -a "iTerm.app" "${dirname(filePath)}"`);
+      await exec(`open -a "iTerm.app" '${dirname(filePath)}'`);
       return res.json({ ok: 1 });
     }
 
     if (command === 'trash') {
-      await exec(`trash ${filePath}`);
+      await exec(`trash '${filePath}'`);
       return res.json({ ok: 1 });
     }
 

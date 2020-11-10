@@ -73,19 +73,17 @@ export const app = createModel<RootModel>()({
     },
     open: (state: AppState, file: FileDesc) => {
       console.log('open', file);
-      if (file.type === 'image') {
-        return {
-          ...state,
-          layoutMode: 'gallery',
-        }
-      }
       if (file.type === 'folder') {
         return {
           ...state,
           currPath: file.path
         }
+      } else {
+        return {
+          ...state,
+          layoutMode: 'gallery',
+        }
       }
-      return state;
     },
     openInServer: (state: AppState, file: FileDesc) =>{
       remote.command('open', file.path);

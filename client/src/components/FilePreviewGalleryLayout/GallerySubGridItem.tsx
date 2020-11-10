@@ -29,6 +29,7 @@ class GallerySubGridItem extends React.PureComponent<Props> {
     event.stopPropagation();
     const x = event.pageX;
     const y = event.pageY;
+    this.props.onClick(this.props.index);
     toggleFileContextMenu({visible: true, x, y, file});
   }
 

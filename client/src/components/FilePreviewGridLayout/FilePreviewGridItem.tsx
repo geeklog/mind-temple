@@ -12,7 +12,7 @@ interface Props extends AppProps {
 
 class FilePreviewGridItem extends React.PureComponent<Props> {
 
-  onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  onClick = (event?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const {index} = this.props;
     this.props.setCurrIndex(index);
   }
@@ -23,6 +23,7 @@ class FilePreviewGridItem extends React.PureComponent<Props> {
   }
 
   onContextMenu = (event: any) => {
+    this.onClick();
     const {file, toggleFileContextMenu} = this.props;
     event.preventDefault();
     event.stopPropagation();

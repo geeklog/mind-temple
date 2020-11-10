@@ -3,16 +3,21 @@ import { FileDesc } from '../../models/file';
 import Icon from '../Icon';
 import GallerySubGridItem from './GallerySubGridItem';
 import { AppProps, connectAppControl } from '../../models/app';
+import { withinBounds } from '../../utils/domUtils';
 
 interface Props extends AppProps {
   file: FileDesc;
 }
 
 class GalleryFolderItem extends React.PureComponent<Props> {
+
+  div: HTMLDivElement | null = null;
   
   onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
+    if (withinBounds({x: event.clientX, y: event.clientY}, this.div?.getBoundingClientRect())) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
   }
 
   onFolderSubGridItemClick = (index: number) => {
@@ -29,6 +34,7 @@ class GalleryFolderItem extends React.PureComponent<Props> {
     return (
       <div
         className="folder"
+        ref={(ref) => {this.div = ref}}
         onWheel={this.onWheel}
       >
         <div className="folder-content">
