@@ -1,15 +1,14 @@
 import React from 'react';
 import { FileDesc } from '../../models/file';
 import Icon from '../Icon';
-import { AppControl } from '../../App';
 import GallerySubGridItem from './GallerySubGridItem';
+import { AppProps, connectAppControl } from '../../models/app';
 
-interface Props {
+interface Props extends AppProps {
   file: FileDesc;
-  control: AppControl;
 }
 
-export default class GalleryFolderItem extends React.PureComponent<Props> {
+class GalleryFolderItem extends React.PureComponent<Props> {
   
   onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -17,7 +16,7 @@ export default class GalleryFolderItem extends React.PureComponent<Props> {
   }
 
   render() {
-    const {file, control} = this.props;
+    const {file} = this.props;
     return (
       <div
         className="folder"
@@ -30,7 +29,6 @@ export default class GalleryFolderItem extends React.PureComponent<Props> {
               key={i}
               file={subFile}
               selected={false}
-              control={control}
             />
           )}
         </div>
@@ -42,3 +40,5 @@ export default class GalleryFolderItem extends React.PureComponent<Props> {
     );
   }
 }
+
+export default connectAppControl(GalleryFolderItem);

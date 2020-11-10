@@ -1,21 +1,16 @@
 import React from 'react'
-import { AppControl } from '../../App';
 import { explode } from 'mikov/str';
 import PathIndicator from '../PathIndicator';
 import './index.scss'
 import classnames from 'classnames';
-
-interface Props {
-  path: string;
-  control: AppControl
-}
+import { AppProps, connectAppControl } from '../../models/app';
 
 interface State {
   longestPath: string;
   editMode: boolean;
 }
 
-export default class NavigationBar extends React.Component<Props, State> {
+class NavigationBar extends React.Component<AppProps, State> {
 
   state = {
     longestPath : '',
@@ -26,24 +21,24 @@ export default class NavigationBar extends React.Component<Props, State> {
   pathView: HTMLDivElement | null = null;
 
   componentDidMount() {
-    if (!this.state.longestPath || this.state.longestPath.length < this.props.path.length) {
+    if (!this.state.longestPath || this.state.longestPath.length < this.props.folderPath.length) {
       this.setState({
-        longestPath: this.props.path
+        longestPath: this.props.folderPath
       });
     }
   }
 
   componentDidUpdate() {
-    if (!this.state.longestPath.startsWith(this.props.path)) {
+    if (!this.state.longestPath.startsWith(this.props.folderPath)) {
       this.setState({
-        longestPath: this.props.path
+        longestPath: this.props.folderPath
       });
     }
     this.pathView!.addEventListener('wheel', this.onWheel, {passive: false});
   }
   
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.control.setFolderPath(event.target.value);
+    this.props.setFolderPath(event.target.value);
   };
 
   onInputBlur = () => {
@@ -58,7 +53,7 @@ export default class NavigationBar extends React.Component<Props, State> {
   onPathClick = (index: number) => {
     let {longestPath} = this.state;
     longestPath = explode(longestPath, '/').slice(0, index + 1).join('');
-    this.props.control.setFolderPath(longestPath)
+    this.props.setFolderPath(longestPath)
   }
 
   onWheel = (event: any) => {
@@ -68,14 +63,14 @@ export default class NavigationBar extends React.Component<Props, State> {
   }
 
   render() {
-    const {path} = this.props;
+    const {folderPath} = this.props;
     let { longestPath, editMode } = this.state;
 
-    if (longestPath.length < path.length) {
-      longestPath = path;
+    if (longestPath.length < folderPath.length) {
+      longestPath = folderPath;
     }
     const longestParts = explode(longestPath, '/');
-    const parts = explode(path, '/');
+    const parts = explode(folderPath, '/');
 
     return (
       <div
@@ -89,7 +84,7 @@ export default class NavigationBar extends React.Component<Props, State> {
             this.input = ref;
             ref?.focus();
           }}
-          value={path}
+          value={folderPath}
           onChange={this.onInputChange}
           onBlur={this.onInputBlur}
         />
@@ -112,3 +107,5 @@ export default class NavigationBar extends React.Component<Props, State> {
     )
   }
 }
+
+export default connectAppControl(NavigationBar);

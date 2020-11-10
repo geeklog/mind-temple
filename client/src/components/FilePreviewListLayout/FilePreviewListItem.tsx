@@ -1,26 +1,25 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { FileDesc } from '../../models/file'
 import classnames from 'classnames';
-import { AppControl } from '../../App';
 import Thumb from '../Thumb';
+import { AppProps, connectAppControl } from '../../models/app';
 
-interface Props {
+interface Props extends AppProps {
   file: FileDesc;
   selected: boolean;
-  control: AppControl;
   index: number;
 }
 
-export default class FilePreviewListItem extends Component<Props> {
+class FilePreviewListItem extends PureComponent<Props> {
   
   onClick = () => {
-    const {control, index} = this.props;
-    control.setCurrIndex(index);
+    const {index, setCurrIndex} = this.props;
+    setCurrIndex(index);
   }
 
   onDoubleClick = () => {
-    const {file, control} = this.props;
-    control.open(file);
+    const {file, open} = this.props;
+    open(file);
   }
 
   render() {
@@ -45,3 +44,5 @@ export default class FilePreviewListItem extends Component<Props> {
     )
   }
 }
+
+export default connectAppControl(FilePreviewListItem);

@@ -1,21 +1,18 @@
 import React from 'react';
-import { AppControl } from '../../App';
 import { FileDesc } from '../../models/file';
 import FilePreviewGridItem from './FilePreviewGridItem';
 import './index.scss';
+import { AppProps, connectAppControl } from '../../models/app';
 
-interface Props {
+interface Props extends AppProps {
   files: FileDesc[];
   currSelected: number;
-  control: AppControl;
 }
 
-export default class FilePreviewGridLayout extends React.PureComponent<Props> {
-
-  items: {[id: string]: FilePreviewGridItem | null} = {};
+class FilePreviewGridLayout extends React.PureComponent<Props> {
 
   render() {
-    const {files, currSelected, control} = this.props;
+    const {files, currSelected} = this.props;
     return (
       <div className="files-layout-grid">
         {files.map((file, i) =>
@@ -24,10 +21,11 @@ export default class FilePreviewGridLayout extends React.PureComponent<Props> {
             key={i}
             file={file}
             selected={i===currSelected}
-            control={control}
           />
         )}
       </div>
     )
   }
 }
+
+export default connectAppControl(FilePreviewGridLayout);

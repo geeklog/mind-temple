@@ -1,35 +1,34 @@
 import React from 'react';
 import classnames from 'classnames';
-import { AppControl } from '../../App';
 import { FileDesc } from '../../models/file';
 import Thumb from '../Thumb';
+import { connectAppControl, AppProps } from '../../models/app';
 
-interface Props {
+interface Props extends AppProps {
   index: number;
   file: FileDesc;
   selected: boolean;
-  control: AppControl;
 }
 
-export default class FilePreviewGridItem extends React.PureComponent<Props> {
+class FilePreviewGridItem extends React.PureComponent<Props> {
 
   onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const {index} = this.props;
-    this.props.control.setCurrIndex(index);
+    this.props.setCurrIndex(index);
   }
 
   onDoubleClick = () => {
     const { file }: Props = this.props;
-    this.props.control.open(file);
+    this.props.open(file);
   }
 
   onContextMenu = (event: any) => {
-    const {file, control} = this.props;
+    const {file, toggleFileContextMenu} = this.props;
     event.preventDefault();
     event.stopPropagation();
     const x = event.pageX;
     const y = event.pageY;
-    control.toggleFileContextMenu(true, x, y, file);
+    toggleFileContextMenu({visible: true, x, y, file});
   }
 
   render() {
@@ -50,6 +49,6 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
       </div>
     )
   }
-
-  
 }
+
+export default connectAppControl(FilePreviewGridItem);

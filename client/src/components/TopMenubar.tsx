@@ -1,36 +1,30 @@
 import React from "react";
 import MenuButtonGroup from "./MenuButtonGroup";
-import { AppControl } from '../App';
 import NavigationBar from './NavigationBar';
 import ToggleButton from "./ToggleButton";
+import { AppProps, connectAppControl } from '../models/app';
 
-interface Props {
-  control: AppControl;
-  folderPath: string;
-  showHiddenFiles: boolean;
-}
-
-export default class TopMenubar extends React.PureComponent<Props> {
-  
+class TopMenubar extends React.PureComponent<AppProps> {
   render() {
-    const { folderPath, showHiddenFiles, control } = this.props;
+    const { folderPath, showHiddenFiles, setLayoutMode, toggleHiddenFiles } = this.props;
     return (
       <div className="menu">
         <NavigationBar
           path={folderPath}
-          control={control}
         />
         <MenuButtonGroup
           btns={['grid', 'list', 'monitor']}
           choices={['grid', 'list', 'gallery']}
-          onSelected={control.setLayoutMode}
+          onSelected={setLayoutMode}
         />
         <ToggleButton
           on={showHiddenFiles}
           btns={['eye-off', 'eye']}
-          onToggle={control.toggleHiddenFiles}
+          onToggle={toggleHiddenFiles}
         />
       </div>
     )
   }
 }
+
+export default connectAppControl(TopMenubar);

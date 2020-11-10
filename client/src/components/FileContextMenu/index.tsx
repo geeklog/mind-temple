@@ -1,40 +1,31 @@
 import React, { PureComponent } from 'react'
 import Icon from '../Icon';
 import './index.scss';
-import { AppControl } from '../../App';
 import classnames from 'classnames';
-import { FileDesc } from '../../models/file';
+import { connectAppControl } from '../../models/app';
 
 type LiMouseEvent = React.MouseEvent<HTMLLIElement, MouseEvent>;
 
-export interface ContextMenuProps {
-  file?: FileDesc;
-  control: AppControl;
-  visible: boolean;
-  x?: number;
-  y?: number;
-}
+class FileContextMenu extends PureComponent<any> {
 
-export default class FileContextMenu extends PureComponent<ContextMenuProps> {
-  
   open = () => {
-    const {file, control} = this.props;
-    control.openInServer(file!);
+    const {file, openInServer} = this.props;
+    openInServer(file!);
   }
 
   showInFolder = () => {
-    const {file, control} = this.props;
-    control.openFolderInServer(file!);
+    const {file, openFolderInServer} = this.props;
+    openFolderInServer(file!);
   }
 
   gotoConsole = () => {
-    const {file, control} = this.props;
-    control.gotoColsoleInServer(file!);
+    const {file, gotoColsoleInServer} = this.props;
+    gotoColsoleInServer(file!);
   }
 
   trash = () => {
-    const {file, control} = this.props;
-    control.trash(file!);
+    const {file, trash} = this.props;
+    trash(file!);
   }
 
   download = (event: LiMouseEvent) => {
@@ -42,9 +33,9 @@ export default class FileContextMenu extends PureComponent<ContextMenuProps> {
   }
   
   componentDidMount() {
-    const {control} = this.props;
+    const {toggleFileContextMenu} = this.props as any;
     document.addEventListener('click', () => {
-      control.toggleFileContextMenu(false);
+      toggleFileContextMenu(false);
     })
   }
 
@@ -102,3 +93,5 @@ export default class FileContextMenu extends PureComponent<ContextMenuProps> {
     )
   }
 }
+
+export default connectAppControl(FileContextMenu);

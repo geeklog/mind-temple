@@ -1,19 +1,12 @@
 import React from 'react';
 
-import { FileDesc } from '../../models/file';
-import { AppControl } from '../../App';
 import './index.scss';
 import FilePreviewListItem from './FilePreviewListItem';
+import { AppProps, connectAppControl } from '../../models/app';
 
-interface Props {
-  files: FileDesc[];
-  currSelected: number;
-  control: AppControl
-}
-
-export default class FilePreviewListLayout extends React.PureComponent<Props> {
+class FilePreviewListLayout extends React.PureComponent<AppProps> {
   render() {
-    const {files, currSelected, control} = this.props;
+    const {files, currIndex} = this.props;
     
     return (
       <div className="files-layout-list">
@@ -21,9 +14,8 @@ export default class FilePreviewListLayout extends React.PureComponent<Props> {
           <FilePreviewListItem
             key={i}
             file={file}
-            control={control}
             index={i}
-            selected={currSelected === i}
+            selected={currIndex === i}
           />
         )}
       </div>
@@ -31,3 +23,4 @@ export default class FilePreviewListLayout extends React.PureComponent<Props> {
   }
 }
 
+export default connectAppControl(FilePreviewListLayout);

@@ -1,19 +1,18 @@
 import React from 'react';
-import { FileDesc } from '../../models/file';
 import * as service from '../../services/fileService';
 import classes from 'classnames';
 import GalleryFolderItem from './GalleryFolderItem';
-import { AppControl } from '../../App';
+import { AppProps, connectAppControl } from '../../models/app';
+import { FileDesc } from '../../models/file';
 
-interface Props {
+interface Props extends AppProps {
   file: FileDesc;
-  control: AppControl;
 }
 
-export default class GalleryThumb extends React.PureComponent<Props> {
+class GalleryThumb extends React.PureComponent<Props> {
   
   render() {
-    const {file, control} = this.props;
+    const {file, selectPrev, selectNext} = this.props;
     let ext = service.resolveExtension(file.ext)
     let isDirectory = file.type === 'folder';
     let isImage = !isDirectory && service.isImage(ext);
@@ -45,7 +44,6 @@ export default class GalleryThumb extends React.PureComponent<Props> {
         {isDirectory &&
           <GalleryFolderItem
             file={file}
-            control={control}
           />
         }
         {isImage &&
@@ -58,11 +56,11 @@ export default class GalleryThumb extends React.PureComponent<Props> {
             />
             <div
               className="overlay-left"
-              onClick={control.selectPrev}
+              onClick={selectPrev}
             />
             <div
               className="overlay-right"
-              onClick={control.selectNext}
+              onClick={selectNext}
             />
           </>
         }
@@ -83,3 +81,5 @@ export default class GalleryThumb extends React.PureComponent<Props> {
     );
   }
 }
+
+export default connectAppControl(GalleryThumb);

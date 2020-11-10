@@ -1,8 +1,10 @@
 import { Models } from '@rematch/core'
-import { dolphins } from './dolphins'
+import { app } from './app'
 
 export interface RootModel extends Models<RootModel> {
-	dolphins: typeof dolphins
+  app: typeof app;
 }
 
-export const models: RootModel = { dolphins }
+export const models: RootModel = {
+  app,
+}
