@@ -45,11 +45,13 @@
       padding-bottom: 4px;
       user-select: none;
       white-space: nowrap;
-      cursor: default;
+      cursor: pointer;
+      &.spliter {
+        cursor: default;
+      }
       color: var(--color-faded);
       &.solid {
         color: var(--color-black);
-        cursor: pointer;
       }
     }
   }

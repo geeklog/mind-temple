@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import classnames from 'classnames';
 
 interface Props {
   path: string;
@@ -18,8 +19,14 @@ export default class PathIndicator extends Component<Props> {
 
   render() {
     const {path, solid} = this.props;
+    const decorator = path === '/' ? 'spliter' : (solid? 'solid': '');
     return (
-      <span className={`path-indicator ${solid? 'solid': ''}`} onClick={this.onClick}>{path}</span>
+      <span
+        className={classnames('path-indicator', decorator)}
+        onClick={this.onClick}
+      >
+        {path}
+      </span>
     )
   }
 }

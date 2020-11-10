@@ -72,7 +72,7 @@ class GallerySubGridItem extends React.PureComponent<Props> {
           <img
             className="preview-img"
             src={src}
-            alt=""
+            alt={file.name}
             style={style}
           />
         }
@@ -80,7 +80,7 @@ class GallerySubGridItem extends React.PureComponent<Props> {
           <img
             className="svg-filetype-icon"
             src={src}
-            alt=""
+            alt={file.name}
             style={style}
           />
         }
