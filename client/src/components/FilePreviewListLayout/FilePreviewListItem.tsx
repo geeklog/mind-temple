@@ -11,7 +11,17 @@ interface Props extends AppProps {
 }
 
 class FilePreviewListItem extends PureComponent<Props> {
-  
+
+  onContextMenu = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const {files, currIndex, toggleFileContextMenu} = this.props;
+    const file = files[currIndex];
+    const x = event.pageX;
+    const y = event.pageY;
+    toggleFileContextMenu({visible: true, x, y, file});
+  }
+
   onClick = () => {
     const {index, setCurrIndex} = this.props;
     setCurrIndex(index);
@@ -29,6 +39,7 @@ class FilePreviewListItem extends PureComponent<Props> {
       <li
         className={classnames('list-item', selectedClassed)}
         onClick={this.onClick}
+        onContextMenu={this.onContextMenu}
         onDoubleClick={this.onDoubleClick}
       >
         <Thumb

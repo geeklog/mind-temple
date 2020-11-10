@@ -1,5 +1,4 @@
 import React from 'react';
-import { FileDesc } from '../../models/file';
 import FilePreviewGridItem from './FilePreviewGridItem';
 import './index.scss';
 import { AppProps, connectAppControl } from '../../models/app';

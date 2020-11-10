@@ -6,9 +6,9 @@ export default async (req, res) => {
   try {
     let resourcePath: string = req.path.replace('\/browse\/', '');
     resourcePath = decodeURIComponent(resourcePath);
-    const folderPath = resolvePath(resourcePath);
+    const currPath = resolvePath(resourcePath);
     const files = await Promise.all(
-      fs.readdirSync(folderPath)
+      fs.readdirSync(currPath)
         .map(fileName => describeFile(path.join(resourcePath, fileName)))
     );
     res.json({
