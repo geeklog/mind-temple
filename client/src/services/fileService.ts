@@ -49,9 +49,9 @@ export interface BrowseResponse {
   files: FileDesc[];
 }
 
-export async function browse(folderPath: string): Promise<BrowseResponse> {
+export async function browse(currPath: string): Promise<BrowseResponse> {
   try {
-    const res = await fetch(`${apiServer}/browse/${encodeURIComponent(folderPath)}`);
+    const res = await fetch(`${apiServer}/browse/${encodeURIComponent(currPath)}`);
     const data = await res.json();
     return data;
   } catch (error) {

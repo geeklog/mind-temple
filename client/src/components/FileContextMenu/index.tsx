@@ -2,29 +2,29 @@ import React, { PureComponent } from 'react'
 import Icon from '../Icon';
 import './index.scss';
 import classnames from 'classnames';
-import { connectAppControl } from '../../models/app';
+import { connectAppControl, AppProps } from '../../models/app';
 
 type LiMouseEvent = React.MouseEvent<HTMLLIElement, MouseEvent>;
 
-class FileContextMenu extends PureComponent<any> {
+class FileContextMenu extends PureComponent<AppProps> {
 
   open = () => {
-    const {file, openInServer} = this.props;
+    const {fileContextMenu:{file}, openInServer} = this.props;
     openInServer(file!);
   }
 
   showInFolder = () => {
-    const {file, openFolderInServer} = this.props;
+    const {fileContextMenu:{file}, openFolderInServer} = this.props;
     openFolderInServer(file!);
   }
 
   gotoConsole = () => {
-    const {file, gotoColsoleInServer} = this.props;
+    const {fileContextMenu:{file}, gotoColsoleInServer} = this.props;
     gotoColsoleInServer(file!);
   }
 
   trash = () => {
-    const {file, trash} = this.props;
+    const {fileContextMenu:{file}, trash} = this.props;
     trash(file!);
   }
 
@@ -40,7 +40,7 @@ class FileContextMenu extends PureComponent<any> {
   }
 
   render() {
-    const {visible, x, y} = this.props;
+    const {fileContextMenu:{visible, x, y}} = this.props;
     const visibleClassed = visible ? '' : 'hide'
     let style = {};
     if (x !== undefined && y !== undefined) {

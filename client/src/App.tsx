@@ -1,6 +1,5 @@
 import React from 'react';
 import './styles/App.scss';
-import { FileDesc } from './models/file';
 import FilePreviewGridLayout from './components/FilePreviewGridLayout';
 import FilePreviewListLayout from './components/FilePreviewListLayout';
 import FilePreviewGalleryLayout from './components/FilePreviewGalleryLayout';
@@ -56,28 +55,24 @@ class App extends React.PureComponent<AppProps> {
   //   watchPropORStateChanges('App', prevProps, prevState, this.props, this.state);
   // }
 
-  componentDidUpdate(prevProps: any, prevState: any) {
-    if (prevProps.folderPath !== this.props.folderPath) {
+  componentDidUpdate(prevProps: AppProps, prevState: AppProps) {
+    if (prevProps.currPath !== this.props.currPath) {
       this.props.browse();
     }
   }
 
   render() {
-    const {folderPath, fileContextMenu, showHiddenFiles} = this.props;
     return (
       <div className="main">
-        <TopMenubar
-          folderPath={folderPath}
-          showHiddenFiles={showHiddenFiles}
-        />
+        <TopMenubar />
         {this.renderMain()}
-        <FileContextMenu {...fileContextMenu} />
+        <FileContextMenu />
       </div>
     );
   }
 
   renderMain() {
-    const {res, layoutMode, files, showingFiles, showHiddenFiles} = this.props;
+    const {res, layoutMode} = this.props;
     if (!res) {
       return;
     }
@@ -89,45 +84,13 @@ class App extends React.PureComponent<AppProps> {
       )
     }
 
-    const renderFiles = showHiddenFiles ? files : showingFiles;
-    
     return (
       <>
-        {layoutMode === 'grid' && this.renderGrid(renderFiles)}
-        {layoutMode === 'list' && this.renderList(renderFiles)}
-        {layoutMode === 'gallery' && this.renderGallery(renderFiles)}
+        {layoutMode === 'grid' && <FilePreviewGridLayout />}
+        {layoutMode === 'list' && <FilePreviewListLayout />}
+        {layoutMode === 'gallery' && <FilePreviewGalleryLayout />}
       </>
     );
-  }
-
-  renderGrid(files: FileDesc[]) {
-    const {currIndex} = this.props;
-    return (
-      <FilePreviewGridLayout
-        currSelected={currIndex}
-        files={files}
-      />
-    );
-  }
-
-  renderList(files: FileDesc[]) {
-    const {currIndex} = this.props;
-    return (
-      <FilePreviewListLayout
-        files={files}
-        currSelected={currIndex}
-      />
-    );
-  }
-
-  renderGallery(files: FileDesc[]) {
-    const {currIndex} = this.props;
-    return (
-      <FilePreviewGalleryLayout
-        files={files}
-        currIndex={currIndex}
-      />
-    )
   }
   
 }

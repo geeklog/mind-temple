@@ -6,11 +6,11 @@ import { AppProps, connectAppControl } from '../models/app';
 
 class TopMenubar extends React.PureComponent<AppProps> {
   render() {
-    const { folderPath, showHiddenFiles, setLayoutMode, toggleHiddenFiles } = this.props;
+    const { currPath, showHiddenFiles, setLayoutMode, toggleHiddenFiles } = this.props;
     return (
       <div className="menu">
         <NavigationBar
-          path={folderPath}
+          path={currPath}
         />
         <MenuButtonGroup
           btns={['grid', 'list', 'monitor']}

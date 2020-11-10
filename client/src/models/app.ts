@@ -24,7 +24,7 @@ type AppState = {
   layoutMode: string;
   prevLayoutMode: string;
   currIndex: number;
-  folderPath: string;
+  currPath: string;
   showHiddenFiles: boolean;
   res: BrowseResponse | null;
   files: FileDesc[],
@@ -32,15 +32,28 @@ type AppState = {
   fileContextMenu: ContextMenuProps
 }
 
-export const delay = (ms: number): Promise<void> =>
-  new Promise(resolve => setTimeout(resolve, ms));
+function filterHiddenFiles(files: FileDesc[], showHidden: boolean) {
+  if (showHidden) {
+    return files;
+  } else {
+    return files.filter(({name}) => !name.startsWith('.') && !name.startsWith('~$'));
+  }
+}
+
+function ensureIndexRange(files: FileDesc[], index: number) {
+  if (files.length > 0) {
+    return between(0, index, files.length - 1);
+  } else {
+    return 0;
+  }
+}
 
 export const app = createModel<RootModel>()({
 	state: {
     prevLayoutMode: 'grid',
     layoutMode: 'grid',
     currIndex: 0,
-    folderPath: '~/Downloads/imgs',
+    currPath: '~/Downloads/imgs',
     showHiddenFiles: true,
     res: null,
     files: [],
@@ -66,7 +79,7 @@ export const app = createModel<RootModel>()({
       if (file.type === 'folder') {
         return {
           ...state,
-          folderPath: state.folderPath + '/' + file.name
+          currPath: state.currPath + '/' + file.name
         }
       }
       return state;
@@ -128,17 +141,21 @@ export const app = createModel<RootModel>()({
         currIndex
       };
     },
-    setFolderPath: (state: AppState, folderPath: string) => {
-      console.log('setFolderPath', folderPath);
+    setCurrPath: (state: AppState, currPath: string) => {
       return {
         ...state,
-        folderPath
+        currPath
       }
     },
     toggleHiddenFiles: (state: AppState, showHiddenFiles: boolean) => {
+      const {files, currIndex} = state;
+      const showingFiles = filterHiddenFiles(files, showHiddenFiles);
+      const index = ensureIndexRange(showingFiles, currIndex);
       return {
         ...state,
-        showHiddenFiles
+        showHiddenFiles,
+        showingFiles,
+        currIndex: index
       };
     },
     toggleFileContextMenu: (
@@ -164,19 +181,13 @@ export const app = createModel<RootModel>()({
 		const { app } = dispatch
 		return {
       async browse(payload, state): Promise<void> {
-        const {folderPath, currIndex, showHiddenFiles} = state.app;
-        console.log('browse:', folderPath);
-        const res = await remote.browse(folderPath);
+        const {currPath, currIndex, showHiddenFiles} = state.app;
+        const res = await remote.browse(currPath);
         const changed: Partial<AppState> = {res};
         if (res.ok) {
           changed.files = res.files;
-          changed.showingFiles =
-            showHiddenFiles ? res.files : res.files.filter(({name}) => !name.startsWith('.'))
-          if (res.files.length > 0) {
-            changed.currIndex = between(0, currIndex, changed.showingFiles!.length - 1);
-          } else {
-            changed.currIndex = 0;
-          }
+          changed.showingFiles = filterHiddenFiles(changed.files, showHiddenFiles);
+          changed.currIndex = ensureIndexRange(changed.showingFiles, currIndex);
         }
         app.change(changed);
       },
@@ -192,7 +203,7 @@ const mapAppState = (state: RootState) => ({
   prevLayoutMode: state.app.prevLayoutMode,
   layoutMode: state.app.layoutMode,
   currIndex: state.app.currIndex,
-  folderPath: state.app.folderPath,
+  currPath: state.app.currPath,
   showHiddenFiles: state.app.showHiddenFiles,
   res: state.app.res,
   files: state.app.files,
@@ -205,9 +216,10 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
   selectNext: dispatch.app.selectNext,
   setCurrIndex: dispatch.app.setCurrIndex,
   setLayoutMode: dispatch.app.setLayoutMode,
-  setFolderPath: dispatch.app.setFolderPath,
+  setCurrPath: dispatch.app.setCurrPath,
   browse: dispatch.app.browse,
   open: dispatch.app.open,
+  trash: dispatch.app.trash,
   openInServer: dispatch.app.openInServer,
   openFolderInServer: dispatch.app.openFolderInServer,
   gotoColsoleInServer: dispatch.app.gotoColsoleInServer,

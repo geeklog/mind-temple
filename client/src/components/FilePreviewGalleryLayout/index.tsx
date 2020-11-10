@@ -26,8 +26,8 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
   }
 
   render() {
-    const {files, currIndex, selectPrev, selectNext} = this.props;
-    const file = files[currIndex];
+    const {showingFiles, currIndex, selectPrev, selectNext} = this.props;
+    const file = showingFiles[currIndex];
 
     return (
       <div className="files-layout-gallery">
@@ -48,7 +48,7 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
         </div>
         <div className="bottom-bar">
           <div className="dot-group">{
-            files.map((file: any, i: number) => <div key={i} className={`dot ${i===currIndex ? 'selected' : ''}`} />)
+            showingFiles.map((file: any, i: number) => <div key={i} className={`dot ${i===currIndex ? 'selected' : ''}`} />)
           }</div>
         </div>
       </div>

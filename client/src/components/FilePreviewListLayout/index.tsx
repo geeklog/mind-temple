@@ -6,11 +6,10 @@ import { AppProps, connectAppControl } from '../../models/app';
 
 class FilePreviewListLayout extends React.PureComponent<AppProps> {
   render() {
-    const {files, currIndex} = this.props;
-    
+    const {showingFiles, currIndex} = this.props;
     return (
       <div className="files-layout-list">
-        {files.map((file, i) =>
+        {showingFiles.map((file, i) =>
           <FilePreviewListItem
             key={i}
             file={file}
@@ -19,7 +18,7 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
           />
         )}
       </div>
-    )
+    );
   }
 }
 
