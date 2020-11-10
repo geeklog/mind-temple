@@ -9,13 +9,13 @@ interface Props extends AppProps {
   index: number;
   file: FileDesc;
   selected: boolean;
+  onClick: (index: number) => void;
 }
 
 class GallerySubGridItem extends React.PureComponent<Props> {
 
   onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const {index, setCurrIndex} = this.props;
-    setCurrIndex(index);
+    this.props.onClick(this.props.index);
   }
 
   onDoubleClick = () => {

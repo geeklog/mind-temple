@@ -23,6 +23,7 @@ export interface ContextMenuProps {
 type AppState = {
   layoutMode: string;
   prevLayoutMode: string;
+  folders: {[path: string]: {currIndex: number}},
   currIndex: number;
   currPath: string;
   showHiddenFiles: boolean;
@@ -54,6 +55,7 @@ export const app = createModel<RootModel>()({
     layoutMode: 'grid',
     currIndex: 0,
     currPath: '~/Downloads/imgs',
+    folders: {},
     showHiddenFiles: true,
     res: null,
     files: [],
@@ -99,8 +101,21 @@ export const app = createModel<RootModel>()({
     setCurrIndex: (state: AppState, currIndex: number) => {
       return {
         ...state,
-        currIndex
+        currIndex,
+        folders: {
+          ...state.folders,
+          ...{[state.currPath]: {currIndex} }
+        }
       };
+    },
+    setFolderCurrIndex: (state: AppState, {folderPath, currIndex}: {folderPath: string, currIndex: number}) => {
+      return {
+        ...state,
+        folders: {
+          ...state.folders,
+          ...{[folderPath]: {currIndex} }
+        }
+      }
     },
     setLayoutMode: (state: AppState, layoutMode: LayoutMode) => {
       return {
@@ -122,7 +137,11 @@ export const app = createModel<RootModel>()({
       }
       return {
         ...state,
-        currIndex
+        currIndex,
+        folders: {
+          ...state.folders,
+          ...{[state.currPath]: {currIndex} }
+        }
       }
     },
     selectNext: (state: AppState) => {
@@ -205,6 +224,7 @@ const mapAppState = (state: RootState) => ({
   layoutMode: state.app.layoutMode,
   currIndex: state.app.currIndex,
   currPath: state.app.currPath,
+  folders: state.app.folders,
   showHiddenFiles: state.app.showHiddenFiles,
   res: state.app.res,
   files: state.app.files,
@@ -218,6 +238,7 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
   setCurrIndex: dispatch.app.setCurrIndex,
   setLayoutMode: dispatch.app.setLayoutMode,
   setCurrPath: dispatch.app.setCurrPath,
+  setFolderCurrIndex: dispatch.app.setFolderCurrIndex,
   browse: dispatch.app.browse,
   open: dispatch.app.open,
   trash: dispatch.app.trash,

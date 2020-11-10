@@ -72,7 +72,7 @@ class App extends React.PureComponent<AppProps> {
   }
 
   renderMain() {
-    const {res, layoutMode} = this.props;
+    const {res, layoutMode, showingFiles} = this.props;
     if (!res) {
       return;
     }
@@ -82,6 +82,9 @@ class App extends React.PureComponent<AppProps> {
           {res.message}
         </div>
       )
+    }
+    if (!showingFiles.length) {
+      return;
     }
 
     return (

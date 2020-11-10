@@ -15,8 +15,17 @@ class GalleryFolderItem extends React.PureComponent<Props> {
     event.stopPropagation();
   }
 
+  onFolderSubGridItemClick = (index: number) => {
+    const {file, setFolderCurrIndex} = this.props;
+    setFolderCurrIndex({
+      currIndex: index,
+      folderPath: file.path
+    });
+  }
+
   render() {
     const {file} = this.props;
+    const subCurrIndex = this.props.folders[file.path]?.currIndex ?? 0;
     return (
       <div
         className="folder"
@@ -28,7 +37,8 @@ class GalleryFolderItem extends React.PureComponent<Props> {
               index={i}
               key={i}
               file={subFile}
-              selected={false}
+              selected={i===subCurrIndex}
+              onClick={this.onFolderSubGridItemClick}
             />
           )}
         </div>
