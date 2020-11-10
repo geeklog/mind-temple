@@ -1,5 +1,5 @@
 export interface FileDesc {
-  type: 'file' | 'folder' | 'image';
+  type: 'file' | 'folder' | 'image' | 'text' | 'markdown';
   name: string;
   path: string;
   ext: string;

@@ -1,0 +1,31 @@
+.markdown-editor {
+  background-color: white;
+  height: calc(100vh - 100px);
+  width: calc(100vw - 180px);
+  position: relative;
+  * {
+    color: black;
+  }
+  .edit-area {
+    padding: 20px;
+    color: black;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 0;
+    overflow-y: auto;
+    outline: none;
+    hyphens: none;
+    white-space: pre-wrap;
+    font-family: 'Andale Mono'
+  }
+  .preview-area {
+    padding: 10px;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    right: 0;
+    overflow-y: auto;
+    background-color: aliceblue;
+  }
+}

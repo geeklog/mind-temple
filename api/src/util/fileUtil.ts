@@ -5,9 +5,17 @@ import fs from 'fs';
 import sharp from 'sharp';
 
 const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'];
+const TXT_EXTS = ['txt'];
+const MD_EXTS = ['md', 'mdx'];
 
 export const isImage = (filePath: string) =>
   endsWith(IMAGE_EXTS)(path.extname(filePath.toLowerCase()));
+
+export const isPlainText = (filePath: string) =>
+  endsWith(TXT_EXTS)(path.extname(filePath.toLowerCase()));
+
+export const isMarkdown = (filePath: string) =>
+  endsWith(MD_EXTS)(path.extname(filePath.toLowerCase()));
 
 export const resolvePath = (fpath: string) =>
   fpath.replace('~', os.homedir());
@@ -56,6 +64,14 @@ export async function describeFile(fpath: string, deep = 2) {
     } catch (error) {
       console.log('Error when load image meta:', fpath, error);
     }
+  }
+
+  if (isPlainText(fpath)) {
+    type = 'text';
+  }
+
+  if (isMarkdown(fpath)) {
+    type = 'markdown';
   }
 
   return {

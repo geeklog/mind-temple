@@ -67,6 +67,11 @@ export function file(filePath: string): string {
   return `${apiServer}/file/${filePath}`
 }
 
+export async function text(filePath: string) {
+  const res = await fetch(`${apiServer}/file/${encodeURIComponent(filePath)}`);
+  return await res.text();
+}
+
 export function thumb(file: FileDesc, size?: {w?: number, h?: number}): string {
   let postfix = '';
   if (size) {

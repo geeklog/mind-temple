@@ -2,6 +2,8 @@ import React from 'react';
 import * as service from '../../services/fileService';
 import classes from 'classnames';
 import GalleryFolderItem from './GalleryFolderItem';
+import PlainTextEditor from '../editors/PlainTextEditor';
+import MarkdownEditor from '../editors/MarkdownEditor';
 import { AppProps, connectAppControl } from '../../models/app';
 import { FileDesc } from '../../models/file';
 
@@ -16,7 +18,9 @@ class GalleryThumb extends React.PureComponent<Props> {
     let ext = service.resolveExtension(file.ext)
     let isDirectory = file.type === 'folder';
     let isImage = !isDirectory && service.isImage(ext);
-    let isFile = !isImage && !isDirectory;
+    let isMarkdown = file.type === 'markdown';
+    let isText = file.type === 'text';
+    let isFile = !isImage && !isDirectory && !isText && !isMarkdown;
     const src = isImage
       ? service.file(file.path)
       : `filetypes/${ext}.svg`;
@@ -63,6 +67,12 @@ class GalleryThumb extends React.PureComponent<Props> {
               onClick={selectNext}
             />
           </>
+        }
+        {isMarkdown &&
+          <MarkdownEditor file={file} />
+        }
+        {isText &&
+          <PlainTextEditor file={file} />
         }
         {isFile &&
           <>
