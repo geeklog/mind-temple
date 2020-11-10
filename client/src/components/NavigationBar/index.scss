@@ -2,6 +2,7 @@
   position: relative;
   width: 60%;
   height: 24px;
+  margin-right: 5px;
   > input {
     outline: none;
     border: none;
@@ -32,7 +33,6 @@
     width: 100%;
     padding: 4px 10px;
     border-radius: 100px;
-    margin-right: 10px;
     &.hide {
       display: none;
     }
@@ -52,6 +52,9 @@
       color: var(--color-faded);
       &.solid {
         color: var(--color-black);
+      }
+      &:last-child {
+        padding-right: 10px;
       }
     }
   }

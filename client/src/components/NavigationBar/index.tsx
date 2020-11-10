@@ -1,6 +1,6 @@
 import React from 'react'
 import { explode } from 'mikov/str';
-import PathIndicator from '../PathIndicator';
+import PathIndicator from './PathIndicator';
 import './index.scss'
 import classnames from 'classnames';
 import { AppProps, connectAppControl } from '../../models/app';
