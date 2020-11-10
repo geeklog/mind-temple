@@ -182,6 +182,7 @@ export const app = createModel<RootModel>()({
 		return {
       async browse(payload, state): Promise<void> {
         const {currPath, currIndex, showHiddenFiles} = state.app;
+        app.change({files: [], showingFiles: []});
         const res = await remote.browse(currPath);
         const changed: Partial<AppState> = {res};
         if (res.ok) {
