@@ -2,6 +2,7 @@ import React from 'react';
 import { FileDesc, ImageDesc } from '../models/file';
 import * as service from '../services/fileService';
 import classes from 'classnames';
+import Icon from './Icon';
 
 interface Props {
   size: number;
@@ -33,31 +34,21 @@ export default class Thumb extends React.PureComponent<Props> {
     );
 
     return (
-      <div className={classes('thumb', selectClassed, folderClassed)}>
+      <div
+        className={classes('thumb', selectClassed, folderClassed)}
+        title={file.name}
+      >
         {isDirectory &&
-          <div>
-            <img
-              className={classes('preview-img', 'svg-filetype-icon', 'offset-2')}
-              src={src}
-              alt=""
-            />
-            <img
-              className={classes('preview-img', 'svg-filetype-icon', 'offset-1')}
-              src={src}
-              alt=""
-            />
-            <img
-              className={classes('preview-img', 'svg-filetype-icon')}
-              src={src}
-              alt=""
-            />
-          </div>
+          <Icon
+            name="folder"
+            className="svg-icon"
+          />
         }
         {isImage &&
           <img
             className={classes('preview-img', selectClassed)}
             src={src}
-            alt=""
+            alt={file.name}
             style={imgStyle}
           />
         }
@@ -65,7 +56,7 @@ export default class Thumb extends React.PureComponent<Props> {
           <img
             className={classes('preview-img', 'svg-filetype-icon')}
             src={src}
-            alt=""
+            alt={file.name}
           />
         }
       </div>

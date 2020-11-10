@@ -28,9 +28,6 @@
       align-items: center;
       justify-content: center;
       z-index: 1;
-      &.folder {
-        background-color: #317a94;
-      }
       &.selected {
         background-color: var(--color-chameisee);
       }
@@ -53,6 +50,10 @@
       .svg-filetype-icon {
         height: 80px;
         width: 80px;
+      }
+      .icon {
+        fill: white;
+        height: 80%;
       }
     }
   }
