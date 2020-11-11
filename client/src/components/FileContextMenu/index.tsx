@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import Icon from '../Icon';
+import Icon from '../controls/Icon';
 import './index.scss';
 import classnames from 'classnames';
 import { connectAppControl, AppProps } from '../../models/app';

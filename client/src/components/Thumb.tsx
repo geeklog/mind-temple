@@ -2,7 +2,7 @@ import React from 'react';
 import { FileDesc, ImageDesc } from '../models/file';
 import * as service from '../services/fileService';
 import classes from 'classnames';
-import Icon from './Icon';
+import Icon from './controls/Icon';
 
 interface Props {
   size: number;

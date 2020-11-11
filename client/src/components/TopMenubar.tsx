@@ -1,7 +1,7 @@
 import React from "react";
-import MenuButtonGroup from "./MenuButtonGroup";
+import MenuButtonGroup from "./controls/MenuButtonGroup";
 import NavigationBar from './NavigationBar';
-import ToggleButton from "./ToggleButton";
+import ToggleButton from "./controls/ToggleButton";
 import { AppProps, connectAppControl } from '../models/app';
 
 class TopMenubar extends React.PureComponent<AppProps> {

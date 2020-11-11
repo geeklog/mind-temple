@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { FileDesc, ImageDesc } from '../../models/file';
 import * as service from '../../services/fileService';
-import Icon from '../Icon';
+import Icon from '../controls/Icon';
 import { AppProps, connectAppControl } from '../../models/app';
 
 interface Props extends AppProps {

@@ -6,7 +6,7 @@ import './index.scss';
 import { blockWheelWithin, decodeHTMLEntities, encodeHTMLEntities } from '../../../utils/domUtils';
 import DropdownMenu from '../../DropdownMenu';
 import classnames from 'classnames';
-import ToggleButton from '../../ToggleButton';
+import ToggleButton from '../../controls/ToggleButton';
 
 interface Props {
   file: FileDesc;

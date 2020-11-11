@@ -1,6 +1,6 @@
 import React from 'react';
 import { FileDesc } from '../../models/file';
-import Icon from '../Icon';
+import Icon from '../controls/Icon';
 import GallerySubGridItem from './GallerySubGridItem';
 import { AppProps, connectAppControl } from '../../models/app';
 import { blockWheelWithin } from '../../utils/domUtils';

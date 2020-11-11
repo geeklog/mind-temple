@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutMode } from '../models/layout';
+import { LayoutMode } from '../../models/layout';
 import Icon from './Icon';
 
 interface Props {
