@@ -1,14 +1,15 @@
-import createError from "http-errors";
-import express from "express";
-import path from "path";
-import cookieParser from "cookie-parser";
-import logger from "morgan";
-import cors from "cors";
+import createError from 'http-errors';
+import express from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
+import cors from 'cors';
 
 import browseController from './controllers/browse';
 import fileController from './controllers/file';
 import thumbController from './controllers/thumb';
 import commandController from './controllers/command';
+import saveController from './controllers/save';
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.get(/^\/browse\/.*/, browseController);
 app.get(/^\/file\/.*/, fileController);
 app.get(/^\/thumb\/.*/, thumbController);
 app.get(/^\/cmd\/.*/, commandController);
+app.post(/^\/save\/.*/, saveController);
 
 app.get('/', (req, res) => {
   res.render('index');

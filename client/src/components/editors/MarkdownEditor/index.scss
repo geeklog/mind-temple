@@ -28,6 +28,9 @@
     .menu-group {
       display: flex;
       align-items: center;
+      .save {
+        margin-right: 8px;
+      }
       .toggle-preview {
         .icon {
           width: 20px;
@@ -57,7 +60,7 @@
       hyphens: none;
       white-space: pre-wrap;
       font-family: 'Andale Mono';
-      &.hide {
+      &.wide {
         width: 100%;
       }
     }

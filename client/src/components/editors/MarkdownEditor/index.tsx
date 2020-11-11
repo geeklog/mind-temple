@@ -7,6 +7,7 @@ import { blockWheelWithin, decodeHTMLEntities, encodeHTMLEntities } from '../../
 import DropdownMenu from '../../DropdownMenu';
 import classnames from 'classnames';
 import ToggleButton from '../../controls/ToggleButton';
+import Button from '../../controls/Button';
 
 interface Props {
   file: FileDesc;
@@ -16,6 +17,7 @@ interface State {
   text: string;
   theme: string;
   previewVisible: boolean;
+  saveState: string;
 }
 
 function formatTextForEditor(text: string) {
@@ -43,10 +45,15 @@ export default class MarkdownEditor extends Component<Props, State> {
   state = {
     text: '',
     theme: 'paper',
-    previewVisible: true
+    previewVisible: true,
+    saveState: 'Save'
   };
 
   onWheel = blockWheelWithin(() => this.container);
+
+  onEditKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+  }
 
   onEditChange = (e?: any) => {
     console.log('onChange');
@@ -54,8 +61,24 @@ export default class MarkdownEditor extends Component<Props, State> {
       return;
     }
     this.setState({
-      text: formatTextForPreview(this.editor.innerHTML)
+      text: formatTextForPreview(this.editor.innerHTML),
+      saveState: 'Save'
     });
+  }
+
+  onEditSave = async () => {
+    const {file} = this.props;
+    this.setState({
+      saveState: 'Saving...'
+    });
+    if (this.editor) {
+      await remote.save(file.path, formatTextForPreview(this.editor.innerHTML));
+    } else {
+      console.log('no editor');
+    }
+    this.setState({
+      saveState: 'Saved'
+    })
   }
 
   onThemeSelected = (theme: string) => {
@@ -91,7 +114,7 @@ export default class MarkdownEditor extends Component<Props, State> {
 
   render() {
     const {file} = this.props;
-    const {theme, previewVisible} = this.state;
+    const {theme, previewVisible, saveState} = this.state;
     return (
       <div className="markdown-editor"
         ref={ref => this.container = ref}
@@ -106,6 +129,11 @@ export default class MarkdownEditor extends Component<Props, State> {
               btns={['eye-off', 'eye']}
               onToggle={this.onTogglePreview}
             />
+            <Button
+              className="save"
+              label={saveState}
+              onClick={this.onEditSave}
+            />
             <DropdownMenu
               className="theme"
               choices={this.themes}
@@ -114,13 +142,15 @@ export default class MarkdownEditor extends Component<Props, State> {
           </div>
         </div>
         <div className="main-area">
-          <div className={classnames(
-            "edit-area",
-            (previewVisible ? '' : 'hide')
-          )}
+          <div
+            className={classnames(
+              "edit-area",
+              (previewVisible ? '' : 'wide')
+            )}
             contentEditable={true}
             ref={ref => this.editor = ref}
             onInput={this.onEditChange}
+            onKeyDown={this.onEditKeyDown}
           />
           <ReactMarkdown
             className={classnames(

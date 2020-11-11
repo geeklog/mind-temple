@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import './index.scss';
+import classnames from 'classnames';
 
 interface Props {
   choices: string[];
@@ -18,14 +20,19 @@ export default class DropdownMenu extends Component<Props> {
     const {choices, className, name, id} = this.props;
     return (
       <select
-        className={className}
+        className={classnames('dropdown-menu', className)}
         name={name}
         id={id}
         onChange={this.onChange}
       >
         {
           choices.map(choice =>
-            <option value={choice}>{choice}</option>
+            <option
+              key={choice}
+              value={choice}
+            >
+              {choice}
+            </option>
           )
         }
       </select>
