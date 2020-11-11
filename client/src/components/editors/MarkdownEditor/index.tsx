@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { FileDesc } from '../../../models/file';
 import * as remote from '../../../services/fileService';
@@ -8,6 +8,13 @@ import DropdownMenu from '../../DropdownMenu';
 import classnames from 'classnames';
 import ToggleButton from '../../controls/ToggleButton';
 import Button from '../../controls/Button';
+import { markdown } from '../../../utils/markdownUtils';
+import {funky} from 'react-syntax-highlighter/dist/esm/styles/prism';
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
+// @ts-ignore
+import {InlineMath, BlockMath} from 'react-katex';
+import 'katex/dist/katex.min.css';
+import math from 'remark-math';
 
 interface Props {
   file: FileDesc;
@@ -26,12 +33,14 @@ function formatTextForEditor(text: string) {
 }
 
 function formatTextForPreview(text: string) {
-  text = decodeHTMLEntities(text);
-  return text.replace(/<br>/g, '\n');
+  return text;
+  // text = decodeHTMLEntities(text);
+  // text = markdown(text);
+  // return text.replace(/<br>/g, '\n');
 }
 
 export default class MarkdownEditor extends Component<Props, State> {
-  
+
   themes = [
     'paper',
     'greenville',
@@ -78,7 +87,7 @@ export default class MarkdownEditor extends Component<Props, State> {
     }
     this.setState({
       saveState: 'Saved'
-    })
+    });
   }
 
   onThemeSelected = (theme: string) => {
@@ -93,7 +102,7 @@ export default class MarkdownEditor extends Component<Props, State> {
     if (!this.editor) {
       return;
     }
-    let text = await remote.text(this.props.file.path);
+    const text = await remote.text(this.props.file.path);
     if (!this.editor) {
       return;
     }
@@ -104,7 +113,7 @@ export default class MarkdownEditor extends Component<Props, State> {
   componentDidMount() {
     this.loadText();
   }
-  
+
   async componentDidUpdate(prevProps: Props) {
     if (prevProps.file.path === this.props.file.path) {
       return;
@@ -114,7 +123,7 @@ export default class MarkdownEditor extends Component<Props, State> {
 
   render() {
     const {file} = this.props;
-    const {theme, previewVisible, saveState} = this.state;
+    const {previewVisible, saveState} = this.state;
     return (
       <div className="markdown-editor"
         ref={ref => this.container = ref}
@@ -152,17 +161,40 @@ export default class MarkdownEditor extends Component<Props, State> {
             onInput={this.onEditChange}
             onKeyDown={this.onEditKeyDown}
           />
-          <ReactMarkdown
-            className={classnames(
-              'preview-area',
-              `theme-${theme}`,
-              (previewVisible ? '' : 'hide')
-            )}
-          >
-            {this.state.text}
-          </ReactMarkdown>
+          {this.renderMarkdown()}
         </div>
       </div>
-    )
+    );
+  }
+
+  renderMarkdown() {
+    const {file} = this.props;
+    const {theme, previewVisible} = this.state;
+
+    return (
+      <ReactMarkdown
+        className={classnames(
+          'preview-area',
+          `theme-${theme}`,
+          (previewVisible ? '' : 'hide')
+        )}
+        plugins={[math]}
+        renderers={{
+          code: ({language, value}: any) => {
+            return <SyntaxHighlighter style={funky} language={language} children={value} />;
+          },
+          image: ({src}: any) => {
+            console.log('img', src);
+            if (src.startsWith('./')) {
+              src = remote.resolveRelativePath(file.path, src) ;
+            }
+            return <img src={src}></img>;
+          },
+          inlineMath: ({value}) => <InlineMath math={value} />,
+          math: ({value}) => <BlockMath math={value} />
+        }}
+        children={this.state.text}
+      />
+    );
   }
 }

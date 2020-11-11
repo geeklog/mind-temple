@@ -1,6 +1,7 @@
 import { endsWith } from 'mikov/fn/op';
 import { apiServer } from '../config';
 import { FileDesc } from '../models/file';
+import { dirname, joinPath } from '../utils/pathUtils';
 
 const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif'];
 const supportExtensions = new Set([
@@ -65,6 +66,10 @@ export async function browse(currPath: string): Promise<BrowseResponse> {
 
 export function file(filePath: string): string {
   return `${apiServer}/file/${filePath}`
+}
+
+export function resolveRelativePath(parentPath: string, relativePath: string): string {
+  return `${apiServer}/file/${encodeURIComponent(joinPath(dirname(parentPath), relativePath))}`
 }
 
 export async function text(filePath: string) {
