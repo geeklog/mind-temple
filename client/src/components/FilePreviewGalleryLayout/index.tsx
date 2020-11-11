@@ -1,8 +1,12 @@
 import React from 'react';
-import Icon from '../Icon';
 import './index.scss';
-import GalleryThumb from './GalleryThumb';
+import * as service from '../../services/fileService';
+import classes from 'classnames';
+import GalleryFolderItem from './GalleryFolderItem';
+import PlainTextEditor from '../editors/PlainTextEditor';
+import MarkdownEditor from '../editors/MarkdownEditor';
 import { AppProps, connectAppControl } from '../../models/app';
+import { FileDesc } from '../../models/file';
 
 class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
   
@@ -31,25 +35,96 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
 
     return (
       <div className="files-layout-gallery" onWheel={this.onWheel}>
-        <div className="image-control">
-          <div className="btn btn-prev" onClick={selectPrev}>
-            <Icon className="" name="chevron-left"/>
-          </div>
-          <div
-            className="frame"
-            onContextMenu={this.onContextMenu}
-          >
-            <GalleryThumb file={file} />
-          </div>
-          <div className="btn btn-next" onClick={selectNext}>
-            <Icon name="chevron-right"/>
-          </div>
-        </div>
+        {this.renderSlide(file)}
         <div className="bottom-bar">
           <div className="dot-group">{
             showingFiles.map((file: any, i: number) => <div key={i} className={`dot ${i===currIndex ? 'selected' : ''}`} />)
           }</div>
         </div>
+      </div>
+    );
+  }
+
+  renderSlide(file: FileDesc) {
+    const {selectPrev, selectNext} = this.props;
+    let ext = service.resolveExtension(file.ext)
+    let isDirectory = file.type === 'folder';
+    let isImage = !isDirectory && service.isImage(ext);
+    let isMarkdown = file.type === 'markdown';
+    let isText = file.type === 'text';
+    let isFile = !isImage && !isDirectory && !isText && !isMarkdown;
+    const src = isImage
+      ? service.file(file.path)
+      : `filetypes/${ext}.svg`;
+
+    let style;
+
+    if (file.type === 'image') {
+      style = {
+        maxWidth: `calc(100vw - 40px)`,
+        maxHeight: `calc(95vh - 50px)`
+      }
+    } else {
+      style = {
+        height: `calc(65vh - 100px)`,
+        maxWidth: `calc(100vw - 200px)`,
+        maxHeight: `calc(100vh - 100px)`
+      }
+    }
+
+    return (
+      <div
+        className="slide"
+        onContextMenu={this.onContextMenu}
+      >
+        {isDirectory &&
+          <GalleryFolderItem
+            file={file}
+          />
+        }
+        {isImage &&
+          // <div className="btn btn-prev" onClick={selectPrev}>
+          //   <Icon className="" name="chevron-left"/>
+          // </div>
+          // <div className="btn btn-next" onClick={selectNext}>
+          //   <Icon name="chevron-right"/>
+          // </div>
+          <div className="frame">
+            <img
+              className="image"
+              src={src}
+              style={style}
+              alt={file.name}
+            />
+            <div
+              className="overlay-left"
+              onClick={selectPrev}
+            />
+            <div
+              className="overlay-right"
+              onClick={selectNext}
+            />
+          </div>
+        }
+        {isMarkdown &&
+          <MarkdownEditor file={file} />
+        }
+        {isText &&
+          <PlainTextEditor file={file} />
+        }
+        {isFile &&
+          <div className='thumb'>
+            <img
+              className={classes('preview-img', 'icon')}
+              src={src}
+              style={style}
+              alt={file.name}
+            />
+            <div className="file-name">
+              {file.name}
+            </div>
+          </div>
+        }
       </div>
     );
   }

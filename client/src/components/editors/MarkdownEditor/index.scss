@@ -1,31 +1,90 @@
+@import './theme/greenville';
+@import './theme/paper';
+@import './theme/steampunk';
+@import './theme/github';
+
 .markdown-editor {
   background-color: white;
   height: calc(100vh - 100px);
-  width: calc(100vw - 180px);
-  position: relative;
+  width: calc(100vw - 100px);
+  display: flex;
+  flex-direction: column;
   * {
     color: black;
   }
-  .edit-area {
-    padding: 20px;
-    color: black;
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    left: 0;
-    overflow-y: auto;
-    outline: none;
-    hyphens: none;
-    white-space: pre-wrap;
-    font-family: 'Andale Mono'
+  .title-bar {
+    // height: 30px;
+    padding: 0 10px;
+    background-color: var(--color-chameisee);
+    display: flex;
+    align-items: center;
+    .file-name {
+      display: block;
+      color: white;
+      text-align: center;
+      margin-right: auto;
+      flex-grow: 1;
+    }
+    .menu-group {
+      display: flex;
+      align-items: center;
+      .toggle-preview {
+        .icon {
+          width: 20px;
+          height: 20px;
+          padding: 2px;
+        }
+      }
+      .select-theme {
+        outline: none;
+        display: block;
+      }
+    }
   }
-  .preview-area {
-    padding: 10px;
-    position: absolute;
-    width: 50%;
+  .main-area {
     height: 100%;
-    right: 0;
-    overflow-y: auto;
-    background-color: aliceblue;
+    width: 100%;
+    position: relative;
+    .edit-area {
+      padding: 20px;
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      left: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      outline: none;
+      hyphens: none;
+      white-space: pre-wrap;
+      font-family: 'Andale Mono';
+      &.hide {
+        width: 100%;
+      }
+    }
+    .preview-area {
+      padding: 10px;
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      right: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      &.hide {
+        display: none;
+      }
+      &.theme-greenville {
+        @include md-theme-greenville;
+      }
+      &.theme-paper {
+        @include md-theme-paper;
+      }
+      &.theme-github {
+        @include md-theme-github;
+      }
+      &.theme-steampunk {
+        @include md-theme-github;
+      }
+    }
   }
+  
 }

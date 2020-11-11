@@ -5,6 +5,7 @@ interface Props {
   on: boolean;
   btns: [string, string];
   onToggle: (value: boolean) => void;
+  className?: string;
 }
 
 export default class ToggleButton extends PureComponent<Props> {
@@ -15,9 +16,9 @@ export default class ToggleButton extends PureComponent<Props> {
   }
 
   render() {
-    const {on, btns} = this.props;
+    const {on, btns, className} = this.props;
     return (
-      <span onClick={this.onClick}>
+      <span className={className} onClick={this.onClick}>
         <Icon
           name={btns[on ? 1 : 0]}
           className="menu-icon"
