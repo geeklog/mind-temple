@@ -12,7 +12,7 @@ interface Props extends AppProps {
 class GalleryFolderItem extends React.PureComponent<Props> {
 
   div: HTMLDivElement | null = null;
-  
+
   onWheel = blockWheelWithin(() => this.div);
 
   onFolderSubGridItemClick = (index: number) => {
@@ -29,7 +29,7 @@ class GalleryFolderItem extends React.PureComponent<Props> {
     return (
       <div
         className="folder"
-        ref={(ref) => {this.div = ref}}
+        ref={(ref) => {this.div = ref; }}
         onWheel={this.onWheel}
       >
         <div className="folder-content">
@@ -38,7 +38,7 @@ class GalleryFolderItem extends React.PureComponent<Props> {
               index={i}
               key={i}
               file={subFile}
-              selected={i===subCurrIndex}
+              selected={i === subCurrIndex}
               onClick={this.onFolderSubGridItemClick}
             />
           )}

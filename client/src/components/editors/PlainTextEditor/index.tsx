@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { FileDesc } from '../../../models/file';
 import * as remote from '../../../services/fileService';
 import './index.scss';
@@ -22,7 +22,7 @@ export default class PlainTextEditor extends Component<Props, State> {
     const text = await remote.text(this.props.file.path);
     this.setState({text});
   }
-  
+
   async componentDidUpdate(prevProps: Props) {
     if (prevProps.file.path === this.props.file.path) {
       return;
@@ -37,6 +37,6 @@ export default class PlainTextEditor extends Component<Props, State> {
       <div className="plain-text-editor" contentEditable="true">
         {this.state.text}
       </div>
-    )
+    );
   }
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import classnames from 'classnames';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default class PathIndicator extends Component<Props> {
-  
+
   onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.preventDefault();
     event.stopPropagation();
@@ -19,7 +19,7 @@ export default class PathIndicator extends Component<Props> {
 
   render() {
     const {path, solid} = this.props;
-    const decorator = path === '/' ? 'spliter' : (solid? 'solid': '');
+    const decorator = path === '/' ? 'spliter' : (solid ? 'solid' : '');
     return (
       <span
         className={classnames('path-indicator', decorator)}
@@ -27,6 +27,6 @@ export default class PathIndicator extends Component<Props> {
       >
         {path}
       </span>
-    )
+    );
   }
 }

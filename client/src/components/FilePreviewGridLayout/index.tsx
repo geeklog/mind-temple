@@ -13,11 +13,11 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
             index={i}
             key={i}
             file={file}
-            selected={i===currIndex}
+            selected={i === currIndex}
           />
         )}
       </div>
-    )
+    );
   }
 }
 

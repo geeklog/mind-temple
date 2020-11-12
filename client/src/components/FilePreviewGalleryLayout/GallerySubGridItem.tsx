@@ -35,13 +35,13 @@ class GallerySubGridItem extends React.PureComponent<Props> {
 
   render() {
     const {file, selected} = this.props;
-    let size = 40;
-    let ext = service.resolveExtension(file.ext)
-    let isDirectory = file.type === 'folder';
-    let isImage = !isDirectory && service.isImage(ext);
-    let isFile = !isImage && !isDirectory;
+    const size = 40;
+    const ext = service.resolveExtension(file.ext);
+    const isDirectory = file.type === 'folder';
+    const isImage = !isDirectory && service.isImage(ext);
+    const isFile = !isImage && !isDirectory;
     const src = isImage
-      ? service.thumb(file, {h:size})
+      ? service.thumb(file, {h: size})
       : `filetypes/${ext}.svg`;
 
     const img = file as ImageDesc;
@@ -57,7 +57,7 @@ class GallerySubGridItem extends React.PureComponent<Props> {
 
     return (
       <div
-        className={classnames('grid-item', selected? 'selected' : '')}
+        className={classnames('grid-item', selected ? 'selected' : '')}
         key={file.path}
         onClick={this.onClick}
         onDoubleClick={this.onDoubleClick}

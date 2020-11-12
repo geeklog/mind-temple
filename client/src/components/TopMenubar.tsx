@@ -23,7 +23,7 @@ class TopMenubar extends React.PureComponent<AppProps> {
           onToggle={toggleHiddenFiles}
         />
       </div>
-    )
+    );
   }
 }
 

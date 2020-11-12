@@ -32,7 +32,8 @@
     "forin": false,
     "no-unused-expression": false,
     "no-conditional-assignment": false,
-    "only-arrow-functions": false
+    "only-arrow-functions": false,
+    "prefer-const": false
   },
   "rulesDirectory": []
 }

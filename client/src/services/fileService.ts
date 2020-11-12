@@ -18,13 +18,13 @@ export function resolveExtension(ext: string) {
     ext = ext.replace('.', '');
   }
   if (ext === 'jpeg') {
-    ext = 'jpg'
+    ext = 'jpg';
   }
   if (ext === 'md') {
-    ext = 'txt'
+    ext = 'txt';
   }
   if (ext === 'apk') {
-    ext = 'zip'
+    ext = 'zip';
   }
   if (ext === 'dmg') {
     ext = 'doc';
@@ -36,7 +36,7 @@ export function resolveExtension(ext: string) {
     ext = 'xls';
   }
   if (ext === 'br') {
-    ext = 'zip'
+    ext = 'zip';
   }
   if (!supportExtensions.has(ext)) {
     ext = 'unknown';
@@ -65,11 +65,11 @@ export async function browse(currPath: string): Promise<BrowseResponse> {
 }
 
 export function file(filePath: string): string {
-  return `${apiServer}/file/${filePath}`
+  return `${apiServer}/file/${filePath}`;
 }
 
 export function resolveRelativePath(parentPath: string, relativePath: string): string {
-  return `${apiServer}/file/${encodeURIComponent(joinPath(dirname(parentPath), relativePath))}`
+  return `${apiServer}/file/${encodeURIComponent(joinPath(dirname(parentPath), relativePath))}`;
 }
 
 export async function text(filePath: string) {
@@ -80,7 +80,7 @@ export async function text(filePath: string) {
 export function thumb(file: FileDesc, size?: {w?: number, h?: number}): string {
   let postfix = '';
   if (size) {
-    postfix += '?'
+    postfix += '?';
     let {w, h} = size;
     if (w) {
       postfix += 'w=' + w;

@@ -37,18 +37,26 @@ class FilePreviewGridItem extends React.PureComponent<Props> {
 
     return (
       <div
-        className={classnames('grid-item', selected? 'selected' : '')}
+        className={classnames(
+          'grid-item',
+          selected ? 'selected' : ''
+        )}
         key={file.path}
         onClick={this.onClick}
         onDoubleClick={this.onDoubleClick}
         onContextMenu={this.onContextMenu}
       >
-        <Thumb type="grid" size={80} selected={selected} file={file} />
+        <Thumb
+          type="grid"
+          size={80}
+          selected={selected}
+          file={file}
+        />
         <div className="file-name">
           {file.name}
         </div>
       </div>
-    )
+    );
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import './index.scss';
 import classnames from 'classnames';
 
@@ -11,11 +11,11 @@ interface Props {
 }
 
 export default class DropdownMenu extends Component<Props> {
-  
+
   onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     this.props.onSelect?.(event.target.value);
   }
-  
+
   render() {
     const {choices, className, name, id} = this.props;
     return (
@@ -36,6 +36,6 @@ export default class DropdownMenu extends Component<Props> {
           )
         }
       </select>
-    )
+    );
   }
 }

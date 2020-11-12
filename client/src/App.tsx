@@ -5,7 +5,7 @@ import FilePreviewListLayout from './components/FilePreviewListLayout';
 import FilePreviewGalleryLayout from './components/FilePreviewGalleryLayout';
 import TopMenubar from './components/TopMenubar';
 import FileContextMenu from './components/FileContextMenu';
-import { watchPropORStateChanges } from './debug';
+// import { watchPropORStateChanges } from './debug';
 import { AppProps, connectAppControl } from './models/app';
 import { LayoutMode } from './models/layout';
 
@@ -43,8 +43,6 @@ class App extends React.PureComponent<AppProps> {
   componentDidMount() {
     this.props.browse();
     document.addEventListener('keydown', this.onKeyDown);
-    document.addEventListener('click', () => {
-    });
   }
 
   componentWillUnmount() {
@@ -81,7 +79,7 @@ class App extends React.PureComponent<AppProps> {
         <div className="error-msg">
           {res.message}
         </div>
-      )
+      );
     }
     if (!showingFiles.length) {
       return;
@@ -95,7 +93,7 @@ class App extends React.PureComponent<AppProps> {
       </>
     );
   }
-  
+
 }
 
 export default connectAppControl(App);

@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import { explode } from 'mikov/str';
 import PathIndicator from './PathIndicator';
-import './index.scss'
+import './index.scss';
 import classnames from 'classnames';
 import { AppProps, connectAppControl } from '../../models/app';
 
@@ -36,10 +36,10 @@ class NavigationBar extends React.Component<AppProps, State> {
     }
     this.pathView!.addEventListener('wheel', this.onWheel, {passive: false});
   }
-  
+
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.props.setCurrPath(event.target.value);
-  };
+  }
 
   onInputBlur = () => {
     this.setState({editMode: false});
@@ -53,7 +53,7 @@ class NavigationBar extends React.Component<AppProps, State> {
   onPathClick = (index: number) => {
     let {longestPath} = this.state;
     longestPath = explode(longestPath, '/').slice(0, index + 1).join('');
-    this.props.setCurrPath(longestPath)
+    this.props.setCurrPath(longestPath);
   }
 
   onWheel = (event: any) => {
@@ -94,17 +94,17 @@ class NavigationBar extends React.Component<AppProps, State> {
         >
           {longestParts.map((p, i) => {
             if (p === '/') {
-              return <PathIndicator solid={false} key={i} index={i} path={'/'}/>
+              return <PathIndicator solid={false} key={i} index={i} path={'/'}/>;
             }
             if (parts[i]) {
-              return <PathIndicator solid={true} key={i} index={i} path={p} onClick={this.onPathClick}/>
+              return <PathIndicator solid={true} key={i} index={i} path={p} onClick={this.onPathClick}/>;
             } else {
-              return <PathIndicator solid={false} key={i} index={i} path={p} onClick={this.onPathClick}/>
+              return <PathIndicator solid={false} key={i} index={i} path={p} onClick={this.onPathClick}/>;
             }
           })}
         </div>
       </div>
-    )
+    );
   }
 }
 

@@ -188,7 +188,7 @@ export default class MarkdownEditor extends Component<Props, State> {
             if (src.startsWith('./')) {
               src = remote.resolveRelativePath(file.path, src) ;
             }
-            return <img src={src}></img>;
+            return <img src={src} alt=''></img>;
           },
           inlineMath: ({value}) => <InlineMath math={value} />,
           math: ({value}) => <BlockMath math={value} />

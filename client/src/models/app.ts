@@ -20,7 +20,7 @@ export interface ContextMenuProps {
   y?: number;
 }
 
-type AppState = {
+interface AppState {
   layoutMode: string;
   prevLayoutMode: string;
   folders: {[path: string]: {currIndex: number}},
@@ -31,7 +31,7 @@ type AppState = {
   files: FileDesc[],
   showingFiles: FileDesc[],
   fileContextMenu: ContextMenuProps
-}
+};
 
 function filterHiddenFiles(files: FileDesc[], showHidden: boolean) {
   if (showHidden) {
@@ -50,7 +50,7 @@ function ensureIndexRange(files: FileDesc[], index: number) {
 }
 
 export const app = createModel<RootModel>()({
-	state: {
+  state: {
     prevLayoutMode: 'grid',
     layoutMode: 'grid',
     currIndex: 0,
@@ -64,7 +64,7 @@ export const app = createModel<RootModel>()({
       visible: false
     }
   } as AppState,
-	reducers: {
+  reducers: {
     change: (state: AppState, p: Partial<AppState>) => {
       return {
         ...state,
@@ -77,15 +77,15 @@ export const app = createModel<RootModel>()({
         return {
           ...state,
           currPath: file.path
-        }
+        };
       } else {
         return {
           ...state,
           layoutMode: 'gallery',
-        }
+        };
       }
     },
-    openInServer: (state: AppState, file: FileDesc) =>{
+    openInServer: (state: AppState, file: FileDesc) => {
       remote.command('open', file.path);
       return state;
     },
@@ -114,14 +114,14 @@ export const app = createModel<RootModel>()({
           ...state.folders,
           ...{[folderPath]: {currIndex} }
         }
-      }
+      };
     },
     setLayoutMode: (state: AppState, layoutMode: LayoutMode) => {
       return {
         ...state,
         prevLayoutMode: state.layoutMode,
         layoutMode
-      }
+      };
     },
     selectPrev: (state: AppState) => {
       if (!state.showingFiles) {
@@ -141,7 +141,7 @@ export const app = createModel<RootModel>()({
           ...state.folders,
           ...{[state.currPath]: {currIndex} }
         }
-      }
+      };
     },
     selectNext: (state: AppState) => {
       if (!state.showingFiles) {
@@ -163,7 +163,7 @@ export const app = createModel<RootModel>()({
       return {
         ...state,
         currPath
-      }
+      };
     },
     toggleHiddenFiles: (state: AppState, showHiddenFiles: boolean) => {
       const {files, currIndex} = state;
@@ -178,8 +178,7 @@ export const app = createModel<RootModel>()({
     },
     toggleFileContextMenu: (
       state: AppState,
-      {visible, x, y, file}: {visible: boolean, x?: number, y?: number, file?: FileDesc}) =>
-    {
+      {visible, x, y, file}: {visible: boolean, x?: number, y?: number, file?: FileDesc}) => {
       if (!state.fileContextMenu.visible && !visible) {
         return state;
       }
@@ -194,10 +193,10 @@ export const app = createModel<RootModel>()({
         }
       };
     }
-	},
-	effects: (dispatch: Dispatch) => {
-		const { app } = dispatch
-		return {
+  },
+  effects: (dispatch: Dispatch) => {
+    const { app } = dispatch;
+    return {
       async browse(payload, state): Promise<void> {
         const {currPath, currIndex, showHiddenFiles} = state.app;
         app.change({files: [], showingFiles: []});
@@ -214,8 +213,8 @@ export const app = createModel<RootModel>()({
         await remote.command('trash', file.path);
         app.browse();
       }
-		}
-	},
+    };
+  },
 });
 
 const mapAppState = (state: RootState) => ({
@@ -251,6 +250,6 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
 export const connectAppControl = (component: any): any =>
   connect(mapAppState, mapAppDispatch)(component);
 
-type StateProps = ReturnType<typeof mapAppState>
-type DispatchProps = ReturnType<typeof mapAppDispatch>
-export type AppProps = StateProps & DispatchProps
+type StateProps = ReturnType<typeof mapAppState>;
+type DispatchProps = ReturnType<typeof mapAppDispatch>;
+export type AppProps = StateProps & DispatchProps;

@@ -9,7 +9,7 @@ import { AppProps, connectAppControl } from '../../models/app';
 import { FileDesc } from '../../models/file';
 
 class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
-  
+
   onContextMenu = (event: any) => {
     const {files, currIndex, toggleFileContextMenu} = this.props;
     const file = files[currIndex];
@@ -19,7 +19,7 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
     const y = event.pageY;
     toggleFileContextMenu({visible: true, x, y, file});
   }
-  
+
   onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
     const {selectNext, selectPrev} = this.props;
     if (event.deltaY > 0) {
@@ -30,7 +30,7 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
   }
 
   render() {
-    const {showingFiles, currIndex, selectPrev, selectNext} = this.props;
+    const {showingFiles, currIndex} = this.props;
     const file = showingFiles[currIndex];
 
     return (
@@ -38,7 +38,7 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
         {this.renderSlide(file)}
         <div className="bottom-bar">
           <div className="dot-group">{
-            showingFiles.map((file: any, i: number) => <div key={i} className={`dot ${i===currIndex ? 'selected' : ''}`} />)
+            showingFiles.map((file: any, i: number) => <div key={i} className={`dot ${i === currIndex ? 'selected' : ''}`} />)
           }</div>
         </div>
       </div>
@@ -47,12 +47,12 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
 
   renderSlide(file: FileDesc) {
     const {selectPrev, selectNext} = this.props;
-    let ext = service.resolveExtension(file.ext)
-    let isDirectory = file.type === 'folder';
-    let isImage = !isDirectory && service.isImage(ext);
-    let isMarkdown = file.type === 'markdown';
-    let isText = file.type === 'text';
-    let isFile = !isImage && !isDirectory && !isText && !isMarkdown;
+    const ext = service.resolveExtension(file.ext);
+    const isDirectory = file.type === 'folder';
+    const isImage = !isDirectory && service.isImage(ext);
+    const isMarkdown = file.type === 'markdown';
+    const isText = file.type === 'text';
+    const isFile = !isImage && !isDirectory && !isText && !isMarkdown;
     const src = isImage
       ? service.file(file.path)
       : `filetypes/${ext}.svg`;
@@ -63,13 +63,13 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
       style = {
         maxWidth: `calc(100vw - 40px)`,
         maxHeight: `calc(95vh - 50px)`
-      }
+      };
     } else {
       style = {
         height: `calc(65vh - 100px)`,
         maxWidth: `calc(100vw - 200px)`,
         maxHeight: `calc(100vh - 100px)`
-      }
+      };
     }
 
     return (

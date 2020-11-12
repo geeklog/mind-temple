@@ -14,19 +14,19 @@ interface Props {
 export default class Thumb extends React.PureComponent<Props> {
   render() {
     const {file, selected, type, size} = this.props;
-    let ext = service.resolveExtension(file.ext)
+    let ext = service.resolveExtension(file.ext);
     let isDirectory = file.type === 'folder';
     let isImage = !isDirectory && service.isImage(ext);
     let isFile = !isImage && !isDirectory;
     const src = isImage
-      ? service.thumb(file, type==='grid'? {h:size} : {w:size})
+      ? service.thumb(file, type === 'grid' ? {h: size} : {w: size})
       : `filetypes/${ext}.svg`;
 
     const img = file as ImageDesc;
-    
+
     const selectClassed = selected ? 'selected' : '';
     const folderClassed = isDirectory ? 'folder' : '';
-    
+
     const imgStyle = img && (
       img.width > img.height
         ? { width: `${size}px`}

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from 'react';
 import Icon from '../controls/Icon';
 import './index.scss';
 import classnames from 'classnames';
@@ -9,45 +9,45 @@ type LiMouseEvent = React.MouseEvent<HTMLLIElement, MouseEvent>;
 class FileContextMenu extends PureComponent<AppProps> {
 
   open = () => {
-    const {fileContextMenu:{file}, openInServer} = this.props;
+    const {fileContextMenu: {file}, openInServer} = this.props;
     openInServer(file!);
   }
 
   showInFolder = () => {
-    const {fileContextMenu:{file}, openFolderInServer} = this.props;
+    const {fileContextMenu: {file}, openFolderInServer} = this.props;
     openFolderInServer(file!);
   }
 
   gotoConsole = () => {
-    const {fileContextMenu:{file}, gotoColsoleInServer} = this.props;
+    const {fileContextMenu: {file}, gotoColsoleInServer} = this.props;
     gotoColsoleInServer(file!);
   }
 
   trash = () => {
-    const {fileContextMenu:{file}, trash} = this.props;
+    const {fileContextMenu: {file}, trash} = this.props;
     trash(file!);
   }
 
   download = (event: LiMouseEvent) => {
 
   }
-  
+
   componentDidMount() {
     const {toggleFileContextMenu} = this.props as any;
     document.addEventListener('click', () => {
       toggleFileContextMenu(false);
-    })
+    });
   }
 
   render() {
-    const {fileContextMenu:{visible, x, y}} = this.props;
-    const visibleClassed = visible ? '' : 'hide'
+    const {fileContextMenu: {visible, x, y}} = this.props;
+    const visibleClassed = visible ? '' : 'hide';
     let style = {};
     if (x !== undefined && y !== undefined) {
       style = {
         left: x + 'px',
         top: y + 'px'
-      }
+      };
     }
     return (
       <ul
@@ -90,7 +90,7 @@ class FileContextMenu extends PureComponent<AppProps> {
           Download
         </li>
       </ul>
-    )
+    );
   }
 }
 

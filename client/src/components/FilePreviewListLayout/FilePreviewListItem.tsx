@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react'
-import { FileDesc } from '../../models/file'
+import React, { PureComponent } from 'react';
+import { FileDesc } from '../../models/file';
 import classnames from 'classnames';
 import Thumb from '../Thumb';
 import { AppProps, connectAppControl } from '../../models/app';
@@ -52,7 +52,7 @@ class FilePreviewListItem extends PureComponent<Props> {
           {file.name}
         </span>
       </li>
-    )
+    );
   }
 }
 

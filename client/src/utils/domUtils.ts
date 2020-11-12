@@ -28,7 +28,7 @@ export function blockWheelWithin(ref: () => HTMLElement | null) {
       event.preventDefault();
       event.stopPropagation();
     }
-  }
+  };
 }
 
 const entities = new (XmlEntities as any)();
