@@ -1,11 +1,11 @@
-import { createModel } from '@rematch/core';
+import { createModel, ExtractRematchStateFromModels } from '@rematch/core';
 import { Dispatch, RootState } from '../store';
 import { FileDesc } from './file';
 import { RootModel } from './index';
-import { LayoutMode } from './layout';
 import * as remote from '../services/fileService';
 import { between } from 'mikov';
 import { connect } from 'react-redux';
+import { defaultAttributes } from '../utils/util';
 
 interface BrowseResponse {
   ok: 0 | 1;
@@ -20,18 +20,22 @@ export interface ContextMenuProps {
   y?: number;
 }
 
-interface AppState {
+interface FolderDesc {
   layoutMode: string;
   prevLayoutMode: string;
-  folders: {[path: string]: {currIndex: number}},
   currIndex: number;
+  sortBy: string;
+  files: FileDesc[];
+  path: string;
+  error: string;
+}
+
+interface AppState {
+  folders: {[path: string]: FolderDesc};
   currPath: string;
   showHiddenFiles: boolean;
-  res: BrowseResponse | null;
-  files: FileDesc[],
-  showingFiles: FileDesc[],
-  fileContextMenu: ContextMenuProps
-};
+  fileContextMenu: ContextMenuProps;
+}
 
 function filterHiddenFiles(files: FileDesc[], showHidden: boolean) {
   if (showHidden) {
@@ -49,42 +53,64 @@ function ensureIndexRange(files: FileDesc[], index: number) {
   }
 }
 
+function updateFolder(state: AppState, folder: Partial<FolderDesc>) {
+  if (!folder.path) {
+    throw new Error('Must have folder.path');
+  }
+  const oldFolder = state.folders[folder.path];
+  state.folders[folder.path] = defaultAttributes(folder, oldFolder, {
+    layoutMode: 'grid',
+    prevLayoutMode: 'grid',
+    currIndex: 0,
+    sortBy: 'name',
+    files: [],
+    error: ''
+  }) as FolderDesc;
+  console.log('updateFolder', state);
+  return {...state};
+}
+
+function updateCurrFolder(state: AppState, folder: Partial<FolderDesc>) {
+  const currPath = folder.path ?? state.currPath;
+  if (!currPath) {
+    throw new Error('Must have currPath');
+  }
+  const oldFolder = state.folders[currPath];
+  state.currPath = currPath;
+  state.folders[currPath] = defaultAttributes(folder, oldFolder, {
+    layoutMode: 'grid',
+    prevLayoutMode: 'grid',
+    currIndex: 0,
+    sortBy: 'name',
+    files: [],
+    error: ''
+  }) as FolderDesc;
+  console.log('updateCurrFolder', state);
+  return {...state};
+}
+
 export const app = createModel<RootModel>()({
   state: {
-    prevLayoutMode: 'grid',
-    layoutMode: 'grid',
-    currIndex: 0,
     currPath: '~/Downloads/imgs',
-    folders: {},
+    folders: {
+      '~/Downloads/imgs': {
+        path: '~/Downloads/imgs',
+        layoutMode: 'grid',
+        prevLayoutMode: 'grid',
+        currIndex: 0,
+        sortBy: 'name',
+        files: [],
+        error: ''
+      }
+    },
     showHiddenFiles: true,
-    res: null,
-    files: [],
-    showingFiles: [],
     fileContextMenu: {
       visible: false
     }
   } as AppState,
   reducers: {
-    change: (state: AppState, p: Partial<AppState>) => {
-      return {
-        ...state,
-        ...p
-      };
-    },
-    open: (state: AppState, file: FileDesc) => {
-      console.log('open', file);
-      if (file.type === 'folder') {
-        return {
-          ...state,
-          currPath: file.path
-        };
-      } else {
-        return {
-          ...state,
-          layoutMode: 'gallery',
-        };
-      }
-    },
+    updateFolder,
+    updateCurrFolder,
     openInServer: (state: AppState, file: FileDesc) => {
       remote.command('open', file.path);
       return state;
@@ -97,84 +123,38 @@ export const app = createModel<RootModel>()({
       remote.command('open-console', file.path);
       return state;
     },
-    setCurrIndex: (state: AppState, currIndex: number) => {
-      return {
-        ...state,
-        currIndex,
-        folders: {
-          ...state.folders,
-          ...{[state.currPath]: {currIndex} }
-        }
-      };
-    },
-    setFolderCurrIndex: (state: AppState, {folderPath, currIndex}: {folderPath: string, currIndex: number}) => {
-      return {
-        ...state,
-        folders: {
-          ...state.folders,
-          ...{[folderPath]: {currIndex} }
-        }
-      };
-    },
-    setLayoutMode: (state: AppState, layoutMode: LayoutMode) => {
-      return {
-        ...state,
-        prevLayoutMode: state.layoutMode,
-        layoutMode
-      };
-    },
     selectPrev: (state: AppState) => {
-      if (!state.showingFiles) {
-        return {
-          ...state,
-          currIndex: 0
-        };
+      const folder = state.folders[state.currPath];
+      let {currIndex, files} = folder;
+      const showingFiles = filterHiddenFiles(files, state.showHiddenFiles);
+      currIndex = currIndex - 1;
+      if (!showingFiles.length) {
+        currIndex = 0;
+      } else if (currIndex < 0) {
+        currIndex = showingFiles.length - 1;
       }
-      let currIndex = state.currIndex - 1;
-      if (currIndex < 0) {
-        currIndex = state.showingFiles.length - 1;
-      }
-      return {
-        ...state,
-        currIndex,
-        folders: {
-          ...state.folders,
-          ...{[state.currPath]: {currIndex} }
-        }
-      };
+      return updateCurrFolder(state, {currIndex});
     },
     selectNext: (state: AppState) => {
-      if (!state.showingFiles) {
+      const folder = state.folders[state.currPath];
+      let {currIndex, files} = folder;
+      const showingFiles = filterHiddenFiles(files, state.showHiddenFiles);
+      currIndex = currIndex + 1;
+      if (!showingFiles.length) {
         return {
           ...state,
           currIndex: 0
         };
-      }
-      let currIndex = state.currIndex + 1;
-      if (currIndex >= state.showingFiles.length) {
+      } else if (currIndex >= showingFiles.length) {
         currIndex = 0;
       }
-      return {
-        ...state,
-        currIndex
-      };
-    },
-    setCurrPath: (state: AppState, currPath: string) => {
-      return {
-        ...state,
-        currPath
-      };
+      return updateCurrFolder(state, {currIndex});
     },
     toggleHiddenFiles: (state: AppState, showHiddenFiles: boolean) => {
-      const {files, currIndex} = state;
+      let {files, currIndex} = state.folders[state.currPath];
       const showingFiles = filterHiddenFiles(files, showHiddenFiles);
-      const index = ensureIndexRange(showingFiles, currIndex);
-      return {
-        ...state,
-        showHiddenFiles,
-        showingFiles,
-        currIndex: index
-      };
+      currIndex = ensureIndexRange(showingFiles, currIndex);
+      return updateCurrFolder(state, { currIndex });
     },
     toggleFileContextMenu: (
       state: AppState,
@@ -197,47 +177,67 @@ export const app = createModel<RootModel>()({
   effects: (dispatch: Dispatch) => {
     const { app } = dispatch;
     return {
-      async browse(payload, state): Promise<void> {
-        const {currPath, currIndex, showHiddenFiles} = state.app;
-        app.change({files: [], showingFiles: []});
-        const res = await remote.browse(currPath);
-        const changed: Partial<AppState> = {res};
+      async browse(currPath: string, state: ExtractRematchStateFromModels<RootModel>): Promise<void> {
+        currPath = currPath || state.app.currPath;
+        const showHiddenFiles = state.app.showHiddenFiles;
+        app.updateFolder({path: currPath});
+        const res: BrowseResponse = await remote.browse(currPath);
+        const changed: Partial<FolderDesc> = {};
+        changed.path = currPath;
         if (res.ok) {
           changed.files = res.files;
-          changed.showingFiles = filterHiddenFiles(changed.files, showHiddenFiles);
-          changed.currIndex = ensureIndexRange(changed.showingFiles, currIndex);
+          const showingFiles = filterHiddenFiles(changed.files, showHiddenFiles);
+          const currIndex = state.app.folders[currPath]?.currIndex ?? 0;
+          changed.currIndex = ensureIndexRange(showingFiles, currIndex);
+        } else {
+          changed.error = res.message;
         }
-        app.change(changed);
+        app.updateCurrFolder(changed);
+      },
+      open(file: FileDesc, state) {
+        console.log('open', file);
+        if (file.type === 'folder') {
+          app.browse(file.path);
+        } else {
+          app.updateCurrFolder({ layoutMode: 'gallery' });
+        }
       },
       async trash(file: FileDesc, state): Promise<void> {
         await remote.command('trash', file.path);
-        app.browse();
+        app.browse(null);
       }
     };
   },
 });
 
-const mapAppState = (state: RootState) => ({
-  prevLayoutMode: state.app.prevLayoutMode,
-  layoutMode: state.app.layoutMode,
-  currIndex: state.app.currIndex,
-  currPath: state.app.currPath,
-  folders: state.app.folders,
-  showHiddenFiles: state.app.showHiddenFiles,
-  res: state.app.res,
-  files: state.app.files,
-  showingFiles: state.app.showingFiles,
-  fileContextMenu: state.app.fileContextMenu
-});
+const mapAppState = (state: RootState) => {
+  if (!state.app.folders[state.app.currPath]?.files) {
+    console.log(state.app.folders[state.app.currPath]);
+    throw new Error('No files in: ' + state.app.currPath);
+  }
+  return ({
+    prevLayoutMode: state.app.folders[state.app.currPath].prevLayoutMode,
+    layoutMode: state.app.folders[state.app.currPath].layoutMode,
+    currIndex: state.app.folders[state.app.currPath].currIndex,
+    currSortBy: state.app.folders[state.app.currPath].sortBy || 'name',
+    currPath: state.app.currPath,
+    currError: state.app.folders[state.app.currPath].error,
+    getFolder: (path: string) => state.app.folders[path],
+    showHiddenFiles: state.app.showHiddenFiles,
+    files: state.app.folders[state.app.currPath].files,
+    showingFiles: filterHiddenFiles(state.app.folders[state.app.currPath].files, state.app.showHiddenFiles),
+    fileContextMenu: state.app.fileContextMenu
+  });
+};
 
 const mapAppDispatch = (dispatch: Dispatch) => ({
   selectPrev: dispatch.app.selectPrev,
   selectNext: dispatch.app.selectNext,
-  setCurrIndex: dispatch.app.setCurrIndex,
-  setLayoutMode: dispatch.app.setLayoutMode,
-  setCurrPath: dispatch.app.setCurrPath,
-  setFolderCurrIndex: dispatch.app.setFolderCurrIndex,
-  browse: dispatch.app.browse,
+  setCurrIndex: (currIndex: number) => dispatch.app.updateCurrFolder({currIndex}),
+  setLayoutMode: (layoutMode: string) => dispatch.app.updateCurrFolder({layoutMode}),
+  updateFolder: dispatch.app.updateFolder,
+  updateCurrFolder: dispatch.app.updateCurrFolder,
+  browse: (path?: string) => dispatch.app.browse(path),
   open: dispatch.app.open,
   trash: dispatch.app.trash,
   openInServer: dispatch.app.openInServer,

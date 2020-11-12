@@ -41,7 +41,6 @@ class App extends React.PureComponent<AppProps> {
   }
 
   componentDidMount() {
-    this.props.browse();
     document.addEventListener('keydown', this.onKeyDown);
   }
 
@@ -52,12 +51,6 @@ class App extends React.PureComponent<AppProps> {
   // componentWillUpdate(prevProps: any, prevState: any) {
   //   watchPropORStateChanges('App', prevProps, prevState, this.props, this.state);
   // }
-
-  componentDidUpdate(prevProps: AppProps, prevState: AppProps) {
-    if (prevProps.currPath !== this.props.currPath) {
-      this.props.browse();
-    }
-  }
 
   render() {
     return (
@@ -70,14 +63,11 @@ class App extends React.PureComponent<AppProps> {
   }
 
   renderMain() {
-    const {res, layoutMode, showingFiles} = this.props;
-    if (!res) {
-      return;
-    }
-    if (!res.ok) {
+    const {currError, layoutMode, showingFiles, currPath} = this.props;
+    if (currError) {
       return (
         <div className="error-msg">
-          {res.message}
+          {currError}
         </div>
       );
     }

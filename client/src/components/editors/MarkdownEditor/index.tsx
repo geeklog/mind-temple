@@ -3,12 +3,12 @@ import ReactMarkdown from 'react-markdown';
 import { FileDesc } from '../../../models/file';
 import * as remote from '../../../services/fileService';
 import './index.scss';
-import { blockWheelWithin, decodeHTMLEntities, encodeHTMLEntities } from '../../../utils/domUtils';
+import { blockWheelWithin, encodeHTMLEntities } from '../../../utils/domUtils';
 import DropdownMenu from '../../DropdownMenu';
 import classnames from 'classnames';
 import ToggleButton from '../../controls/ToggleButton';
 import Button from '../../controls/Button';
-import { markdown } from '../../../utils/markdownUtils';
+// import { markdown } from '../../../utils/markdownUtils';
 import {funky} from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
 // @ts-ignore

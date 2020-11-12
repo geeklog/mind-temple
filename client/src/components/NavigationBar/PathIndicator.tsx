@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   onClick?: (index: number) => void;
 }
 
-export default class PathIndicator extends Component<Props> {
+export default class PathIndicator extends PureComponent<Props> {
 
   onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.preventDefault();

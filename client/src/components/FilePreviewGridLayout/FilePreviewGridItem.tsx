@@ -2,34 +2,41 @@ import React from 'react';
 import classnames from 'classnames';
 import { FileDesc } from '../../models/file';
 import Thumb from '../Thumb';
-import { connectAppControl, AppProps } from '../../models/app';
+import deepEqual from 'deep-equal';
 
-interface Props extends AppProps {
+interface Props {
   index: number;
   file: FileDesc;
   selected: boolean;
+  onClick: (file: FileDesc, index: number) => void;
+  onDoubleClick: (file: FileDesc, index: number) => void;
+  onContextMenu: (options: {visible: boolean, x: number, y: number, index: number, file: FileDesc}) => void;
 }
 
-class FilePreviewGridItem extends React.PureComponent<Props> {
+export default class FilePreviewGridItem extends React.Component<Props> {
+
+  shouldComponentUpdate(prevProps: Props) {
+    return !deepEqual(prevProps, this.props);
+  }
 
   onClick = (event?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const {index} = this.props;
-    this.props.setCurrIndex(index);
+    const {file, index} = this.props;
+    this.props.onClick(file, index);
   }
 
   onDoubleClick = () => {
-    const { file }: Props = this.props;
-    this.props.open(file);
+    const { file, index }: Props = this.props;
+    this.props.onDoubleClick(file, index);
   }
 
   onContextMenu = (event: any) => {
     this.onClick();
-    const {file, toggleFileContextMenu} = this.props;
+    const {file, index} = this.props;
     event.preventDefault();
     event.stopPropagation();
     const x = event.pageX;
     const y = event.pageY;
-    toggleFileContextMenu({visible: true, x, y, file});
+    this.props.onContextMenu({visible: true, x, y, index, file});
   }
 
   render() {
@@ -59,5 +66,3 @@ class FilePreviewGridItem extends React.PureComponent<Props> {
     );
   }
 }
-
-export default connectAppControl(FilePreviewGridItem);

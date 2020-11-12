@@ -4,6 +4,10 @@ export interface FileDesc {
   path: string;
   ext: string;
   subs?: FileDesc[];
+  atime: Date;
+  ctime: Date;
+  mtime: Date;
+  size: number;
 }
 
 export interface ImageDesc extends FileDesc {

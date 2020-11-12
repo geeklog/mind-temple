@@ -3,14 +3,13 @@ import { explode } from 'mikov/str';
 import PathIndicator from './PathIndicator';
 import './index.scss';
 import classnames from 'classnames';
-import { AppProps, connectAppControl } from '../../models/app';
 
 interface State {
   longestPath: string;
   editMode: boolean;
 }
 
-class NavigationBar extends React.Component<AppProps, State> {
+class NavigationBar extends React.Component<Partial<AppProps>, State> {
 
   state = {
     longestPath : '',
@@ -38,7 +37,7 @@ class NavigationBar extends React.Component<AppProps, State> {
   }
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.setCurrPath(event.target.value);
+    this.props.browse(event.target.value);
   }
 
   onInputBlur = () => {
@@ -53,7 +52,7 @@ class NavigationBar extends React.Component<AppProps, State> {
   onPathClick = (index: number) => {
     let {longestPath} = this.state;
     longestPath = explode(longestPath, '/').slice(0, index + 1).join('');
-    this.props.setCurrPath(longestPath);
+    this.props.browse(longestPath);
   }
 
   onWheel = (event: any) => {
@@ -108,4 +107,4 @@ class NavigationBar extends React.Component<AppProps, State> {
   }
 }
 
-export default connectAppControl(NavigationBar);
+export default NavigationBar;

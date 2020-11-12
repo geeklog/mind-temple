@@ -37,7 +37,7 @@ class FilePreviewListItem extends PureComponent<Props> {
     const selectedClassed = `${ selected ? 'selected' : ''}`;
     return (
       <li
-        className={classnames('list-item', selectedClassed)}
+        className={classnames('cell', selectedClassed)}
         onClick={this.onClick}
         onContextMenu={this.onContextMenu}
         onDoubleClick={this.onDoubleClick}

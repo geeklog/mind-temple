@@ -1,3 +1,5 @@
+import {uniq, flatten} from 'lodash';
+import deepEqual from 'deep-equal';
 
 export function interlace(arr: any[], brr: any[]) {
   arr = [...arr];
@@ -68,4 +70,27 @@ export function splitChunk(text: string) {
   chunk = '';
 
   return chunks;
+}
+
+export function defaults(...values: any[]) {
+  for (const v of Object.values(values)) {
+    if (v) {
+      return v;
+    }
+  }
+}
+
+export function defaultAttributes(...objs: any[]) {
+  objs = objs.filter(Boolean);
+  const keys = uniq(flatten(objs.map(Object.keys)));
+  const res = {};
+  for (const obj of objs) {
+    for (const k of keys) {
+      if (res[k] !== undefined) {
+        continue;
+      }
+      res[k] = obj[k];
+    }
+  }
+  return res;
 }

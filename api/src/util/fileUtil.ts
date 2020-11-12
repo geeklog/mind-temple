@@ -29,9 +29,18 @@ export async function describeFile(fpath: string, deep = 2) {
   let type: string = 'file';
   let subs;
   let stats;
+  let size;
+  let ctime;
+  let atime;
+  let mtime;
   let broken: boolean = false;
   try {
     stats = fs.statSync(fpath);
+    atime = stats.atime;
+    ctime = stats.ctime;
+    mtime = stats.mtime;
+    size  = stats.size;
+    // console.log(stats);
   } catch (error) {
     console.log('Error when load file stat:', fpath, error);
     return {
@@ -82,6 +91,10 @@ export async function describeFile(fpath: string, deep = 2) {
     broken,
     width,
     height,
+    atime,
+    ctime,
+    mtime,
+    size,
     subs
   };
 }

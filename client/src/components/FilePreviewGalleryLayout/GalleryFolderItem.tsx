@@ -16,16 +16,16 @@ class GalleryFolderItem extends React.PureComponent<Props> {
   onWheel = blockWheelWithin(() => this.div);
 
   onFolderSubGridItemClick = (index: number) => {
-    const {file, setFolderCurrIndex} = this.props;
-    setFolderCurrIndex({
-      currIndex: index,
-      folderPath: file.path
+    const {file, updateFolder} = this.props;
+    updateFolder({
+      path: file.path,
+      currIndex: index
     });
   }
 
   render() {
     const {file} = this.props;
-    const subCurrIndex = this.props.folders[file.path]?.currIndex ?? 0;
+    const subCurrIndex = this.props.getFolder(file.path)?.currIndex ?? 0;
     return (
       <div
         className="folder"

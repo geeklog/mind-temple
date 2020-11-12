@@ -1,15 +1,15 @@
 import { init, RematchDispatch, RematchRootState } from '@rematch/core';
-import createRematchPersist from '@rematch/persist';
-import storage from 'redux-persist/lib/storage'
+import storage from 'redux-persist/lib/storage';
 import { models, RootModel } from './models';
+import createPersistPlugin from '@rematch/persist';
 
-const persistPlugin: any = createRematchPersist({
+const persistPlugin: any = createPersistPlugin({
   key: 'root',
   storage,
   whitelist: ['app'],
-  throttle: 1000,
+  throttle: 5000,
   version: 1,
-})
+});
 
 export const store = init({
   models,
