@@ -9,7 +9,7 @@ import Button from "../controls/Button";
 class TopMenubar extends React.PureComponent<AppProps> {
 
   onPathChanged = (currPath: string) => {
-    this.props.browse(currPath);
+    this.props.navigateTo(currPath);
   }
 
   toggleNightMode = (b: boolean) => {
@@ -27,8 +27,16 @@ class TopMenubar extends React.PureComponent<AppProps> {
     const { currPath, showHiddenFiles, setLayoutMode, toggleHiddenFiles } = this.props;
     return (
       <div className="menu">
-        <Button icon="chevron-left" />
-        <Button icon="chevron-right" />
+        <Button
+          icon="chevron-left"
+          disabled={!this.props.canNavigateBackward}
+          onClick={this.props.navigateBackward}
+        />
+        <Button
+          icon="chevron-right"
+          disabled={!this.props.canNavigateForward}
+          onClick={this.props.navigateForward}
+        />
         <NavigationBar
           currPath={currPath}
           onPathChanged={this.onPathChanged}

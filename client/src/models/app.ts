@@ -32,8 +32,15 @@ interface FolderDesc {
   error: string;
 }
 
+interface History {
+  history: string[];
+  currIndex: number;
+  maxLen: number;
+}
+
 interface AppState {
   folders: {[path: string]: FolderDesc};
+  pathHistory: History;
   currPath: string;
   theme: string;
   showHiddenFiles: boolean;
@@ -90,10 +97,47 @@ function updateCurrFolder(state: AppState, folder: Partial<FolderDesc>) {
   return {...state};
 }
 
+function navigateBackward({history, currIndex, maxLen}: History): History {
+  currIndex = between(0, currIndex - 1, history.length - 1);
+  return {
+    currIndex,
+    history,
+    maxLen
+  };
+}
+
+function navigateForward({history, currIndex, maxLen}: History): History {
+  currIndex = between(0, currIndex + 1, history.length - 1);
+  return {
+    currIndex,
+    history,
+    maxLen
+  };
+}
+
+function pushHistory({history, currIndex, maxLen}: History, path: string): History {
+  history = history.slice(0, currIndex + 1);
+  history.push(path);
+  if (history.length > maxLen) {
+    history.shift();
+  }
+  const historyObj = {
+    currIndex: history.length - 1,
+    history,
+    maxLen
+  };
+  return historyObj;
+}
+
 export const app = createModel<RootModel>()({
   state: {
     theme: 'light',
     currPath: '~/Downloads/imgs',
+    pathHistory: {
+      currIndex: 0,
+      history: [],
+      maxLen: 5
+    },
     folders: {
       '~/Downloads/imgs': {
         path: '~/Downloads/imgs',
@@ -113,6 +157,12 @@ export const app = createModel<RootModel>()({
   reducers: {
     updateFolder,
     updateCurrFolder,
+    change: (state: AppState, changed: Partial<AppState>) => {
+      return {
+        ...state,
+        ...changed
+      };
+    },
     setTheme: (state: AppState, theme: string) => {
       return {
         ...state,
@@ -194,7 +244,9 @@ export const app = createModel<RootModel>()({
         }
         currPath = currPath || state.app.currPath;
         const showHiddenFiles = state.app.showHiddenFiles;
-        app.updateFolder({path: currPath});
+        app.change({
+          ...updateFolder(state.app, {path: currPath}),
+        });
         console.log('browse---1', currPath);
         const res: BrowseResponse = await remote.browse(currPath);
         console.log('browse---2', currPath);
@@ -210,10 +262,40 @@ export const app = createModel<RootModel>()({
         }
         app.updateCurrFolder(changed);
       },
+      async navigateTo(path: string, state: ExtractRematchStateFromModels<RootModel>) {
+        if (path === state.app.currPath) {
+          return;
+        }
+        if (path) {
+          app.change({
+            ...state.app,
+            pathHistory: {
+              ...pushHistory(state.app.pathHistory, path)
+            }
+          });
+        }
+        app.browse(path);
+      },
+      async navigateBackward(payload: any, state: ExtractRematchStateFromModels<RootModel>) {
+        const pathHistory = navigateBackward(state.app.pathHistory);
+        app.change({
+          ...state.app,
+          pathHistory: { ...pathHistory }
+        });
+        app.browse(pathHistory.history[pathHistory.currIndex]);
+      },
+      async navigateForward(payload: any, state: ExtractRematchStateFromModels<RootModel>) {
+        const pathHistory = navigateForward(state.app.pathHistory);
+        app.change({
+          ...state.app,
+          pathHistory: { ...pathHistory }
+        });
+        app.browse(pathHistory.history[pathHistory.currIndex]);
+      },
       open(file: FileDesc, state) {
-        console.log('open', file);
+        // console.log('open', file);
         if (file.type === 'folder') {
-          app.browse(file.path);
+          app.navigateTo(file.path);
         } else {
           app.updateCurrFolder({ layoutMode: 'gallery' });
         }
@@ -227,16 +309,31 @@ export const app = createModel<RootModel>()({
 });
 
 const mapAppState = (state: RootState) => {
-  if (!state.app.folders[state.app.currPath]?.files) {
-    console.log(state.app.folders[state.app.currPath]);
-    throw new Error('No files in: ' + state.app.currPath);
+  const {
+    folders,
+    currPath,
+    pathHistory,
+    theme,
+    showHiddenFiles,
+    fileContextMenu
+  } = state.app;
+
+  const currFolder = folders[currPath];
+
+  if (!currFolder?.files) {
+    throw new Error('No files in: ' + currPath);
   }
+
   return ({
-    prevLayoutMode: state.app.folders[state.app.currPath].prevLayoutMode,
-    layoutMode: state.app.folders[state.app.currPath].layoutMode,
-    currIndex: state.app.folders[state.app.currPath].currIndex,
+    currPath,
+    theme,
+    showHiddenFiles,
+    fileContextMenu,
+    prevLayoutMode: currFolder.prevLayoutMode,
+    layoutMode: currFolder.layoutMode,
+    currIndex: currFolder.currIndex,
     currSort: (() => {
-      const {sortByName, sortBySize, sortByTime} = state.app.folders[state.app.currPath];
+      const {sortByName, sortBySize, sortByTime} = currFolder;
       if (sortByName) {
         return {name: sortByName};
       }
@@ -247,14 +344,12 @@ const mapAppState = (state: RootState) => {
         return {time: sortByTime};
       }
     })(),
-    currPath: state.app.currPath,
-    theme: state.app.theme,
-    currError: state.app.folders[state.app.currPath].error,
-    getFolder: (path: string) => state.app.folders[path],
-    showHiddenFiles: state.app.showHiddenFiles,
-    files: state.app.folders[state.app.currPath].files,
-    showingFiles: filterHiddenFiles(state.app.folders[state.app.currPath].files, state.app.showHiddenFiles),
-    fileContextMenu: state.app.fileContextMenu
+    canNavigateForward: pathHistory.currIndex < pathHistory.history.length - 1,
+    canNavigateBackward: pathHistory.currIndex > 0,
+    currError: currFolder.error,
+    getFolder: (path: string) => folders[path],
+    files: currFolder.files,
+    showingFiles: filterHiddenFiles(currFolder.files, showHiddenFiles),
   });
 };
 
@@ -287,7 +382,9 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
       });
     }
   },
-  browse: (path?: string) => dispatch.app.browse(path),
+  navigateTo: (path?: string) => dispatch.app.navigateTo(path),
+  navigateBackward: () => dispatch.app.navigateBackward(),
+  navigateForward: () => dispatch.app.navigateForward(),
   open: dispatch.app.open,
   trash: dispatch.app.trash,
   openInServer: dispatch.app.openInServer,

@@ -8,18 +8,29 @@ interface Props {
   icon?: string;
   onClick?: () => void;
   className?: string;
+  disabled?: boolean;
 }
 
 export default class Button extends PureComponent<Props> {
 
   onClick = () => {
+    if (this.props.disabled) {
+      return;
+    }
     this.props.onClick?.();
   }
 
   render() {
-    const {label, icon, className} = this.props;
+    let {label, icon, className, disabled} = this.props;
     return (
-      <button className={classnames('button', className)} onClick={this.onClick}>
+      <button
+        className={classnames(
+          'button',
+          className,
+          disabled ? 'disabled' : ''
+        )}
+        onClick={this.onClick}
+      >
         {icon && <Icon name={icon}/>}
         {label}
       </button>

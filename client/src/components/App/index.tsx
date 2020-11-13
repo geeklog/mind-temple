@@ -42,7 +42,7 @@ class App extends React.PureComponent<AppProps> {
   }
 
   componentDidMount() {
-    this.props.browse();
+    this.props.navigateTo();
     document.addEventListener('keydown', this.onKeyDown);
   }
 

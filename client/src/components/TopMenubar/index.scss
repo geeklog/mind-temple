@@ -12,6 +12,12 @@
     background: none;
     margin: 0;
     padding: 0;
+    &.disabled {
+      .icon {
+        fill: rgba(gray, .5);
+        cursor: default;
+      }
+    }
   }
   .icon {
     display: inline-block;
@@ -19,5 +25,6 @@
     height: 25px;
     margin: 0 5px;
     cursor: pointer;
+    
   }
 }
