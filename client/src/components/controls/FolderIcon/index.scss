@@ -1,22 +1,49 @@
 .folder-icon {
+  position: relative;
+  .top-part {
+    position: absolute;
+    z-index: 0;
+  }
   &.medium {
-    width: 63px;
-    height: 73px;
-    border-radius: 5px;
-    transform: perspective(600px) rotateX(-45deg);  
+    .body-part {
+      width: 63px;
+      height: 73px;
+      border-radius: 5px;
+      transform: perspective(600px) rotateX(-45deg);  
+    }
+    .top-part {
+      top: 2px;
+      left: 2px;
+      width: 50px;
+      height: 20px;
+      border-radius: 5px;
+    }
   }
   &.small {
-    width: 20px;
-    height: 25px;
-    border-radius: 2px;
-    transform: perspective(600px) rotateX(-50deg);  
+    .top-part {
+      width: 10px;
+      height: 5px;
+      border-radius: 2px;
+      top: 2px;
+      left: 2px;
+    }
+    .body-part {
+      width: 20px;
+      height: 25px;
+      border-radius: 2px;
+      transform: perspective(600px) rotateX(-50deg);  
+    }
   }
   .theme-light & {
-    background: linear-gradient(15deg, #dedede 0%, #f4f4f4 84%);
-    border: solid 1px #e0e0e0;
+    > * {
+      background: linear-gradient(15deg, #dedede 0%, #f4f4f4 84%);
+      border: solid 1px #e0e0e0;
+    }
   }
   .theme-dark & {
-    background: linear-gradient(15deg, #4e4d4d 0%, #646464 84%);
-    border: solid 1px #656565;
+    > * {
+      background: linear-gradient(15deg, #4e4d4d 0%, #646464 84%);
+      border: solid 1px #656565;
+    }
   }
 }
