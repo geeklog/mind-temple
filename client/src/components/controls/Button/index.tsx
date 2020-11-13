@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react'
-import './index.scss'
+import React, { PureComponent } from 'react';
+import './index.scss';
 import classnames from 'classnames';
 import Icon from '../Icon';
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default class Button extends PureComponent<Props> {
-  
+
   onClick = () => {
     this.props.onClick?.();
   }
@@ -23,6 +23,6 @@ export default class Button extends PureComponent<Props> {
         {icon && <Icon name={icon}/>}
         {label}
       </button>
-    )
+    );
   }
 }

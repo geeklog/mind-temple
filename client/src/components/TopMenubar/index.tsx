@@ -4,6 +4,7 @@ import NavigationBar from '../NavigationBar';
 import ToggleButton from "../controls/ToggleButton";
 import { AppProps, connectAppControl } from '../../models/app';
 import './index.scss';
+import Button from "../controls/Button";
 
 class TopMenubar extends React.PureComponent<AppProps> {
 
@@ -26,6 +27,8 @@ class TopMenubar extends React.PureComponent<AppProps> {
     const { currPath, showHiddenFiles, setLayoutMode, toggleHiddenFiles } = this.props;
     return (
       <div className="menu">
+        <Button icon="chevron-left" />
+        <Button icon="chevron-right" />
         <NavigationBar
           currPath={currPath}
           onPathChanged={this.onPathChanged}

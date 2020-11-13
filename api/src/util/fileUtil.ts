@@ -20,7 +20,7 @@ export const isMarkdown = (filePath: string) =>
 export const resolvePath = (fpath: string) =>
   fpath.replace('~', os.homedir());
 
-export async function describeFile(fpath: string, deep = 2) {
+export async function describeFile(fpath: string, deep = 1) {
   const name = path.basename(fpath);
   const ext = path.extname(name);
 
@@ -42,7 +42,7 @@ export async function describeFile(fpath: string, deep = 2) {
     size  = stats.size;
     // console.log(stats);
   } catch (error) {
-    console.log('Error when load file stat:', fpath, error);
+    console.log('load file stat:', fpath, error.message);
     return {
       path: fpath,
       name,
@@ -71,7 +71,7 @@ export async function describeFile(fpath: string, deep = 2) {
       height = meta.height;
     } catch (error) {
       broken = true;
-      console.log('Error when load image meta:', fpath, error);
+      console.log('load img meta:', fpath, error.message);
     }
   }
 

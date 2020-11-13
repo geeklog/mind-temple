@@ -2,9 +2,10 @@
 
 .navigation-bar {
   position: relative;
-  width: 60%;
+  flex-grow: 1;
   height: 24px;
-  margin-right: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
   > input {
     outline: none;
     border: none;
@@ -49,13 +50,14 @@
       padding-bottom: 4px;
       user-select: none;
       white-space: nowrap;
+      font-weight: 600;
       cursor: pointer;
+      @include themed('color', 'faded');
+      &.solid {
+        color: #343a3f;
+      }
       &.spliter {
         cursor: default;
-      }
-      color: var(--color-faded);
-      &.solid {
-        color: var(--color-black);
       }
       &:last-child {
         padding-right: 10px;
