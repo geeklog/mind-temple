@@ -1,11 +1,26 @@
+$white: #fefefe;
+$black: #282c34;
+
 $themes: (
   light: (
-    background: #FAFAFA,
-    textColor: black
+    white: $white,
+    black: $black,
+    background: $white,
+    textColor: #282c34,
+    sidebarBackground: #f7f7fa,
+    mainShadow: 20px 0px 83px #b5b5b5,
+    navgationbarBorder: #282c34 solid 1px,
+    selectedColor: #f4f4f4,
   ),
   dark: (
-    background: #282c34,
-    textColor: white
+    white: $white,
+    black: $black,
+    background: $black,
+    textColor: $white,
+    sidebarBackground: #21242b,
+    mainShadow: 20px 0px 83px #191b21,
+    navgationbarBorder: transparent solid 1px,
+    selectedColor: #1e2127,
   )
 );
 

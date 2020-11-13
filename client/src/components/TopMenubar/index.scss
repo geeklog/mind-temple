@@ -1,0 +1,14 @@
+.menu {
+  margin: 10px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-icon {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  margin: 0 5px;
+  cursor: pointer;
+}

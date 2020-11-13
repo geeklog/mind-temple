@@ -1,0 +1,7 @@
+@import '../../styles/theme.scss';
+
+.sidebar {
+  @include themed('background', 'sidebarBackground');
+  width: 200px;
+  padding: 10px;
+}

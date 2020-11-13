@@ -1,13 +1,14 @@
 import React from 'react';
-import './styles/App.scss';
-import FilePreviewGridLayout from './components/layouts/FilePreviewGridLayout';
-import FilePreviewListLayout from './components/layouts/FilePreviewListLayout';
-import FilePreviewGalleryLayout from './components/layouts/FilePreviewGalleryLayout';
-import TopMenubar from './components/TopMenubar';
-import FileContextMenu from './components/layouts/FileContextMenu';
-import { AppProps, connectAppControl } from './models/app';
-import { LayoutMode } from './models/layout';
+import './index.scss';
+import FilePreviewGridLayout from '../layouts/FilePreviewGridLayout';
+import FilePreviewListLayout from '../layouts/FilePreviewListLayout';
+import FilePreviewGalleryLayout from '../layouts/FilePreviewGalleryLayout';
+import TopMenubar from '../TopMenubar';
+import FileContextMenu from '../layouts/FileContextMenu';
+import { AppProps, connectAppControl } from '../../models/app';
+import { LayoutMode } from '../../models/layout';
 // import { watchPropORStateChanges } from './debug';
+import Sidebar from '../Sidebar/index';
 
 class App extends React.PureComponent<AppProps> {
 
@@ -55,9 +56,12 @@ class App extends React.PureComponent<AppProps> {
 
   render() {
     return (
-      <div className="main">
-        <TopMenubar />
-        {this.renderMain()}
+      <div className="app">
+        <Sidebar />
+        <main className="main">
+          <TopMenubar />
+          {this.renderMain()}
+        </main>
         <FileContextMenu />
       </div>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 import { FileDesc, ImageDesc } from '../../models/file';
 import * as service from '../../services/fileService';
 import classes from 'classnames';
-import Icon from '../controls/Icon';
+import FolderIcon from '../controls/FolderIcon';
 
 interface Props {
   size: number;
@@ -39,10 +39,7 @@ export default class Thumb extends React.PureComponent<Props> {
         title={file.name}
       >
         {isDirectory &&
-          <Icon
-            name="folder"
-            className="svg-icon"
-          />
+          <FolderIcon size={type === 'grid' ? 'medium' : 'small' }/>
         }
         {isImage &&
           <img
