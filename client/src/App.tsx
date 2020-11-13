@@ -1,13 +1,13 @@
 import React from 'react';
 import './styles/App.scss';
-import FilePreviewGridLayout from './components/FilePreviewGridLayout';
-import FilePreviewListLayout from './components/FilePreviewListLayout';
-import FilePreviewGalleryLayout from './components/FilePreviewGalleryLayout';
+import FilePreviewGridLayout from './components/layouts/FilePreviewGridLayout';
+import FilePreviewListLayout from './components/layouts/FilePreviewListLayout';
+import FilePreviewGalleryLayout from './components/layouts/FilePreviewGalleryLayout';
 import TopMenubar from './components/TopMenubar';
-import FileContextMenu from './components/FileContextMenu';
-// import { watchPropORStateChanges } from './debug';
+import FileContextMenu from './components/layouts/FileContextMenu';
 import { AppProps, connectAppControl } from './models/app';
 import { LayoutMode } from './models/layout';
+// import { watchPropORStateChanges } from './debug';
 
 class App extends React.PureComponent<AppProps> {
 

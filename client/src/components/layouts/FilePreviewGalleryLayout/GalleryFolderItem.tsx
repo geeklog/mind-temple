@@ -1,9 +1,9 @@
 import React from 'react';
-import { FileDesc } from '../../models/file';
-import Icon from '../controls/Icon';
+import { FileDesc } from '../../../models/file';
+import Icon from '../../controls/Icon';
 import GallerySubGridItem from './GallerySubGridItem';
-import { AppProps, connectAppControl } from '../../models/app';
-import { blockWheelWithin } from '../../utils/domUtils';
+import { AppProps, connectAppControl } from '../../../models/app';
+import { blockWheelWithin } from '../../../utils/domUtils';
 
 interface Props extends AppProps {
   file: FileDesc;

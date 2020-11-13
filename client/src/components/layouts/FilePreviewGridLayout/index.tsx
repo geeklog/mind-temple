@@ -1,8 +1,8 @@
 import React from 'react';
 import FilePreviewGridItem from './FilePreviewGridItem';
 import './index.scss';
-import { AppProps, connectAppControl } from '../../models/app';
-import { FileDesc } from '../../models/file';
+import { AppProps, connectAppControl } from '../../../models/app';
+import { FileDesc } from '../../../models/file';
 
 class FilePreviewGridLayout extends React.PureComponent<AppProps> {
 

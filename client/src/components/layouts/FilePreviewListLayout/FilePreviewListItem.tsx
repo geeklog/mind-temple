@@ -1,35 +1,27 @@
 import React, { PureComponent } from 'react';
-import { FileDesc } from '../../models/file';
 import classnames from 'classnames';
 import Thumb from '../Thumb';
-import { AppProps, connectAppControl } from '../../models/app';
+import { FileItemProps } from '../type';
 
-interface Props extends AppProps {
-  file: FileDesc;
-  selected: boolean;
-  index: number;
-}
-
-class FilePreviewListItem extends PureComponent<Props> {
+export default class FilePreviewListItem extends PureComponent<FileItemProps> {
 
   onContextMenu = (event: any) => {
     event.preventDefault();
     event.stopPropagation();
-    const {files, currIndex, toggleFileContextMenu} = this.props;
-    const file = files[currIndex];
+    const {file, index, onContextMenu} = this.props;
     const x = event.pageX;
     const y = event.pageY;
-    toggleFileContextMenu({visible: true, x, y, file});
+    onContextMenu({visible: true, x, y, index, file});
   }
 
   onClick = () => {
-    const {index, setCurrIndex} = this.props;
-    setCurrIndex(index);
+    const {index, file} = this.props;
+    this.props.onClick(index, file);
   }
 
   onDoubleClick = () => {
-    const {file, open} = this.props;
-    open(file);
+    const {index, file} = this.props;
+    this.props.onDoubleClick(index, file);
   }
 
   render() {
@@ -55,5 +47,3 @@ class FilePreviewListItem extends PureComponent<Props> {
     );
   }
 }
-
-export default connectAppControl(FilePreviewListItem);

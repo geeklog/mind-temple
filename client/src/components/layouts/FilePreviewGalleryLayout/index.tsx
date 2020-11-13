@@ -1,12 +1,12 @@
 import React from 'react';
 import './index.scss';
-import * as service from '../../services/fileService';
+import * as service from '../../../services/fileService';
 import classes from 'classnames';
 import GalleryFolderItem from './GalleryFolderItem';
-import PlainTextEditor from '../editors/PlainTextEditor';
-import MarkdownEditor from '../editors/MarkdownEditor';
-import { AppProps, connectAppControl } from '../../models/app';
-import { FileDesc } from '../../models/file';
+import PlainTextEditor from '../../editors/PlainTextEditor';
+import MarkdownEditor from '../../editors/MarkdownEditor';
+import { AppProps, connectAppControl } from '../../../models/app';
+import { FileDesc } from '../../../models/file';
 
 class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
 

@@ -4,8 +4,9 @@
   margin: 40px auto 0 auto;
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: stretch;
   .column {
+    flex: 1;
     &:not(:last-child) {
       border-right: 1px solid black;
     }

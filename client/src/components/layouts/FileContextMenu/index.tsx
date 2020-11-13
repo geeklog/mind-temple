@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import Icon from '../controls/Icon';
-import './index.scss';
 import classnames from 'classnames';
-import { connectAppControl, AppProps } from '../../models/app';
+import Icon from '../../controls/Icon';
+import { connectAppControl, AppProps } from '../../../models/app';
+import './index.scss';
 
 type LiMouseEvent = React.MouseEvent<HTMLLIElement, MouseEvent>;
 
@@ -29,7 +29,7 @@ class FileContextMenu extends PureComponent<AppProps> {
   }
 
   download = (event: LiMouseEvent) => {
-
+    //
   }
 
   componentDidMount() {

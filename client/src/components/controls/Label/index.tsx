@@ -5,16 +5,18 @@ import './index.scss';
 interface Props {
   text: string;
   className?: string;
+  selected?: boolean;
 }
 
 export default class Label extends PureComponent<Props> {
   render() {
-    const {text, className} = this.props;
+    const {text, className, selected} = this.props;
     return (
       <span
         className={classnames(
           'label',
-          className
+          className,
+          selected ? 'selected' : ''
         )}
       >
         {text}

@@ -1,8 +1,8 @@
 import React from 'react';
-import { FileDesc, ImageDesc } from '../models/file';
-import * as service from '../services/fileService';
+import { FileDesc, ImageDesc } from '../../models/file';
+import * as service from '../../services/fileService';
 import classes from 'classnames';
-import Icon from './controls/Icon';
+import Icon from '../controls/Icon';
 
 interface Props {
   size: number;

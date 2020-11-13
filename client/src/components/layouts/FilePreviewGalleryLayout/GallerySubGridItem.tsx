@@ -1,9 +1,9 @@
 import React from 'react';
 import classnames from 'classnames';
-import { FileDesc, ImageDesc } from '../../models/file';
-import * as service from '../../services/fileService';
-import Icon from '../controls/Icon';
-import { AppProps, connectAppControl } from '../../models/app';
+import { FileDesc, ImageDesc } from '../../../models/file';
+import * as service from '../../../services/fileService';
+import Icon from '../../controls/Icon';
+import { AppProps, connectAppControl } from '../../../models/app';
 
 interface Props extends AppProps {
   index: number;

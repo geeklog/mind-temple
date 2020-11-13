@@ -1,9 +1,10 @@
 import React from 'react';
 import './index.scss';
 import FilePreviewListItem from './FilePreviewListItem';
-import { AppProps, connectAppControl } from '../../models/app';
-import Label from '../controls/Label';
-import ToggleButton from '../controls/ToggleButton';
+import { AppProps, connectAppControl } from '../../../models/app';
+import Label from '../../controls/Label';
+import ToggleButton from '../../controls/ToggleButton';
+import prettyBytes from 'pretty-bytes';
 
 class Header extends React.PureComponent<{
   name: string,
@@ -28,6 +29,7 @@ class Header extends React.PureComponent<{
 }
 
 class FilePreviewListLayout extends React.PureComponent<AppProps> {
+
   onSortByName =  (asc: boolean) => {
     this.props.updateCurrFolder({ sortBy: 'name' });
   }
@@ -70,6 +72,7 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
             <Label
               key={i}
               className="cell"
+              selected={currIndex === i}
               text={`${file.mtime}`}
             />
           )}
@@ -84,7 +87,8 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
             <Label
               key={i}
               className="cell"
-              text={`${file.size}`
+              selected={currIndex === i}
+              text={`${prettyBytes(file.size || 0)}`
             }/>
           )}
         </div>
