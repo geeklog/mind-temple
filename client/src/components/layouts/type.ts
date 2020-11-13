@@ -4,8 +4,8 @@ export interface FileItemProps {
   file: FileDesc;
   selected: boolean;
   index: number;
-  onClick?: (index: number, file: FileDesc) => void;
-  onDoubleClick?: (index: number, file: FileDesc) => void;
+  onClick?: (file: FileDesc, index: number) => void;
+  onDoubleClick?: (file: FileDesc, index: number) => void;
   onContextMenu?: (options: ContextMenuOptions) => void;
 }
 

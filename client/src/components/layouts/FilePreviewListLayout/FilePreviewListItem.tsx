@@ -15,13 +15,13 @@ export default class FilePreviewListItem extends PureComponent<FileItemProps> {
   }
 
   onClick = () => {
-    const {index, file} = this.props;
-    this.props.onClick(index, file);
+    const {file, index} = this.props;
+    this.props.onClick(file, index);
   }
 
   onDoubleClick = () => {
-    const {index, file} = this.props;
-    this.props.onDoubleClick(index, file);
+    const {file, index} = this.props;
+    this.props.onDoubleClick(file, index);
   }
 
   render() {

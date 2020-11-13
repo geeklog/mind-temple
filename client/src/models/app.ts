@@ -152,7 +152,10 @@ export const app = createModel<RootModel>()({
       let {files, currIndex} = state.folders[state.currPath];
       const showingFiles = filterHiddenFiles(files, showHiddenFiles);
       currIndex = ensureIndexRange(showingFiles, currIndex);
-      return updateCurrFolder(state, { currIndex });
+      return {
+        ...updateCurrFolder(state, { currIndex }),
+        showHiddenFiles
+      };
     },
     toggleFileContextMenu: (
       state: AppState,

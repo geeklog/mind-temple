@@ -6,15 +6,15 @@ import { FileDesc } from '../../../models/file';
 
 class FilePreviewGridLayout extends React.PureComponent<AppProps> {
 
-  onGridItemClick =  (file: FileDesc, index: number) => {
+  onItemClick =  (file: FileDesc, index: number) => {
     this.props.setCurrIndex(index);
   }
 
-  onGridItemDoubleClick =  (file: FileDesc, index: number) => {
+  onItemDoubleClick =  (file: FileDesc, index: number) => {
     this.props.open(file);
   }
 
-  onGridItemContextMenu = (options: {
+  onItemContextMenu = (options: {
     visible: boolean; x: number; y: number; index: number; file: FileDesc;
   }) => {
     this.props.toggleFileContextMenu(options);
@@ -30,9 +30,9 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
             key={i}
             file={file}
             selected={i === currIndex}
-            onClick={this.onGridItemClick}
-            onDoubleClick={this.onGridItemDoubleClick}
-            onContextMenu={this.onGridItemContextMenu}
+            onClick={this.onItemClick}
+            onDoubleClick={this.onItemDoubleClick}
+            onContextMenu={this.onItemContextMenu}
           />
         )}
       </div>

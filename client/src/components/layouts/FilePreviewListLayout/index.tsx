@@ -5,6 +5,7 @@ import { AppProps, connectAppControl } from '../../../models/app';
 import Label from '../../controls/Label';
 import ToggleButton from '../../controls/ToggleButton';
 import prettyBytes from 'pretty-bytes';
+import { FileDesc } from '../../../models/file';
 
 class Header extends React.PureComponent<{
   name: string,
@@ -29,6 +30,20 @@ class Header extends React.PureComponent<{
 }
 
 class FilePreviewListLayout extends React.PureComponent<AppProps> {
+
+  onItemClick =  (file: FileDesc, index: number) => {
+    this.props.setCurrIndex(index);
+  }
+
+  onItemDoubleClick =  (file: FileDesc, index: number) => {
+    this.props.open(file);
+  }
+
+  onItemContextMenu = (options: {
+    visible: boolean; x: number; y: number; index: number; file: FileDesc;
+  }) => {
+    this.props.toggleFileContextMenu(options);
+  }
 
   onSortByName =  (asc: boolean) => {
     this.props.updateCurrFolder({ sortBy: 'name' });
@@ -59,6 +74,9 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
               file={file}
               index={i}
               selected={currIndex === i}
+              onClick={this.onItemClick}
+              onDoubleClick={this.onItemDoubleClick}
+              onContextMenu={this.onItemContextMenu}
             />
           )}
         </div>

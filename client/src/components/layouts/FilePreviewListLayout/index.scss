@@ -7,6 +7,9 @@
   justify-content: stretch;
   .column {
     flex: 1;
+    &:first-child {
+      flex: 2;
+    }
     &:not(:last-child) {
       border-right: 1px solid black;
     }
