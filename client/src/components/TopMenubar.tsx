@@ -10,6 +10,17 @@ class TopMenubar extends React.PureComponent<AppProps> {
     this.props.browse(currPath);
   }
 
+  toggleNightMode = (b: boolean) => {
+    document.documentElement.className = '';
+    document.documentElement.classList.add(`theme-${b ? 'light' : 'dark'}`);
+    this.props.setTheme(b ? 'light' : 'dark');
+  }
+
+  componentDidMount() {
+    document.documentElement.className = '';
+    document.documentElement.classList.add(`theme-${this.props.theme}`);
+  }
+
   render() {
     const { currPath, showHiddenFiles, setLayoutMode, toggleHiddenFiles } = this.props;
     return (
@@ -27,6 +38,11 @@ class TopMenubar extends React.PureComponent<AppProps> {
           on={showHiddenFiles}
           btns={['eye-off', 'eye']}
           onToggle={toggleHiddenFiles}
+        />
+        <ToggleButton
+          on={this.props.theme === 'light'}
+          btns={['moon', 'sun']}
+          onToggle={this.toggleNightMode}
         />
       </div>
     );

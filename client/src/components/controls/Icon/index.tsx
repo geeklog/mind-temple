@@ -1,4 +1,5 @@
 import React from 'react';
+import './index.scss';
 
 interface Props {
   name: string;
@@ -13,6 +14,6 @@ export default class Icon extends React.PureComponent<Props> {
       <svg className={`icon icon-${name} ${className || ''}`} onClick={onClick}>
         <use xlinkHref={`icons.svg#icon-${name}`}></use>
       </svg>
-    )
+    );
   }
 }

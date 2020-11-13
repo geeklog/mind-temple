@@ -1,11 +1,15 @@
+@import "./theme.scss";
+
 body {
+  background-color: #161B1F;
+  @include themed('background-color', 'background');
+  @include themed('color', 'textColor');
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #282c34;
   --color-pink: #AE4951;
   --color-chameisee: #B98D72;
   --color-wineberry: #57233A;

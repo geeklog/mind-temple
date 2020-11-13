@@ -1,7 +1,4 @@
 .files-layout-gallery {
-  .icon {
-    fill: white;
-  }
   .slide {
     align-self: stretch;
     display: flex;
@@ -19,7 +16,6 @@
       .icon {
         width: 50px;
         height: 50px;
-        fill: white;
       }
     }
     .thumb {
@@ -83,7 +79,6 @@
           width: 35px;
         }
         > .file-name {
-          color: white;
           font-size: 10px;
           width: 60px;
           margin-top: 8px;
@@ -95,14 +90,12 @@
       }
     }
     > .file-name {
-      color: white;
       padding-top: 10px;
       display: flex;
       align-items: center;
       > .icon {
         width: 20px;
         height: 20px;
-        fill: white;
         margin-right: 5px;
       }
     }

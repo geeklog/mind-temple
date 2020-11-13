@@ -20,13 +20,8 @@
   display: inline-block;
   width: 25px;
   height: 25px;
-  fill: white;
   margin: 0 5px;
   cursor: pointer;
-}
-
-svg.thumb {
-  fill: white;
 }
 
 .error-msg {
@@ -35,6 +30,5 @@ svg.thumb {
   font-size: 30px;
   flex-direction: column;
   justify-content: center;
-  color: white;
   text-align: center;
 }

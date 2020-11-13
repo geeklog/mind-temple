@@ -35,6 +35,7 @@ interface FolderDesc {
 interface AppState {
   folders: {[path: string]: FolderDesc};
   currPath: string;
+  theme: string;
   showHiddenFiles: boolean;
   fileContextMenu: ContextMenuProps;
 }
@@ -91,6 +92,7 @@ function updateCurrFolder(state: AppState, folder: Partial<FolderDesc>) {
 
 export const app = createModel<RootModel>()({
   state: {
+    theme: 'light',
     currPath: '~/Downloads/imgs',
     folders: {
       '~/Downloads/imgs': {
@@ -111,6 +113,12 @@ export const app = createModel<RootModel>()({
   reducers: {
     updateFolder,
     updateCurrFolder,
+    setTheme: (state: AppState, theme: string) => {
+      return {
+        ...state,
+        theme
+      };
+    },
     openInServer: (state: AppState, file: FileDesc) => {
       remote.command('open', file.path);
       return state;
@@ -240,6 +248,7 @@ const mapAppState = (state: RootState) => {
       }
     })(),
     currPath: state.app.currPath,
+    theme: state.app.theme,
     currError: state.app.folders[state.app.currPath].error,
     getFolder: (path: string) => state.app.folders[path],
     showHiddenFiles: state.app.showHiddenFiles,
@@ -254,6 +263,7 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
   selectNext: dispatch.app.selectNext,
   setCurrIndex: (currIndex: number) => dispatch.app.updateCurrFolder({currIndex}),
   setLayoutMode: (layoutMode: string) => dispatch.app.updateCurrFolder({layoutMode}),
+  setTheme: (theme: string) => dispatch.app.setTheme(theme),
   updateFolder: dispatch.app.updateFolder,
   updateCurrFolder: dispatch.app.updateCurrFolder,
   sortCurrFolder: (sortBy: string, order: string) => {

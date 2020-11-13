@@ -34,7 +34,6 @@
       display: flex;
       cursor: pointer;
       list-style: none;
-      color: white;
       align-items: center;
       &:nth-child(odd) {
         background-color: #80808014;
@@ -69,7 +68,6 @@
           width: 25px;
         }
         .icon {
-          fill: white;
           height: 90%;
         }
       }
