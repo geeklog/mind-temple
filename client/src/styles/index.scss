@@ -1,5 +1,10 @@
 @import "./theme.scss";
 
+html {
+  --scrollbarBG: transparent;
+  --thumbBG: rgb(195,195,195,.3);
+}
+
 body {
   background-color: #161B1F;
   @include themed('background-color', 'background');
@@ -26,4 +31,20 @@ code {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+*::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG) ;
+  border-radius: 100px;
+  border: 3px solid var(--scrollbarBG);
 }

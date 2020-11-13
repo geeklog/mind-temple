@@ -60,7 +60,9 @@ class App extends React.PureComponent<AppProps> {
         <Sidebar />
         <main className="main">
           <TopMenubar />
-          {this.renderMain()}
+          <div className="container">
+            {this.renderMain()}
+          </div>
         </main>
         <FileContextMenu />
       </div>

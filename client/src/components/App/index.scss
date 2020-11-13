@@ -6,12 +6,19 @@
 }
 
 .main {
+  position: relative;
   border: none;
   width: 100%;
-  padding: 0 40px;
   @include themed('box-shadow', 'mainShadow');
-  overflow-y: auto;
   height: 100%;
+}
+
+.container {
+  overflow-y: auto;
+  padding: 0 40px;
+  width: 100%;
+  margin-top: 50px;
+  height: calc(100vh - 50px);
 }
 
 .error-msg {
