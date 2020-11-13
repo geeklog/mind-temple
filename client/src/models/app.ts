@@ -24,7 +24,9 @@ interface FolderDesc {
   layoutMode: string;
   prevLayoutMode: string;
   currIndex: number;
-  sortBy: string;
+  sortByName?: string;
+  sortByTime?: string;
+  sortBySize?: string;
   files: FileDesc[];
   path: string;
   error: string;
@@ -80,7 +82,7 @@ function updateCurrFolder(state: AppState, folder: Partial<FolderDesc>) {
     layoutMode: 'grid',
     prevLayoutMode: 'grid',
     currIndex: 0,
-    sortBy: 'name',
+    sortByName: 'asc',
     files: [],
     error: ''
   }) as FolderDesc;
@@ -225,7 +227,18 @@ const mapAppState = (state: RootState) => {
     prevLayoutMode: state.app.folders[state.app.currPath].prevLayoutMode,
     layoutMode: state.app.folders[state.app.currPath].layoutMode,
     currIndex: state.app.folders[state.app.currPath].currIndex,
-    currSortBy: state.app.folders[state.app.currPath].sortBy || 'name',
+    currSort: (() => {
+      const {sortByName, sortBySize, sortByTime} = state.app.folders[state.app.currPath];
+      if (sortByName) {
+        return {name: sortByName};
+      }
+      if (sortBySize) {
+        return {size: sortBySize};
+      }
+      if (sortByTime) {
+        return {time: sortByTime};
+      }
+    })(),
     currPath: state.app.currPath,
     currError: state.app.folders[state.app.currPath].error,
     getFolder: (path: string) => state.app.folders[path],
@@ -243,6 +256,27 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
   setLayoutMode: (layoutMode: string) => dispatch.app.updateCurrFolder({layoutMode}),
   updateFolder: dispatch.app.updateFolder,
   updateCurrFolder: dispatch.app.updateCurrFolder,
+  sortCurrFolder: (sortBy: string, order: string) => {
+    if (sortBy === 'name') {
+      dispatch.app.updateCurrFolder({
+        sortByName: order,
+        sortBySize: null,
+        sortByTime: null
+      });
+    } else if (sortBy === 'size') {
+      dispatch.app.updateCurrFolder({
+        sortByName: null,
+        sortBySize: order,
+        sortByTime: null
+      });
+    } else if (sortBy === 'time') {
+      dispatch.app.updateCurrFolder({
+        sortByName: null,
+        sortBySize: null,
+        sortByTime: order
+      });
+    }
+  },
   browse: (path?: string) => dispatch.app.browse(path),
   open: dispatch.app.open,
   trash: dispatch.app.trash,

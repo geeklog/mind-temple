@@ -63,7 +63,7 @@ class App extends React.PureComponent<AppProps> {
   }
 
   renderMain() {
-    const {currError, layoutMode, showingFiles, currPath} = this.props;
+    const {currError, layoutMode, showingFiles} = this.props;
     if (currError) {
       return (
         <div className="error-msg">

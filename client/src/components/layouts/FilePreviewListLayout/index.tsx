@@ -6,14 +6,24 @@ import Label from '../../controls/Label';
 import ToggleButton from '../../controls/ToggleButton';
 import prettyBytes from 'pretty-bytes';
 import { FileDesc } from '../../../models/file';
+import { cmp } from 'mikov';
+import { format } from 'date-fns';
 
 class Header extends React.PureComponent<{
   name: string,
-  asc: boolean,
-  onSort: (asc: boolean) => void
+  asc: string,
+  onSort: (asc: string) => void
 }> {
+
+  state = {asc: false};
+
+  onToggle = (b: boolean) => {
+    this.setState({asc: b});
+    this.props.onSort(b ? 'asc' : 'desc');
+  }
+
   render() {
-    const {name, asc, onSort} = this.props;
+    const {name, asc} = this.props;
     return (
       <div className="header">
         <Label
@@ -21,8 +31,8 @@ class Header extends React.PureComponent<{
         />
         <ToggleButton
           btns={['chevron-down', 'chevron-up']}
-          on={asc}
-          onToggle={onSort}
+          on={(asc !== undefined) ? (asc === 'asc') : (this.state.asc)}
+          onToggle={this.onToggle}
         />
       </div>
     );
@@ -45,32 +55,49 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
     this.props.toggleFileContextMenu(options);
   }
 
-  onSortByName =  (asc: boolean) => {
-    this.props.updateCurrFolder({ sortBy: 'name' });
+  onSortByName =  (order: string) => {
+    this.props.sortCurrFolder('name', order);
   }
 
-  onSortByTime =  (asc: boolean) => {
-    this.props.updateCurrFolder({ sortBy: 'time' });
+  onSortByTime =  (order: string) => {
+    this.props.sortCurrFolder('time', order);
   }
 
-  onSortBySize =  (asc: boolean) => {
-    this.props.updateCurrFolder({ sortBy: 'size' });
+  onSortBySize =  (order: string) => {
+    this.props.sortCurrFolder('size', order);
   }
 
   render() {
-    const {showingFiles, currIndex, currSortBy} = this.props;
+    const {showingFiles, currIndex, currSort} = this.props;
+
+    let files = showingFiles;
+    if (currSort.name) {
+      files = showingFiles.sort((f1, f2) => {
+        return (currSort.name === 'asc' ? 1 : -1) * f1.name.localeCompare(f2.name);
+      });
+    }
+    if (currSort.size) {
+      files = showingFiles.sort((f1, f2) => {
+        return (currSort.size === 'asc' ? 1 : -1) * cmp(f1.size, f2.size);
+      });
+    }
+    if (currSort.time) {
+      files = showingFiles.sort((f1, f2) => {
+        return (currSort.time === 'asc' ? 1 : -1) * cmp(new Date(f1.mtime).getTime(), new Date(f2.mtime).getTime());
+      });
+    }
 
     return (
       <div className="files-layout-list">
         <div className="column">
           <Header
             name="Name"
-            asc={currSortBy === 'name'}
+            asc={currSort.name}
             onSort={this.onSortByName}
           />
-          {showingFiles.map((file, i) =>
+          {files.map((file, i) =>
             <FilePreviewListItem
-              key={i}
+              key={file.path}
               file={file}
               index={i}
               selected={currIndex === i}
@@ -82,26 +109,26 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
         </div>
         <div className="column">
           <Header
-            name="Time"
-            asc={currSortBy === 'time'}
+            name="Modified Time"
+            asc={currSort.time}
             onSort={this.onSortByTime}
           />
-          {showingFiles.map((file, i) =>
+          {files.map((file, i) =>
             <Label
               key={i}
               className="cell"
               selected={currIndex === i}
-              text={`${file.mtime}`}
+              text={`${format(new Date(file.mtime), 'yyyy-MM-dd HH:mm:ss')}`}
             />
           )}
         </div>
         <div className="column">
           <Header
             name="Size"
-            asc={currSortBy === 'size'}
+            asc={currSort.size}
             onSort={this.onSortBySize}
           />
-          {showingFiles.map((file, i) =>
+          {files.map((file, i) =>
             <Label
               key={i}
               className="cell"

@@ -11,3 +11,7 @@ export function watchPropORStateChanges(componentLabel: string, prevProps: any, 
     }
   }
 }
+
+// componentWillUpdate(prevProps: any, prevState: any) {
+//   watchPropORStateChanges('App', prevProps, prevState, this.props, this.state);
+// }
