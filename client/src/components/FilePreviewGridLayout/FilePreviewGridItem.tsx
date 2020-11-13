@@ -2,7 +2,6 @@ import React from 'react';
 import classnames from 'classnames';
 import { FileDesc } from '../../models/file';
 import Thumb from '../Thumb';
-import deepEqual from 'deep-equal';
 
 interface Props {
   index: number;
@@ -13,11 +12,7 @@ interface Props {
   onContextMenu: (options: {visible: boolean, x: number, y: number, index: number, file: FileDesc}) => void;
 }
 
-export default class FilePreviewGridItem extends React.Component<Props> {
-
-  shouldComponentUpdate(prevProps: Props) {
-    return !deepEqual(prevProps, this.props);
-  }
+export default class FilePreviewGridItem extends React.PureComponent<Props> {
 
   onClick = (event?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const {file, index} = this.props;

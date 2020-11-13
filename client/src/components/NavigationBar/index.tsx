@@ -4,12 +4,17 @@ import PathIndicator from './PathIndicator';
 import './index.scss';
 import classnames from 'classnames';
 
+interface Props {
+  currPath: string;
+  onPathChanged: (currPath: string) => void;
+}
+
 interface State {
   longestPath: string;
   editMode: boolean;
 }
 
-class NavigationBar extends React.Component<Partial<AppProps>, State> {
+class NavigationBar extends React.Component<Partial<Props>, State> {
 
   state = {
     longestPath : '',
@@ -37,7 +42,7 @@ class NavigationBar extends React.Component<Partial<AppProps>, State> {
   }
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.browse(event.target.value);
+    this.props.onPathChanged(event.target.value);
   }
 
   onInputBlur = () => {
@@ -52,7 +57,7 @@ class NavigationBar extends React.Component<Partial<AppProps>, State> {
   onPathClick = (index: number) => {
     let {longestPath} = this.state;
     longestPath = explode(longestPath, '/').slice(0, index + 1).join('');
-    this.props.browse(longestPath);
+    this.props.onPathChanged(longestPath);
   }
 
   onWheel = (event: any) => {

@@ -66,7 +66,6 @@ function updateFolder(state: AppState, folder: Partial<FolderDesc>) {
     files: [],
     error: ''
   }) as FolderDesc;
-  console.log('updateFolder', state);
   return {...state};
 }
 
@@ -85,7 +84,6 @@ function updateCurrFolder(state: AppState, folder: Partial<FolderDesc>) {
     files: [],
     error: ''
   }) as FolderDesc;
-  console.log('updateCurrFolder', state);
   return {...state};
 }
 
@@ -178,10 +176,15 @@ export const app = createModel<RootModel>()({
     const { app } = dispatch;
     return {
       async browse(currPath: string, state: ExtractRematchStateFromModels<RootModel>): Promise<void> {
+        if (currPath === state.app.currPath) {
+          return;
+        }
         currPath = currPath || state.app.currPath;
         const showHiddenFiles = state.app.showHiddenFiles;
         app.updateFolder({path: currPath});
+        console.log('browse---1', currPath);
         const res: BrowseResponse = await remote.browse(currPath);
+        console.log('browse---2', currPath);
         const changed: Partial<FolderDesc> = {};
         changed.path = currPath;
         if (res.ok) {

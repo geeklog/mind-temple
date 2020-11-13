@@ -1,7 +1,6 @@
 import React from 'react';
 import { LayoutMode } from '../../models/layout';
 import Icon from './Icon';
-import deepEquals from 'deep-equal';
 
 interface Props {
   btns: string[];
@@ -9,11 +8,7 @@ interface Props {
   onSelected: (selected: LayoutMode) => void;
 }
 
-class MenuButtonGroup extends React.Component<Props> {
-
-  shouldComponentUpdate(prevProps: Props, prevState) {
-    return !deepEquals(prevProps, this.props);
-  }
+class MenuButtonGroup extends React.PureComponent<Props> {
 
   render() {
     const {btns, choices, onSelected} = this.props;
