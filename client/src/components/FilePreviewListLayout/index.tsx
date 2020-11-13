@@ -68,6 +68,7 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
           />
           {showingFiles.map((file, i) =>
             <Label
+              key={i}
               className="cell"
               text={`${file.mtime}`}
             />
@@ -81,6 +82,7 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
           />
           {showingFiles.map((file, i) =>
             <Label
+              key={i}
               className="cell"
               text={`${file.size}`
             }/>
