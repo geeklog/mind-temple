@@ -118,7 +118,7 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
               key={i}
               className="cell"
               selected={currIndex === i}
-              text={`${format(new Date(file.mtime), 'yyyy-MM-dd HH:mm:ss')}`}
+              text={`${file.mtime ? format(new Date(file.mtime), 'yyyy-MM-dd HH:mm:ss') : '~'}`}
             />
           )}
         </div>

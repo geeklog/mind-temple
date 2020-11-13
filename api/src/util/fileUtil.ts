@@ -69,8 +69,8 @@ export async function describeFile(fpath: string, deep = 2) {
       const meta = await image.metadata();
       width = meta.width;
       height = meta.height;
-      broken = true;
     } catch (error) {
+      broken = true;
       console.log('Error when load image meta:', fpath, error);
     }
   }

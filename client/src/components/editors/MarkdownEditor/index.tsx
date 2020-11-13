@@ -4,7 +4,7 @@ import { FileDesc } from '../../../models/file';
 import * as remote from '../../../services/fileService';
 import './index.scss';
 import { blockWheelWithin, encodeHTMLEntities } from '../../../utils/domUtils';
-import DropdownMenu from '../../DropdownMenu';
+import DropdownMenu from '../../controls/DropdownMenu';
 import classnames from 'classnames';
 import ToggleButton from '../../controls/ToggleButton';
 import Button from '../../controls/Button';

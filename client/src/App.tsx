@@ -41,6 +41,7 @@ class App extends React.PureComponent<AppProps> {
   }
 
   componentDidMount() {
+    this.props.browse();
     document.addEventListener('keydown', this.onKeyDown);
   }
 
