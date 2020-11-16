@@ -110,10 +110,12 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
           <div className="column">
             {files.map((file, i) =>
               <FilePreviewListItem
+                className="fname"
                 key={file.path}
                 file={file}
                 index={i}
                 selected={currIndex === i}
+                text={file.name}
                 onClick={this.onItemClick}
                 onDoubleClick={this.onItemDoubleClick}
                 onContextMenu={this.onItemContextMenu}
@@ -122,22 +124,32 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
           </div>
           <div className="column">
             {files.map((file, i) =>
-              <Label
-                key={i}
-                className="cell date"
+              <FilePreviewListItem
+                className="date"
+                key={file.path}
+                file={file}
+                index={i}
                 selected={currIndex === i}
                 text={`${file.mtime ? format(new Date(file.mtime), 'yyyy-MM-dd HH:mm:ss') : '~'}`}
+                onClick={this.onItemClick}
+                onDoubleClick={this.onItemDoubleClick}
+                onContextMenu={this.onItemContextMenu}
               />
             )}
           </div>
           <div className="column">
             {files.map((file, i) =>
-              <Label
-                key={i}
-                className="cell size"
+              <FilePreviewListItem
+                className="size"
+                key={file.path}
+                file={file}
+                index={i}
                 selected={currIndex === i}
-                text={`${prettyBytes(file.size || 0)}`
-              }/>
+                text={`${prettyBytes(file.size || 0)}`}
+                onClick={this.onItemClick}
+                onDoubleClick={this.onItemDoubleClick}
+                onContextMenu={this.onItemContextMenu}
+              />
             )}
           </div>
         </div>

@@ -2,8 +2,15 @@ import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import Thumb from '../Thumb';
 import { FileItemProps } from '../type';
+import Label from '../../controls/Label/index';
 
-export default class FilePreviewListItem extends PureComponent<FileItemProps> {
+interface Props extends FileItemProps {
+  className?: string;
+  icon?: number;
+  text: string;
+}
+
+export default class FilePreviewListItem extends PureComponent<Props> {
 
   onContextMenu = (event: any) => {
     event.preventDefault();
@@ -25,24 +32,28 @@ export default class FilePreviewListItem extends PureComponent<FileItemProps> {
   }
 
   render() {
-    const {file, selected} = this.props;
+    const {file, selected, className, icon, text} = this.props;
     const selectedClassed = `${ selected ? 'selected' : ''}`;
     return (
       <li
-        className={classnames('cell', selectedClassed)}
+        className={classnames(
+          'cell',
+          className,
+          selectedClassed
+        )}
         onClick={this.onClick}
         onContextMenu={this.onContextMenu}
         onDoubleClick={this.onDoubleClick}
       >
-        <Thumb
-          type="list"
-          size={25}
-          selected={selected}
-          file={file}
-        />
-        <span>
-          {file.name}
-        </span>
+        {icon &&
+          <Thumb
+            type="list"
+            size={icon}
+            selected={selected}
+            file={file}
+          />
+        }
+        <Label text={text} />
       </li>
     );
   }
