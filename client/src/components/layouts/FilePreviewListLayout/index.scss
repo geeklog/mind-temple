@@ -65,6 +65,7 @@
         }
         &.selected {
           @include themed('background-color', 'selectedColor');
+          @include themed('color', 'selectedTextColor');
         }
         .thumb {
           margin-right: 10px;
