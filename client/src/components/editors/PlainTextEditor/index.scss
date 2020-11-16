@@ -1,6 +1,10 @@
 .plain-text-editor {
   background-color: white;
   color: black;
-  height: calc(100vh - 100px);
+  height: 100%;
+  width: 100%;
   padding: 10px;
+  font-family: "Roboto Mono No Space", "PingFang SC", Tahoma, Arial, "Microsoft YaHei", "微软雅黑", STXihei, "华文细黑" , SimSun, "宋体", Heiti, "黑体", sans-serif;
+  line-height: 30px;
+  outline: none;
 }

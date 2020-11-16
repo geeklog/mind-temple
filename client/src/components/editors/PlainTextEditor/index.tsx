@@ -13,14 +13,17 @@ interface State {
 
 export default class PlainTextEditor extends Component<Props, State> {
 
+  editor: HTMLDivElement;
   state = {
     text: ''
   };
 
   async componentDidMount() {
     console.log('PlainTextEditor.componentDidMount');
-    const text = await remote.text(this.props.file.path);
+    let text = await remote.text(this.props.file.path);
+    text = text.replace(/\n/g, '<br>');
     this.setState({text});
+    this.editor.innerHTML = text;
   }
 
   async componentDidUpdate(prevProps: Props) {
@@ -34,9 +37,11 @@ export default class PlainTextEditor extends Component<Props, State> {
 
   render() {
     return (
-      <div className="plain-text-editor" contentEditable="true">
-        {this.state.text}
-      </div>
+      <div
+      className="plain-text-editor"
+      contentEditable="true"
+      ref={ref => this.editor = ref}
+      />
     );
   }
 }
