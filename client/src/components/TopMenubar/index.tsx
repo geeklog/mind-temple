@@ -55,11 +55,13 @@ class TopMenubar extends React.PureComponent<AppProps> {
           on={showHiddenFiles}
           btns={['eye-off', 'eye']}
           onToggle={toggleHiddenFiles}
+          toggleOnMouseOver={true}
         />
         <ToggleButton
           on={this.props.theme === 'light'}
           btns={['moon', 'sun']}
           onToggle={this.toggleNightMode}
+          toggleOnMouseOver={true}
         />
       </div>
     );

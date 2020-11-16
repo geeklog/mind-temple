@@ -14,7 +14,6 @@ export default class Sidebar extends React.PureComponent<Props> {
           this.props.opened ? '' : 'hide'
         )}
       >
-        Sidebar
       </div>
     );
   }
