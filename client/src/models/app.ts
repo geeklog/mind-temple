@@ -39,6 +39,7 @@ interface History {
 }
 
 interface AppState {
+  sidebarOpened: boolean;
   folders: {[path: string]: FolderDesc};
   pathHistory: History;
   currPath: string;
@@ -131,6 +132,7 @@ function pushHistory({history, currIndex, maxLen}: History, path: string): Histo
 
 export const app = createModel<RootModel>()({
   state: {
+    sidebarOpened: true,
     theme: 'light',
     currPath: '~/Downloads/imgs',
     pathHistory: {
@@ -167,6 +169,12 @@ export const app = createModel<RootModel>()({
       return {
         ...state,
         theme
+      };
+    },
+    toggleSidebar: (state: AppState) => {
+      return {
+        ...state,
+        sidebarOpened: !state.sidebarOpened
       };
     },
     openInServer: (state: AppState, file: FileDesc) => {
@@ -313,6 +321,7 @@ const mapAppState = (state: RootState) => {
     folders,
     currPath,
     pathHistory,
+    sidebarOpened,
     theme,
     showHiddenFiles,
     fileContextMenu
@@ -329,6 +338,7 @@ const mapAppState = (state: RootState) => {
     theme,
     showHiddenFiles,
     fileContextMenu,
+    sidebarOpened,
     prevLayoutMode: currFolder.prevLayoutMode,
     layoutMode: currFolder.layoutMode,
     currIndex: currFolder.currIndex,
@@ -359,6 +369,7 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
   setCurrIndex: (currIndex: number) => dispatch.app.updateCurrFolder({currIndex}),
   setLayoutMode: (layoutMode: string) => dispatch.app.updateCurrFolder({layoutMode}),
   setTheme: (theme: string) => dispatch.app.setTheme(theme),
+  toggleSidebar: () => dispatch.app.toggleSidebar(),
   updateFolder: dispatch.app.updateFolder,
   updateCurrFolder: dispatch.app.updateCurrFolder,
   sortCurrFolder: (sortBy: string, order: string) => {

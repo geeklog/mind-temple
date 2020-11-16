@@ -4,4 +4,7 @@
   @include themed('background', 'sidebarBackground');
   width: 200px;
   padding: 10px;
+  &.hide {
+    display: none;
+  }
 }

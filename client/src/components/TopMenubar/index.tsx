@@ -27,13 +27,18 @@ class TopMenubar extends React.PureComponent<AppProps> {
     const { currPath, showHiddenFiles, setLayoutMode, toggleHiddenFiles } = this.props;
     return (
       <div className="menu">
+        <ToggleButton
+          on={this.props.sidebarOpened}
+          btns={['chevrons-right', 'chevrons-left']}
+          onToggle={this.props.toggleSidebar}
+        />
         <Button
-          icon="chevron-left"
+          icon="arrow-left"
           disabled={!this.props.canNavigateBackward}
           onClick={this.props.navigateBackward}
         />
         <Button
-          icon="chevron-right"
+          icon="arrow-right"
           disabled={!this.props.canNavigateForward}
           onClick={this.props.navigateForward}
         />

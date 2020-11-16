@@ -57,7 +57,9 @@ class App extends React.PureComponent<AppProps> {
   render() {
     return (
       <div className="app">
-        <Sidebar />
+        <Sidebar
+          opened={this.props.sidebarOpened}
+        />
         <main className="main">
           <TopMenubar />
           <div className="container">

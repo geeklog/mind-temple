@@ -1,10 +1,19 @@
 import React from 'react';
 import './index.scss';
+import classnames from 'classnames';
 
-export default class Sidebar extends React.Component {
+interface Props {
+  opened: boolean;
+}
+export default class Sidebar extends React.PureComponent<Props> {
   render() {
     return (
-      <div className="sidebar">
+      <div
+        className={classnames(
+          "sidebar",
+          this.props.opened ? '' : 'hide'
+        )}
+      >
         Sidebar
       </div>
     );
