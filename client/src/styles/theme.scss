@@ -13,7 +13,16 @@ $themes: (
     mainShadow: 20px 0px 83px #b5b5b5,
     navgationbarBorder: #282c34 solid 1px,
     selectedColor: #d6d6d6,
-    titlebarColor: #c4d5db
+    titlebarColor: #c4d5db,
+    stripEvenColor: #efefef,
+    stripOddColor: #f4f4f4,
+    stripBackground: repeating-linear-gradient(
+      to bottom,
+      #f4f4f4,
+      #f4f4f4 30px,
+      #efefef 30px,
+      #efefef 60px
+    )
   ),
   dark: (
     white: $white,
@@ -25,7 +34,16 @@ $themes: (
     mainShadow: 20px 0px 83px #191b21,
     navgationbarBorder: transparent solid 1px,
     selectedColor: #8f9091,
-    titlebarColor: #2b4149
+    titlebarColor: #2b4149,
+    stripEvenColor: #262931,
+    stripOddColor: #2f333a,
+    stripBackground: repeating-linear-gradient(
+      to bottom,
+      #2f333a,
+      #2f333a 30px,
+      #262931 30px,
+      #262931 60px
+    )
   )
 );
 

@@ -38,6 +38,7 @@
     justify-content: stretch;
     height: calc(100vh - #{$topbarHeight} - #{$header-height});
     overflow: auto;
+    @include themed('background', 'stripBackground');
     .column {
       flex: 1;
       &:first-child {
@@ -50,14 +51,16 @@
         cursor: pointer;
         list-style: none;
         align-items: center;
+        white-space: nowrap;
+        overflow: hidden;
         &.date, &.size {
           font-family: "Ubuntu Mono";
         }
         &:nth-child(odd) {
-          background-color: #80808014;
+          @include themed('background-color', 'stripOddColor');
         }
         &:nth-child(even) {
-          background-color: #0000000f;
+          @include themed('background-color', 'stripEvenColor');
         }
         &.selected {
           @include themed('background-color', 'selectedColor');
