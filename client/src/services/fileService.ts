@@ -1,6 +1,6 @@
 import { endsWith } from 'mikov/fn/op';
 import { apiServer } from '../config';
-import { FileDesc } from '../models/file';
+import { BrowseResponse, FileDesc } from '../models/file';
 import { dirname, joinPath } from '../utils/pathUtils';
 
 const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif'];
@@ -44,12 +44,6 @@ export function resolveExtension(ext: string) {
   return ext;
 }
 
-export interface BrowseResponse {
-  ok: 0 | 1;
-  message?: string;
-  files: FileDesc[];
-}
-
 export async function browse(currPath: string): Promise<BrowseResponse> {
   try {
     const res = await fetch(`${apiServer}/browse/${encodeURIComponent(currPath)}`);
@@ -59,7 +53,7 @@ export async function browse(currPath: string): Promise<BrowseResponse> {
     return {
       ok: 1,
       message: error.message,
-      files: []
+      file: null
     };
   }
 }

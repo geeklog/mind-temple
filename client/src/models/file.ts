@@ -1,3 +1,9 @@
+export interface BrowseResponse {
+  ok: 0 | 1;
+  message?: string;
+  file: FileDesc;
+}
+
 export interface FileDesc {
   type: 'file' | 'folder' | 'image' | 'text' | 'markdown';
   name: string;

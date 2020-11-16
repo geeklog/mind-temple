@@ -25,28 +25,24 @@ export default async (req, res) => {
   if (caches[currPath]) {
     return res.json({
       ok: 1,
-      files: caches[currPath]
+      file: caches[currPath]
     });
   }
 
   try {
-    console.log('gettingFolder', currPath);
-    const files = await Promise.all(
-      fs.readdirSync(currPath)
-        .map(fileName => describeFile(path.join(currPath, fileName)))
-    );
-    caches[currPath] = files;
+    console.log('gettingFile', currPath);
+    const file = await describeFile(currPath);
+    caches[currPath] = file;
     res.json({
       ok: 1,
-      files
+      file
     });
-
   } catch (error) {
     console.error('Error when browse:', currPath, error);
     res.json({
       ok: 0,
       message: 'Folder not found',
-      files: []
+      file: null
     });
   }
 };

@@ -1,17 +1,11 @@
 import { createModel, ExtractRematchStateFromModels } from '@rematch/core';
 import { Dispatch, RootState } from '../store';
-import { FileDesc } from './file';
+import { BrowseResponse, FileDesc } from './file';
 import { RootModel } from './index';
 import * as remote from '../services/fileService';
 import { between } from 'mikov';
 import { connect } from 'react-redux';
 import { defaultAttributes } from '../utils/util';
-
-interface BrowseResponse {
-  ok: 0 | 1;
-  message?: string;
-  files: FileDesc[];
-}
 
 export interface ContextMenuProps {
   file?: FileDesc;
@@ -24,10 +18,11 @@ interface FolderDesc {
   layoutMode: string;
   prevLayoutMode: string;
   currIndex: number;
+  selectIndices: number[];
   sortByName?: string;
   sortByTime?: string;
   sortBySize?: string;
-  files: FileDesc[];
+  file: FileDesc;
   path: string;
   error: string;
 }
@@ -47,6 +42,43 @@ interface AppState {
   showHiddenFiles: boolean;
   fileContextMenu: ContextMenuProps;
 }
+
+const defaultState = {
+  sidebarOpened: true,
+  theme: 'light',
+  currPath: '~/Downloads/imgs',
+  pathHistory: {
+    currIndex: 0,
+    history: [],
+    maxLen: 5
+  },
+  folders: {
+    '~/Downloads/imgs': {
+      path: '~/Downloads/imgs',
+      layoutMode: 'grid',
+      prevLayoutMode: 'grid',
+      currIndex: 0,
+      selectIndices: [],
+      sortBy: 'name',
+      file: {
+        type: 'folder',
+        name: 'imgs',
+        path: '~/Downloads/imgs',
+        ext: '',
+        subs: [],
+        atime: new Date(),
+        ctime: new Date(),
+        mtime: new Date(),
+        size: 0
+      },
+      error: ''
+    }
+  },
+  showHiddenFiles: true,
+  fileContextMenu: {
+    visible: false
+  }
+} as AppState;
 
 function filterHiddenFiles(files: FileDesc[], showHidden: boolean) {
   if (showHidden) {
@@ -131,31 +163,7 @@ function pushHistory({history, currIndex, maxLen}: History, path: string): Histo
 }
 
 export const app = createModel<RootModel>()({
-  state: {
-    sidebarOpened: true,
-    theme: 'light',
-    currPath: '~/Downloads/imgs',
-    pathHistory: {
-      currIndex: 0,
-      history: [],
-      maxLen: 5
-    },
-    folders: {
-      '~/Downloads/imgs': {
-        path: '~/Downloads/imgs',
-        layoutMode: 'grid',
-        prevLayoutMode: 'grid',
-        currIndex: 0,
-        sortBy: 'name',
-        files: [],
-        error: ''
-      }
-    },
-    showHiddenFiles: true,
-    fileContextMenu: {
-      visible: false
-    }
-  } as AppState,
+  state: defaultState,
   reducers: {
     updateFolder,
     updateCurrFolder,
@@ -191,21 +199,32 @@ export const app = createModel<RootModel>()({
     },
     selectPrev: (state: AppState) => {
       const folder = state.folders[state.currPath];
-      let {currIndex, files} = folder;
-      const showingFiles = filterHiddenFiles(files, state.showHiddenFiles);
-      currIndex = currIndex - 1;
+      let {currIndex, file} = folder;
+      if (!file || file.type !== 'folder') {
+        return state;
+      }
+      const showingFiles = filterHiddenFiles(file.subs, state.showHiddenFiles);
+      let selectIndices = folder.selectIndices.sort();
+      const firstSelectIndex = selectIndices[0];
+      currIndex = firstSelectIndex - 1;
       if (!showingFiles.length) {
         currIndex = 0;
       } else if (currIndex < 0) {
         currIndex = showingFiles.length - 1;
       }
+      selectIndices = [currIndex];
       return updateCurrFolder(state, {currIndex});
     },
     selectNext: (state: AppState) => {
       const folder = state.folders[state.currPath];
-      let {currIndex, files} = folder;
-      const showingFiles = filterHiddenFiles(files, state.showHiddenFiles);
-      currIndex = currIndex + 1;
+      let {currIndex, file} = folder;
+      if (!file || file.type !== 'folder') {
+        return state;
+      }
+      const showingFiles = filterHiddenFiles(file.subs, state.showHiddenFiles);
+      let selectIndices = folder.selectIndices.sort();
+      const lastSelectIndex = selectIndices[selectIndices.length - 1];
+      currIndex = lastSelectIndex + 1;
       if (!showingFiles.length) {
         return {
           ...state,
@@ -214,11 +233,15 @@ export const app = createModel<RootModel>()({
       } else if (currIndex >= showingFiles.length) {
         currIndex = 0;
       }
-      return updateCurrFolder(state, {currIndex});
+      selectIndices = [currIndex];
+      return updateCurrFolder(state, {currIndex, selectIndices});
     },
     toggleHiddenFiles: (state: AppState, showHiddenFiles: boolean) => {
-      let {files, currIndex} = state.folders[state.currPath];
-      const showingFiles = filterHiddenFiles(files, showHiddenFiles);
+      let {file, currIndex} = state.folders[state.currPath];
+      if (!file || file.type !== 'folder') {
+        return state;
+      }
+      const showingFiles = filterHiddenFiles(file.subs, showHiddenFiles);
       currIndex = ensureIndexRange(showingFiles, currIndex);
       return {
         ...updateCurrFolder(state, { currIndex }),
@@ -261,10 +284,12 @@ export const app = createModel<RootModel>()({
         const changed: Partial<FolderDesc> = {};
         changed.path = currPath;
         if (res.ok) {
-          changed.files = res.files;
-          const showingFiles = filterHiddenFiles(changed.files, showHiddenFiles);
-          const currIndex = state.app.folders[currPath]?.currIndex ?? 0;
-          changed.currIndex = ensureIndexRange(showingFiles, currIndex);
+          changed.file = res.file;
+          if (changed.file && changed.file.type === 'folder') {
+            const showingFiles = filterHiddenFiles(changed.file.subs, showHiddenFiles);
+            const currIndex = state.app.folders[currPath]?.currIndex ?? 0;
+            changed.currIndex = ensureIndexRange(showingFiles, currIndex);
+          }
         } else {
           changed.error = res.message;
         }
@@ -302,11 +327,7 @@ export const app = createModel<RootModel>()({
       },
       open(file: FileDesc, state) {
         // console.log('open', file);
-        if (file.type === 'folder') {
-          app.navigateTo(file.path);
-        } else {
-          app.updateCurrFolder({ layoutMode: 'gallery' });
-        }
+        app.navigateTo(file.path);
       },
       async trash(file: FileDesc, state): Promise<void> {
         await remote.command('trash', file.path);
@@ -329,7 +350,7 @@ const mapAppState = (state: RootState) => {
 
   const currFolder = folders[currPath];
 
-  if (!currFolder?.files) {
+  if (!currFolder?.file) {
     throw new Error('No files in: ' + currPath);
   }
 
@@ -358,8 +379,11 @@ const mapAppState = (state: RootState) => {
     canNavigateBackward: pathHistory.currIndex > 0,
     currError: currFolder.error,
     getFolder: (path: string) => folders[path],
-    files: currFolder.files,
-    showingFiles: filterHiddenFiles(currFolder.files, showHiddenFiles),
+    currFile: currFolder,
+    files: currFolder.file.subs,
+    showingFiles: currFolder.file.type === 'folder'
+      ? filterHiddenFiles(currFolder.file.subs, showHiddenFiles)
+      : null,
   });
 };
 

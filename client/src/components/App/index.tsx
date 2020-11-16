@@ -9,6 +9,7 @@ import { AppProps, connectAppControl } from '../../models/app';
 import { LayoutMode } from '../../models/layout';
 // import { watchPropORStateChanges } from './debug';
 import Sidebar from '../Sidebar/index';
+import FileDetailPane from '../layouts/FileDetailPane';
 
 class App extends React.PureComponent<AppProps> {
 
@@ -72,7 +73,7 @@ class App extends React.PureComponent<AppProps> {
   }
 
   renderMain() {
-    const {currError, layoutMode, showingFiles} = this.props;
+    const {currError, layoutMode, currFile} = this.props;
     if (currError) {
       return (
         <div className="error-msg">
@@ -80,17 +81,27 @@ class App extends React.PureComponent<AppProps> {
         </div>
       );
     }
-    if (!showingFiles.length) {
-      return;
+    if (!currFile.file) {
+      return (
+        <div className="error-msg">
+          {currFile.path + ' Not found!'}
+        </div>
+      );
     }
 
-    return (
-      <>
-        {layoutMode === 'grid' && <FilePreviewGridLayout />}
-        {layoutMode === 'list' && <FilePreviewListLayout />}
-        {layoutMode === 'gallery' && <FilePreviewGalleryLayout />}
-      </>
-    );
+    if (currFile.file.type === 'folder') {
+      return (
+        <>
+          {layoutMode === 'grid' && <FilePreviewGridLayout />}
+          {layoutMode === 'list' && <FilePreviewListLayout />}
+          {layoutMode === 'gallery' && <FilePreviewGalleryLayout />}
+        </>
+      );
+    } else {
+      return (
+        <FileDetailPane />
+      );
+    }
   }
 
 }

@@ -116,6 +116,7 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
                 index={i}
                 selected={currIndex === i}
                 text={file.name}
+                icon={25}
                 onClick={this.onItemClick}
                 onDoubleClick={this.onItemDoubleClick}
                 onContextMenu={this.onItemContextMenu}
