@@ -1,5 +1,6 @@
 $white: #fefefe;
 $black: #282c34;
+$topbarHeight: 45px;
 
 $themes: (
   light: (
@@ -11,7 +12,8 @@ $themes: (
     sidebarBackground: #f7f7fa,
     mainShadow: 20px 0px 83px #b5b5b5,
     navgationbarBorder: #282c34 solid 1px,
-    selectedColor: #f4f4f4,
+    selectedColor: #d6d6d6,
+    titlebarColor: #c4d5db
   ),
   dark: (
     white: $white,
@@ -22,14 +24,20 @@ $themes: (
     sidebarBackground: #21242b,
     mainShadow: 20px 0px 83px #191b21,
     navgationbarBorder: transparent solid 1px,
-    selectedColor: #1e2127,
+    selectedColor: #8f9091,
+    titlebarColor: #2b4149
   )
 );
+
+@function themeVar($color) {
+  @return map-get(map-get($themes, $theme-name), $color);
+}
 
 @mixin themed($key, $color) {
   @each $theme-name, $theme-color in $themes {
     .theme-#{$theme-name} & {
-        #{$key}: map-get(map-get($themes, $theme-name), $color)
+      #{$key}: map-get(map-get($themes, $theme-name), $color);
+      @content;
     }
   }
 }

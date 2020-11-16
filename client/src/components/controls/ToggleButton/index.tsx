@@ -1,6 +1,7 @@
 import React from 'react';
 import Icon from '../Icon';
 import deepEquals from 'deep-equal';
+import classnames from 'classnames';
 
 interface Props {
   on: boolean;
@@ -23,10 +24,15 @@ export default class ToggleButton extends React.Component<Props> {
   render() {
     const {on, btns, className} = this.props;
     return (
-      <span className={className} onClick={this.onClick}>
+      <span
+        className={classnames(
+          className,
+          'toggle-button'
+        )}
+        onClick={this.onClick}
+      >
         <Icon
           name={btns[on ? 1 : 0]}
-          className="menu-icon"
         />
       </span>
     );

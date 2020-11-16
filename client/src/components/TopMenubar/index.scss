@@ -1,6 +1,8 @@
+@import "../../styles/theme.scss";
+
 .menu {
   width: 100%;
-  margin: 13px 0;
+  height: #{$topbarHeight};
   padding: 0 17px;
   display: flex;
   align-items: center;

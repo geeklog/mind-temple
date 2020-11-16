@@ -5,9 +5,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   text-align: initial;
-  max-width: 90vw;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 0 40px;
   .grid-item {
     margin: 2px;
     display: flex;

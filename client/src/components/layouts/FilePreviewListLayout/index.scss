@@ -1,80 +1,98 @@
+@import "../../../styles/theme.scss";
+
 .files-layout-list {
-  text-align: initial;
-  max-width: 80vw;
-  margin: 40px auto 0 auto;
+  $header-height: 30px;
   position: relative;
-  display: flex;
-  justify-content: stretch;
-  .column {
-    flex: 1;
-    &:first-child {
-      flex: 2;
-    }
-    &:not(:last-child) {
-      border-right: 1px solid black;
-    }
+  .headers {
+    display: flex;
+    width: 100%;
+    height: #{$header-height};
     .header {
-      background-color: #586e75;
+      flex: 1;
+      &:first-child {
+        flex: 2;
+      }
+      @include themed('background-color', 'titlebarColor');
+      position: relative;
       display: flex;
       align-items: center;
+      &:not(:last-child) {
+        @include themed('border-color', 'black');
+      }
       .label {
         padding: 5px;
+        padding-left: 10px;
         margin-right: auto;
       }
       .icon {
         margin-top: 3px;
+        margin-right: 6px;
         width: 15px;
         height: 15px;
       }
     }
-    .cell {
-      padding: 2px;
-      margin: 1px 0;
-      height: 30px;
-      display: flex;
-      cursor: pointer;
-      list-style: none;
-      align-items: center;
-      &:nth-child(odd) {
-        background-color: #80808014;
+  }
+  .contents {
+    position: relative;
+    display: flex;
+    justify-content: stretch;
+    height: calc(100vh - #{$topbarHeight} - #{$header-height});
+    overflow: auto;
+    .column {
+      flex: 1;
+      &:first-child {
+        flex: 2;
       }
-      &:nth-child(even) {
-        background-color: #0000000f;
-      }
-      &.selected {
-        // border-radius: 3px;
-        background-color: var(--color-chameisee);
-      }
-      .thumb {
-        margin-right: 10px;
-        position: relative;
-        width: 25px;
-        height: 25px;
+      .cell {
+        padding-left: 7px;
+        height: 30px;
         display: flex;
+        cursor: pointer;
+        list-style: none;
         align-items: center;
-        justify-content: center;
-        .preview-img {
-          &.offset-1 {
-            position: absolute;
-            transform: rotate(-10deg);
-          }
-          &.offset-2 {
-            position: absolute;
-            transform: rotate(10deg);
-          }
+        &.date, &.size {
+          font-family: "Ubuntu Mono";
         }
-        .svg-filetype-icon {
-          height: 25px;
+        &:nth-child(odd) {
+          background-color: #80808014;
+        }
+        &:nth-child(even) {
+          background-color: #0000000f;
+        }
+        &.selected {
+          @include themed('background-color', 'selectedColor');
+        }
+        .thumb {
+          margin-right: 10px;
+          position: relative;
           width: 25px;
+          height: 25px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .preview-img {
+            &.offset-1 {
+              position: absolute;
+              transform: rotate(-10deg);
+            }
+            &.offset-2 {
+              position: absolute;
+              transform: rotate(10deg);
+            }
+          }
+          .svg-filetype-icon {
+            height: 25px;
+            width: 25px;
+          }
+          .icon {
+            height: 90%;
+          }
         }
-        .icon {
-          height: 90%;
+        .file-name {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          text-align: center;
         }
-      }
-      .file-name {
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        text-align: center;
       }
     }
   }

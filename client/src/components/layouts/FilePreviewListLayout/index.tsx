@@ -89,55 +89,59 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
 
     return (
       <div className="files-layout-list">
-        <div className="column">
+        <div className="headers">
           <Header
             name="Name"
             asc={currSort.name}
             onSort={this.onSortByName}
           />
-          {files.map((file, i) =>
-            <FilePreviewListItem
-              key={file.path}
-              file={file}
-              index={i}
-              selected={currIndex === i}
-              onClick={this.onItemClick}
-              onDoubleClick={this.onItemDoubleClick}
-              onContextMenu={this.onItemContextMenu}
-            />
-          )}
-        </div>
-        <div className="column">
           <Header
             name="Modified Time"
             asc={currSort.time}
             onSort={this.onSortByTime}
           />
-          {files.map((file, i) =>
-            <Label
-              key={i}
-              className="cell"
-              selected={currIndex === i}
-              text={`${file.mtime ? format(new Date(file.mtime), 'yyyy-MM-dd HH:mm:ss') : '~'}`}
-            />
-          )}
-        </div>
-        <div className="column">
           <Header
             name="Size"
             asc={currSort.size}
             onSort={this.onSortBySize}
           />
-          {files.map((file, i) =>
-            <Label
-              key={i}
-              className="cell"
-              selected={currIndex === i}
-              text={`${prettyBytes(file.size || 0)}`
-            }/>
-          )}
         </div>
-      </div>
+        <div className="contents">
+          <div className="column">
+            {files.map((file, i) =>
+              <FilePreviewListItem
+                key={file.path}
+                file={file}
+                index={i}
+                selected={currIndex === i}
+                onClick={this.onItemClick}
+                onDoubleClick={this.onItemDoubleClick}
+                onContextMenu={this.onItemContextMenu}
+              />
+            )}
+          </div>
+          <div className="column">
+            {files.map((file, i) =>
+              <Label
+                key={i}
+                className="cell date"
+                selected={currIndex === i}
+                text={`${file.mtime ? format(new Date(file.mtime), 'yyyy-MM-dd HH:mm:ss') : '~'}`}
+              />
+            )}
+          </div>
+          <div className="column">
+            {files.map((file, i) =>
+              <Label
+                key={i}
+                className="cell size"
+                selected={currIndex === i}
+                text={`${prettyBytes(file.size || 0)}`
+              }/>
+            )}
+          </div>
+        </div>
+    </div>
     );
   }
 }
