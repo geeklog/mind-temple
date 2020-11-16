@@ -17,10 +17,11 @@ $themes: (
     scrollbarColor: #f7f7fa #f0f0f0,
 
     mainShadow: 20px 0px 83px #b5b5b5,
-    navgationbarBorder: #282c34 solid 1px,
+    navgationbarBorder: #c1c1c1 solid 1px,
     selectedColor: #8d8d8e,
     selectedTextColor: $white,
-    titlebarColor: #c4d5db,
+    headerColor: $white,
+    headerBorder: #d7d7d7 solid 1px,
     stripEvenColor: #efefef,
     stripOddColor: #f4f4f4,
     stripBackground: repeating-linear-gradient(
@@ -43,7 +44,8 @@ $themes: (
     mainShadow: 20px 0px 83px #191b21,
     navgationbarBorder: transparent solid 1px,
     selectedColor: #a7a7a7,
-    titlebarColor: #2b4149,
+    headerColor: #2b4149,
+    headerBorder: #2b4149 solid 1px,
     stripEvenColor: #262931,
     stripOddColor: #2f333a,
     stripBackground: repeating-linear-gradient(
