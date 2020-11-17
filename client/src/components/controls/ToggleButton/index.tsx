@@ -63,7 +63,8 @@ export default class ToggleButton extends React.PureComponent<Props> {
       <span
         className={classnames(
           className,
-          'toggle-button'
+          'toggle-button',
+          'state-' + on
         )}
         onMouseOver={this.onMouseOver}
         onMouseOut={this.onMouseOut}
