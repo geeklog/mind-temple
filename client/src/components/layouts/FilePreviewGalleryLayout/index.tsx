@@ -6,6 +6,7 @@ import GalleryFolderItem from './GalleryFolderItem';
 import { AppProps, connectAppControl } from '../../../models/app';
 import { FileDesc } from '../../../models/file';
 import PlainTextPreview from './PlainTextPreview';
+import Icon from '../../controls/Icon';
 
 class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
 
@@ -92,7 +93,9 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
           // <div className="btn btn-next" onClick={selectNext}>
           //   <Icon name="chevron-right"/>
           // </div>
-          <div className="frame">
+          <div
+            className="frame"
+          >
             <img
               className="image"
               src={src}
@@ -102,11 +105,15 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
             <div
               className="overlay-left"
               onClick={selectPrev}
-            />
+            >
+              <Icon name='chevron-left' />
+            </div>
             <div
               className="overlay-right"
               onClick={selectNext}
-            />
+            >
+              <Icon name='chevron-right' />
+            </div>
           </div>
         }
         {isText &&

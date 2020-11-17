@@ -24,6 +24,53 @@
         height: 50px;
       }
     }
+    .frame {
+      position: relative;
+      .overlay-left {
+        position: absolute;
+        background-color: transparent;
+        width: 30%;
+        height: 100%;
+        top: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        .icon {
+          width: 50px;
+          height: 50px;
+          @include themed('fill', 'colorWhite');
+          display: none;
+        }
+        &:hover {
+          .icon {
+            display: initial;
+          }
+        }
+      }
+      .overlay-right {
+        position: absolute;
+        background-color: transparent;
+        width: 30%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .icon {
+          width: 50px;
+          height: 50px;
+          @include themed('fill', 'colorWhite');
+          display: none;
+        }
+        &:hover {
+          .icon {
+            display: initial;
+          }
+        }
+      }
+    }
     .thumb {
       display: flex;
       flex-direction: column;
@@ -38,24 +85,7 @@
         border-radius: 100px;
       }
     }
-    .overlay-left {
-      position: absolute;
-      background-color: transparent;
-      width: 50%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      cursor: pointer;
-    }
-    .overlay-right {
-      position: absolute;
-      background-color: transparent;
-      width: 50%;
-      height: 100%;
-      top: 0;
-      right: 0;
-      cursor: pointer;
-    }
+    
     .plain-text-preview {
       width: 60vh;
       height: 80vh;

@@ -40,8 +40,12 @@
     width: 23px;
     height: 23px;
     &.state-false {
-      left: 2px;
-      top: 44px;
+      left: -19px;
+      top: 11px;
+      @include themed('background', 'highlight');
+      @include themed('box-shadow', 'shadow-sm');
+      padding-left: 7px;
+      width: 29px;
     }
     .icon {
       margin: 0;
