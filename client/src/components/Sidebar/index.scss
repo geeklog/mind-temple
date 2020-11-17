@@ -2,8 +2,10 @@
 
 .sidebar {
   @include themed('background', 'sidebarBackground');
+  @include themed('box-shadow', 'sidebarShadow');
   width: 200px;
   padding: 10px;
+  z-index: 10;
   &.hide {
     display: none;
   }

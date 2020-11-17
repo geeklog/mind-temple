@@ -12,7 +12,7 @@
     width: 100%;
     height: 24px;
     color: var(--color-black);
-    @include themed('border', 'navgationbarBorder');
+    @include themed('border', 'dimBorder');
     font-size: 16px;
     padding: 4px 10px;
     border-radius: 100px;
@@ -33,7 +33,7 @@
     background-color: white;
     @include themed('background-color', 'white');
     @include themed('color', 'black');
-    @include themed('border', 'navgationbarBorder');
+    @include themed('border', 'dimBorder');
     outline: none;
     border: none;
     width: 100%;

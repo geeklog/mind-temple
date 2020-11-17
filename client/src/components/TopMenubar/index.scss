@@ -9,6 +9,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  @include themed('background', 'topbarBackground');
   button {
     display: flex;
     background: none;

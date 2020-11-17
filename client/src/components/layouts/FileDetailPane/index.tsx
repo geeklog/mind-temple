@@ -28,7 +28,6 @@ class FileDetailPane extends React.PureComponent<AppProps> {
   }
 
   render() {
-    console.log('FileDetailPane.render');
     const {currFile} = this.props;
     const file = currFile.file;
     const ext = service.resolveExtension(file.ext);
@@ -79,7 +78,7 @@ class FileDetailPane extends React.PureComponent<AppProps> {
           </div>
         }
         {isMarkdown &&
-          <MarkdownEditor file={file} />
+          <MarkdownEditor {...this.props} />
         }
         {isText &&
           <PlainTextEditor file={file} />

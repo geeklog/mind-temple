@@ -1,8 +1,20 @@
 import {splitOnce} from './util';
 import { parseMacro } from './macroUtils';
-import { encodeHTMLEntities } from './domUtils';
+import { encodeHTMLEntities, decodeHTMLEntities } from './domUtils';
 
 const MarkdownIt: any = null;
+
+export function formatTextForPreview(text: string) {
+  console.log('rawText', text);
+  text = decodeHTMLEntities(text);
+  return text;
+}
+
+export function formatTextForEditor(text: string) {
+  text = encodeHTMLEntities(text);
+  text = text.replace(/\n/g, '<br>');
+  return text;
+}
 
 export function markdown(text: string) {
   text = md_plugin_macro(text);

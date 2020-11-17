@@ -50,9 +50,8 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
     const ext = service.resolveExtension(file.ext);
     const isDirectory = file.type === 'folder';
     const isImage = !isDirectory && service.isImage(ext);
-    const isMarkdown = file.type === 'markdown';
     const isText = file.type === 'text';
-    const isFile = !isImage && !isDirectory && !isText && !isMarkdown;
+    const isFile = !isImage && !isDirectory && !isText;
     const src = isImage
       ? service.file(file.path)
       : `filetypes/${ext}.svg`;
@@ -105,9 +104,6 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
               onClick={selectNext}
             />
           </div>
-        }
-        {isMarkdown &&
-          <MarkdownEditor file={file} />
         }
         {isText &&
           <PlainTextEditor file={file} />

@@ -38,5 +38,5 @@ export function encodeHTMLEntities(text: string) {
 }
 
 export function decodeHTMLEntities(text: string) {
-  return entities.decode(text);
+  return entities.decode(text).replace(/<br>/g, '\n');
 }

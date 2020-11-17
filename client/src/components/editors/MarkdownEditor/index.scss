@@ -1,3 +1,4 @@
+@import '../../../styles/theme.scss';
 @import './theme/greenville';
 @import './theme/paper';
 @import './theme/steampunk';
@@ -5,48 +6,18 @@
 
 .markdown-editor {
   background-color: white;
-  height: calc(100vh - 100px);
-  width: calc(100vw - 100px);
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  .title-bar {
-    // height: 30px;
-    padding: 0 10px;
-    background-color: #586e75;
-    display: flex;
-    align-items: center;
-    .file-name {
-      display: block;
-      color: white;
-      text-align: center;
-      margin-right: auto;
-      flex-grow: 1;
-    }
-    .menu-group {
-      display: flex;
-      align-items: center;
-      .save {
-        margin-right: 8px;
-      }
-      .toggle-preview {
-        .icon {
-          width: 20px;
-          height: 20px;
-          padding: 2px;
-        }
-      }
-      .select-theme {
-        outline: none;
-        display: block;
-      }
-    }
-  }
+  @include themed('border-top', 'dimBorder');
   .main-area {
     height: 100%;
     width: 100%;
     position: relative;
     .edit-area {
-      padding: 20px;
+      @include themed('background', 'editorBackground');
+      padding: 30px;
       position: absolute;
       width: 50%;
       height: 100%;
@@ -58,20 +29,26 @@
       white-space: pre-wrap;
       font-family: 'Andale Mono';
       border-right: 1px dashed #586e75;
-      &.wide {
+      &.edit {
         width: 100%;
+      }
+      &.preview {
+        display: none;
       }
     }
     .preview-area {
-      padding: 10px;
+      padding: 30px;
       position: absolute;
       width: 50%;
       height: 100%;
       right: 0;
       overflow-y: auto;
       overflow-x: hidden;
-      &.hide {
+      &.edit {
         display: none;
+      }
+      &.preview {
+        width: 100%;
       }
       &.theme-greenville {
         @include md-theme-greenville;

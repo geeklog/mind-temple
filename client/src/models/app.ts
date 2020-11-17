@@ -41,12 +41,20 @@ interface AppState {
   theme: string;
   showHiddenFiles: boolean;
   fileContextMenu: ContextMenuProps;
+  editorLayout: 'edit' | 'preview' | 'both';
+  editorSaved: string;
+  editorTheme: string;
+  editorUnsavedContent: string;
 }
 
 const defaultState = {
   sidebarOpened: true,
   theme: 'light',
   currPath: '~/Downloads/imgs',
+  editorLayout: 'both',
+  editorSaved: 'saved',
+  editorTheme: 'paper',
+  editorUnsavedContent: '',
   pathHistory: {
     currIndex: 0,
     history: [],
@@ -183,6 +191,31 @@ export const app = createModel<RootModel>()({
       return {
         ...state,
         sidebarOpened: !state.sidebarOpened
+      };
+    },
+    setEditorSaved: (state: AppState, editorSaved: string) => {
+      return {
+        ...state,
+        editorSaved
+      };
+    },
+    setEditorLayout: (state: AppState, editorLayout: 'edit' | 'preview' | 'both') => {
+      return {
+        ...state,
+        editorLayout
+      };
+    },
+    setEditorTheme: (state: AppState, editorTheme: string) => {
+      return {
+        ...state,
+        editorTheme
+      };
+    },
+    setEditorUnsavedContent: (state: AppState, editorUnsavedContent: string) => {
+      return {
+        ...state,
+        editorUnsavedContent,
+        editorSaved: 'Save'
       };
     },
     openInServer: (state: AppState, file: FileDesc) => {
@@ -345,7 +378,11 @@ const mapAppState = (state: RootState) => {
     sidebarOpened,
     theme,
     showHiddenFiles,
-    fileContextMenu
+    fileContextMenu,
+    editorLayout,
+    editorSaved,
+    editorTheme,
+    editorUnsavedContent
   } = state.app;
 
   const currFolder = folders[currPath];
@@ -384,6 +421,10 @@ const mapAppState = (state: RootState) => {
     showingFiles: currFolder.file.type === 'folder'
       ? filterHiddenFiles(currFolder.file.subs, showHiddenFiles)
       : null,
+    editorLayout,
+    editorSaved,
+    editorTheme,
+    editorUnsavedContent,
   });
 };
 
@@ -394,6 +435,9 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
   setLayoutMode: (layoutMode: string) => dispatch.app.updateCurrFolder({layoutMode}),
   setTheme: (theme: string) => dispatch.app.setTheme(theme),
   toggleSidebar: () => dispatch.app.toggleSidebar(),
+  setEditorUnsaved: (saved: string) => dispatch.app.setEditorSaved(saved),
+  setEditorLayout: (layout: 'edit' | 'preview' | 'both') => dispatch.app.setEditorLayout(layout),
+  setEditorTheme: (theme: string) => dispatch.app.setEditorTheme(theme),
   updateFolder: dispatch.app.updateFolder,
   updateCurrFolder: dispatch.app.updateCurrFolder,
   sortCurrFolder: (sortBy: string, order: string) => {
@@ -427,6 +471,7 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
   gotoColsoleInServer: dispatch.app.gotoColsoleInServer,
   toggleHiddenFiles: dispatch.app.toggleHiddenFiles,
   toggleFileContextMenu: dispatch.app.toggleFileContextMenu,
+  setEditorUnsavedContent: dispatch.app.setEditorUnsavedContent
 });
 
 export const connectAppControl = (component: any): any =>

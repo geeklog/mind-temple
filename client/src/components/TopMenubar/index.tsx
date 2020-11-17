@@ -5,7 +5,7 @@ import ToggleButton from "../controls/ToggleButton";
 import { AppProps, connectAppControl } from '../../models/app';
 import './index.scss';
 import Button from "../controls/Button";
-
+import MarkdownEditorControlBar from '../editors/MarkdownEditor/ControlBar';
 class TopMenubar extends React.PureComponent<AppProps> {
 
   onPathChanged = (currPath: string) => {
@@ -24,7 +24,15 @@ class TopMenubar extends React.PureComponent<AppProps> {
   }
 
   render() {
-    const { currPath, showHiddenFiles, setLayoutMode, toggleHiddenFiles } = this.props;
+    const {
+      currPath,
+      currFile,
+      showHiddenFiles,
+      setLayoutMode,
+      toggleHiddenFiles,
+    } = this.props;
+    const isFolder = currFile.file && currFile.file.type === 'folder';
+    const isMarkdown = currFile.file && currFile.file.type === 'markdown';
     return (
       <div className="menu">
         <ToggleButton
@@ -46,17 +54,24 @@ class TopMenubar extends React.PureComponent<AppProps> {
           currPath={currPath}
           onPathChanged={this.onPathChanged}
         />
-        <MenuButtonGroup
-          btns={['grid', 'list', 'monitor']}
-          choices={['grid', 'list', 'gallery']}
-          onSelected={setLayoutMode}
+        {isFolder &&
+          <MenuButtonGroup
+            btns={['grid', 'list', 'monitor']}
+            choices={['grid', 'list', 'gallery']}
+            onSelected={setLayoutMode}
+          />
+        }
+        {isFolder &&
+          <ToggleButton
+            on={showHiddenFiles}
+            btns={['eye-off', 'eye']}
+            onToggle={toggleHiddenFiles}
+            toggleOnMouseOver={true}
         />
-        <ToggleButton
-          on={showHiddenFiles}
-          btns={['eye-off', 'eye']}
-          onToggle={toggleHiddenFiles}
-          toggleOnMouseOver={true}
-        />
+        }
+        {isMarkdown &&
+          <MarkdownEditorControlBar {...this.props} />
+        }
         <ToggleButton
           on={this.props.theme === 'light'}
           btns={['moon', 'sun']}
