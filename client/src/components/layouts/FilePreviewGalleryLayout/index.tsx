@@ -3,10 +3,9 @@ import './index.scss';
 import * as service from '../../../services/fileService';
 import classes from 'classnames';
 import GalleryFolderItem from './GalleryFolderItem';
-import PlainTextEditor from '../../editors/PlainTextEditor';
-import MarkdownEditor from '../../editors/MarkdownEditor';
 import { AppProps, connectAppControl } from '../../../models/app';
 import { FileDesc } from '../../../models/file';
+import PlainTextPreview from './PlainTextPreview';
 
 class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
 
@@ -77,9 +76,14 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
         onContextMenu={this.onContextMenu}
       >
         {isDirectory &&
-          <GalleryFolderItem
-            file={file}
-          />
+          <div className='thumb'>
+            <GalleryFolderItem
+              file={file}
+            />
+            <div className="file-name">
+              {file.name}
+            </div>
+          </div>
         }
         {isImage &&
           // <div className="btn btn-prev" onClick={selectPrev}>
@@ -106,7 +110,12 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
           </div>
         }
         {isText &&
-          <PlainTextEditor file={file} />
+          <div className='thumb'>
+            <PlainTextPreview file={file} />
+            <div className="file-name">
+              {file.name}
+            </div>
+          </div>
         }
         {isFile &&
           <div className='thumb'>

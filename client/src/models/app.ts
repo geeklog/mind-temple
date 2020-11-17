@@ -6,6 +6,7 @@ import * as remote from '../services/fileService';
 import { between } from 'mikov';
 import { connect } from 'react-redux';
 import { defaultAttributes } from '../utils/util';
+import { LayoutMode } from './layout';
 
 export interface ContextMenuProps {
   file?: FileDesc;
@@ -34,8 +35,9 @@ interface History {
 }
 
 interface AppState {
+  layout: LayoutMode;
   sidebarOpened: boolean;
-  folders: {[path: string]: FolderDesc};
+  paths: {[path: string]: FolderDesc};
   pathHistory: History;
   currPath: string;
   theme: string;
@@ -48,6 +50,7 @@ interface AppState {
 }
 
 const defaultState = {
+  layout: 'grid',
   sidebarOpened: true,
   theme: 'light',
   currPath: '~/Downloads/imgs',
@@ -60,13 +63,13 @@ const defaultState = {
     history: [],
     maxLen: 5
   },
-  folders: {
+  paths: {
     '~/Downloads/imgs': {
       path: '~/Downloads/imgs',
       layoutMode: 'grid',
       prevLayoutMode: 'grid',
       currIndex: 0,
-      selectIndices: [],
+      selectIndices: [0],
       sortBy: 'name',
       file: {
         type: 'folder',
@@ -108,15 +111,17 @@ function updateFolder(state: AppState, folder: Partial<FolderDesc>) {
   if (!folder.path) {
     throw new Error('Must have folder.path');
   }
-  const oldFolder = state.folders[folder.path];
-  state.folders[folder.path] = defaultAttributes(folder, oldFolder, {
+  const oldFolder = state.paths[folder.path];
+  state.paths[folder.path] = defaultAttributes(folder, oldFolder, {
     layoutMode: 'grid',
     prevLayoutMode: 'grid',
     currIndex: 0,
+    selectIndices: [0],
     sortBy: 'name',
     files: [],
-    error: ''
+    error: '',
   }) as FolderDesc;
+  console.log('updateFolder', state.paths[folder.path]);
   return {...state};
 }
 
@@ -125,9 +130,9 @@ function updateCurrFolder(state: AppState, folder: Partial<FolderDesc>) {
   if (!currPath) {
     throw new Error('Must have currPath');
   }
-  const oldFolder = state.folders[currPath];
+  const oldFolder = state.paths[currPath];
   state.currPath = currPath;
-  state.folders[currPath] = defaultAttributes(folder, oldFolder, {
+  state.paths[currPath] = defaultAttributes(folder, oldFolder, {
     layoutMode: 'grid',
     prevLayoutMode: 'grid',
     currIndex: 0,
@@ -231,13 +236,14 @@ export const app = createModel<RootModel>()({
       return state;
     },
     selectPrev: (state: AppState) => {
-      const folder = state.folders[state.currPath];
+      const folder = state.paths[state.currPath];
       let {currIndex, file} = folder;
       if (!file || file.type !== 'folder') {
         return state;
       }
       const showingFiles = filterHiddenFiles(file.subs, state.showHiddenFiles);
       let selectIndices = folder.selectIndices.sort();
+      console.log('selectPrev1', currIndex, selectIndices);
       const firstSelectIndex = selectIndices[0];
       currIndex = firstSelectIndex - 1;
       if (!showingFiles.length) {
@@ -246,10 +252,10 @@ export const app = createModel<RootModel>()({
         currIndex = showingFiles.length - 1;
       }
       selectIndices = [currIndex];
-      return updateCurrFolder(state, {currIndex});
+      return updateCurrFolder(state, {currIndex, selectIndices});
     },
     selectNext: (state: AppState) => {
-      const folder = state.folders[state.currPath];
+      const folder = state.paths[state.currPath];
       let {currIndex, file} = folder;
       if (!file || file.type !== 'folder') {
         return state;
@@ -270,7 +276,7 @@ export const app = createModel<RootModel>()({
       return updateCurrFolder(state, {currIndex, selectIndices});
     },
     toggleHiddenFiles: (state: AppState, showHiddenFiles: boolean) => {
-      let {file, currIndex} = state.folders[state.currPath];
+      let {file, currIndex} = state.paths[state.currPath];
       if (!file || file.type !== 'folder') {
         return state;
       }
@@ -320,7 +326,7 @@ export const app = createModel<RootModel>()({
           changed.file = res.file;
           if (changed.file && changed.file.type === 'folder') {
             const showingFiles = filterHiddenFiles(changed.file.subs, showHiddenFiles);
-            const currIndex = state.app.folders[currPath]?.currIndex ?? 0;
+            const currIndex = state.app.paths[currPath]?.currIndex ?? 0;
             changed.currIndex = ensureIndexRange(showingFiles, currIndex);
           }
         } else {
@@ -372,7 +378,8 @@ export const app = createModel<RootModel>()({
 
 const mapAppState = (state: RootState) => {
   const {
-    folders,
+    layout,
+    paths: folders,
     currPath,
     pathHistory,
     sidebarOpened,
@@ -398,7 +405,7 @@ const mapAppState = (state: RootState) => {
     fileContextMenu,
     sidebarOpened,
     prevLayoutMode: currFolder.prevLayoutMode,
-    layoutMode: currFolder.layoutMode,
+    layoutMode: layout, // currFolder.layoutMode,
     currIndex: currFolder.currIndex,
     currSort: (() => {
       const {sortByName, sortBySize, sortByTime} = currFolder;
@@ -432,7 +439,10 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
   selectPrev: dispatch.app.selectPrev,
   selectNext: dispatch.app.selectNext,
   setCurrIndex: (currIndex: number) => dispatch.app.updateCurrFolder({currIndex}),
-  setLayoutMode: (layoutMode: string) => dispatch.app.updateCurrFolder({layoutMode}),
+  setLayoutMode: (layoutMode: LayoutMode) => {
+    dispatch.app.change({layout: layoutMode});
+    // dispatch.app.updateCurrFolder({layoutMode});
+  },
   setTheme: (theme: string) => dispatch.app.setTheme(theme),
   toggleSidebar: () => dispatch.app.toggleSidebar(),
   setEditorUnsaved: (saved: string) => dispatch.app.setEditorSaved(saved),

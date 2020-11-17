@@ -10,6 +10,7 @@
   top: 0;
   left: 0;
   @include themed('background', 'topbarBackground');
+  @include themed('border-bottom', 'dimBorder');
   button {
     display: flex;
     background: none;

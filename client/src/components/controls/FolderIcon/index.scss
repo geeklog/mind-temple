@@ -4,6 +4,33 @@
     position: absolute;
     z-index: 0;
   }
+  &.large {
+    .body-part {
+      width: 331px;
+      height: 284px;
+      border-radius: 25px;
+      transform: perspective(600px) rotateX(-19deg);
+    }
+    .top-part {
+      top: -34px;
+      left: 20px;
+      width: 208px;
+      height: 65px;
+      border-radius: 25px;
+    }
+    .theme-light & {
+      > * {
+        background: linear-gradient(15deg, #dedede 0%, #f4f4f4 84%);
+        border: solid 2px #e0e0e0;
+      }
+    }
+    .theme-dark & {
+      > * {
+        background: linear-gradient(15deg, #4e4d4d 0%, #646464 84%);
+        border: solid 2px #656565;
+      }
+    }
+  }
   &.medium {
     .body-part {
       width: 63px;
