@@ -2,6 +2,13 @@ $white: #fefefe;
 $black: #282c34;
 $topbarHeight: 45px;
 
+$bg2: (linear-gradient(90deg, transparent 79px, #4d4d4d 79px, #4d4d4d 81px, transparent 81px),
+linear-gradient(#363636 .1em, transparent .1em));
+$bg1: (
+  linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+  linear-gradient(#eee .1em, transparent .1em)
+);
+
 $themes: (
   light: (
     white: $white,
@@ -31,12 +38,9 @@ $themes: (
     stripEvenColor: #efefef,
     stripOddColor: #f4f4f4,
     stripBackground: repeating-linear-gradient(
-      to bottom,
-      #f4f4f4,
-      #f4f4f4 30px,
-      #efefef 30px,
-      #efefef 60px
-    )
+      to bottom, #f4f4f4, #f4f4f4 30px, #efefef 30px, #efefef 60px
+    ),
+    textEditorBGImg: $bg1
   ),
   dark: (
     white: $white,
@@ -63,12 +67,9 @@ $themes: (
     stripEvenColor: #262931,
     stripOddColor: #2f333a,
     stripBackground: repeating-linear-gradient(
-      to bottom,
-      #2f333a,
-      #2f333a 30px,
-      #262931 30px,
-      #262931 60px
-    )
+      to bottom,#2f333a,#2f333a 30px,#262931 30px,#262931 60px
+    ),
+    textEditorBGImg: $bg2
   )
 );
 
