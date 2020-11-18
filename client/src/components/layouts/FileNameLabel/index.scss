@@ -3,7 +3,16 @@
   text-align: center;
   hyphens: none;
   padding: 1px;
+  border: transparent 3px solid;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   &.editing {
     cursor: text;
+    outline: none;
+    border: #387afd 3px solid;
+    border-radius: 6px;
+    background: white;
+    color: black;
   }
 }

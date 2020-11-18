@@ -1,8 +1,10 @@
+@import '../../../styles/theme.scss';
+
 .file-detail-pane {
   width: 100%;
   height: 100%;
   .thumb {
-    height: calc(100vh - 45px);
+    height: calc(100vh - #{$topbarHeight});
     display: flex;
     justify-content: center;
     align-items: center;

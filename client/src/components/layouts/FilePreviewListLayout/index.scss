@@ -14,7 +14,6 @@
       }
       @include themed('background-color', 'headerColor');
       @include themed('border-bottom', 'headerBorder');
-      @include themed('border-top', 'headerBorder');
       position: relative;
       display: flex;
       align-items: center;
@@ -93,15 +92,6 @@
           }
           .icon {
             height: 90%;
-          }
-        }
-        .file-name {
-          &.editing {
-            background: white;
-            color: black;
-            border: none;
-            margin: 0;
-            padding: 0;
           }
         }
       }
