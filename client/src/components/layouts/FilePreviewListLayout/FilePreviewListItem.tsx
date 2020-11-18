@@ -3,11 +3,15 @@ import classnames from 'classnames';
 import Thumb from '../Thumb';
 import { FileItemProps } from '../type';
 import Label from '../../controls/Label/index';
+import FileNameLabel from '../FileNameLabel';
+import { FileDesc } from '../../../models/file';
 
 interface Props extends FileItemProps {
   className?: string;
   icon?: number;
   text: string;
+  isFileName?: boolean;
+  onFileNameChange?: (newFileName: string, file: FileDesc, index: number) => void;
 }
 
 export default class FilePreviewListItem extends PureComponent<Props> {
@@ -31,8 +35,16 @@ export default class FilePreviewListItem extends PureComponent<Props> {
     this.props.onDoubleClick(file, index);
   }
 
+  onFileNameChange = (newFileName: string) => {
+    const { file, index }: Props = this.props;
+    if (file.name === newFileName) {
+      return;
+    }
+    this.props.onFileNameChange(newFileName, file, index);
+  }
+
   render() {
-    const {file, selected, className, icon, text} = this.props;
+    const {file, selected, className, icon, text, isFileName} = this.props;
     const selectedClassed = `${ selected ? 'selected' : ''}`;
     return (
       <li
@@ -53,7 +65,14 @@ export default class FilePreviewListItem extends PureComponent<Props> {
             file={file}
           />
         }
-        <Label text={text} />
+        {
+          isFileName
+            ? <FileNameLabel
+                name={file.name}
+                onChange={this.onFileNameChange}
+              />
+            : <Label text={text} />
+        }
       </li>
     );
   }

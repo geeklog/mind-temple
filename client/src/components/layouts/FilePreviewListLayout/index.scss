@@ -96,9 +96,13 @@
           }
         }
         .file-name {
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          text-align: center;
+          &.editing {
+            background: white;
+            color: black;
+            border: none;
+            margin: 0;
+            padding: 0;
+          }
         }
       }
     }

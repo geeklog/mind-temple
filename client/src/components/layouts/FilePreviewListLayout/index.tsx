@@ -67,6 +67,13 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
     this.props.sortCurrFolder('size', order);
   }
 
+  onFileNameChange = (newFileName: string, file: FileDesc, index: number) => {
+    this.props.renameFile({
+      filePath: file.path,
+      newName: newFileName
+    });
+  }
+
   render() {
     const {showingFiles, currIndex, currSort} = this.props;
 
@@ -117,9 +124,11 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
                 selected={currIndex === i}
                 text={file.name}
                 icon={25}
+                isFileName={true}
                 onClick={this.onItemClick}
                 onDoubleClick={this.onItemDoubleClick}
                 onContextMenu={this.onItemContextMenu}
+                onFileNameChange={this.onFileNameChange}
               />
             )}
           </div>
