@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import { defaultAttributes } from '../utils/util';
 import { LayoutMode } from './layout';
 import eventCenter from '../services/eventCenter';
+import { toastError } from '../components/controls/toast';
+import { startsWith } from 'mikov/fn/op';
 
 export interface ContextMenuProps {
   file?: FileDesc;
@@ -443,8 +445,17 @@ export const app = createModel<RootModel>()({
         app.browse(null);
       },
       async renameFile({filePath, newName}: {filePath: string, newName: string}, state): Promise<void> {
-        await remote.rename(filePath, newName);
-        app.browse(null);
+        const r = await remote.rename(filePath, newName);
+        if (r.ok) {
+          app.browse(null);
+        } else {
+          if (startsWith(['EISDIR', 'ENOTDIR', 'ENOTEMPTY'])(r.error)) {
+            toastError('Name duplicated!');
+          } else {
+            toastError(r.error);
+          }
+          eventCenter.dispatchEvent('Cmd:RenameFile', filePath);
+        }
       },
       async createNewItem(
         {filePath, newName, type}: {filePath: string, newName: string, type: string},

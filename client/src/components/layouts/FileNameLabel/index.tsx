@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import './index.scss';
 import eventCenter from '../../../services/eventCenter';
 import { fname } from '../../../utils/pathUtils';
+import { moveCaretToEnd } from '../../../utils/domUtils';
 
 interface Props {
   name: string;
@@ -32,7 +33,7 @@ export default class FileNameLabel extends PureComponent<Props, State> {
     // First click activate the label,
     // Second click let it into editing mode.
     // Use a 0.5s interval to avoid conflict with double click event
-    if (!this.state.activate || Date.now() - this.state.activate < 300) {
+    if (!activate || Date.now() - activate < 300) {
       this.setState({
         activate: Date.now()
       });
@@ -44,12 +45,7 @@ export default class FileNameLabel extends PureComponent<Props, State> {
     });
     setTimeout(() => {
       this.div.focus();
-      const range = document.createRange();
-      range.selectNodeContents(this.div);
-      range.collapse(false);
-      const selection = window.getSelection();
-      selection?.removeAllRanges();
-      selection?.addRange(range);
+      moveCaretToEnd(this.div);
     }, 0);
   }
 
@@ -93,6 +89,10 @@ export default class FileNameLabel extends PureComponent<Props, State> {
       this.setState({
         editing: true
       });
+      setTimeout(() => {
+        this.div.focus();
+        moveCaretToEnd(this.div);
+      }, 0);
     }
   }
 

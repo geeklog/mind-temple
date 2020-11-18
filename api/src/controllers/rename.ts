@@ -14,18 +14,21 @@ export default async (req, res) => {
         ok: 1
       });
     }
+    if (fs.existsSync(newPath)) {
+      return res.json({
+        ok: 0,
+        error: 'Name duplicated'
+      });
+    }
     fs.renameSync(oldPath, newPath);
     cache.purge(oldPath);
     res.json({
       ok: 1
     });
   } catch (error) {
-    console.log(error);
-    res.status(404);
     res.json({
       ok: 0,
-      message: 'File not exist',
-      files: []
+      error: error.message
     });
   }
 };

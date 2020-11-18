@@ -1,7 +1,8 @@
-import { endsWith } from 'mikov/fn/op';
+import { endsWith, startsWith } from 'mikov/fn/op';
 import { apiServer } from '../config';
 import { BrowseResponse, FileDesc } from '../models/file';
 import { dirname, joinPath } from '../utils/pathUtils';
+import { toastError } from '../components/controls/toast';
 
 const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif'];
 const supportExtensions = new Set([
@@ -129,9 +130,7 @@ export async function rename(filePath: string, newName: string) {
      })
   });
   const data = await res.json();
-  if (res.ok) {
-    return data.newFile;
-  }
+  return data;
 }
 
 export async function save(filePath: string, file: string) {
