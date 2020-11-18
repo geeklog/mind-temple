@@ -1,0 +1,9 @@
+.file-name {
+  word-wrap: break-word;
+  text-align: center;
+  hyphens: none;
+  padding: 1px;
+  &.editing {
+    cursor: text;
+  }
+}

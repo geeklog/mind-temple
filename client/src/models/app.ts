@@ -371,6 +371,10 @@ export const app = createModel<RootModel>()({
       async trash(file: FileDesc, state): Promise<void> {
         await remote.command('trash', file.path);
         app.browse(null);
+      },
+      async renameFile({filePath, newName}: {filePath: string, newName: string}, state): Promise<void> {
+        await remote.rename(filePath, newName);
+        app.browse(null);
       }
     };
   },
@@ -479,6 +483,7 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
   openInServer: dispatch.app.openInServer,
   openFolderInServer: dispatch.app.openFolderInServer,
   gotoColsoleInServer: dispatch.app.gotoColsoleInServer,
+  renameFile: dispatch.app.renameFile,
   toggleHiddenFiles: dispatch.app.toggleHiddenFiles,
   toggleFileContextMenu: dispatch.app.toggleFileContextMenu,
   setEditorUnsavedContent: dispatch.app.setEditorUnsavedContent

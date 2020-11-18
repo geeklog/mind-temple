@@ -99,6 +99,19 @@ export async function command(cmd: string, filePath: string) {
   }
 }
 
+export async function rename(filePath: string, newName: string) {
+  await fetch(`${apiServer}/rename/${encodeURIComponent(filePath)}`, {
+    method: 'post',
+     headers: {
+      'Accept': 'application/json',
+       'Content-Type': 'application/json'
+     },
+     body: JSON.stringify({
+       newName
+     })
+  });
+}
+
 export async function save(filePath: string, file: string) {
   await fetch(`${apiServer}/save/${encodeURIComponent(filePath)}`, {
     method: 'post',

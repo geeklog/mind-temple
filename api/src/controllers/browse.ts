@@ -1,7 +1,6 @@
 import fs from 'fs';
 import { describeFile, resolvePath } from '../util/fileUtil';
-
-let caches = {};
+import { addBrowseCache, getBrowseCache, purgeBrowseCache } from '../services/cache';
 
 let watcher;
 
@@ -22,20 +21,21 @@ export default async (req, res) => {
       return;
     }
     console.log('fileChanged-------', event, name);
-    caches = {};
+    purgeBrowseCache();
   });
 
-  if (caches[currPath]) {
+  const cahcedBrowse = getBrowseCache(currPath);
+  if (cahcedBrowse) {
     return res.json({
       ok: 1,
-      file: caches[currPath]
+      file: cahcedBrowse
     });
   }
 
   try {
     console.log('gettingFile', currPath);
     const file = await describeFile(currPath);
-    caches[currPath] = file;
+    addBrowseCache(currPath, file);
     res.json({
       ok: 1,
       file

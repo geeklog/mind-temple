@@ -2,6 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import Thumb from '../Thumb';
 import { FileDesc } from '../../../models/file';
+import FileNameLabel from '../FileNameLabel';
 
 interface Props {
   index: number;
@@ -10,6 +11,7 @@ interface Props {
   onClick: (file: FileDesc, index: number) => void;
   onDoubleClick: (file: FileDesc, index: number) => void;
   onContextMenu: (options: {visible: boolean, x: number, y: number, index: number, file: FileDesc}) => void;
+  onFileNameChange: (newFileName: string, file: FileDesc, index: number) => void;
 }
 
 export default class FilePreviewGridItem extends React.PureComponent<Props> {
@@ -34,8 +36,16 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
     this.props.onContextMenu({visible: true, x, y, index, file});
   }
 
+  onFileNameChange = (newFileName: string) => {
+    const { file, index }: Props = this.props;
+    if (file.name === newFileName) {
+      return;
+    }
+    this.props.onFileNameChange(newFileName, file, index);
+  }
+
   render() {
-    const { file, selected }: Props = this.props;
+    const { file, selected,  }: Props = this.props;
 
     return (
       <div
@@ -54,9 +64,10 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
           selected={selected}
           file={file}
         />
-        <div className="file-name">
-          {file.name}
-        </div>
+        <FileNameLabel
+          name={file.name}
+          onChange={this.onFileNameChange}
+        />
       </div>
     );
   }

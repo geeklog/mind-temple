@@ -10,6 +10,7 @@ import fileController from './controllers/file';
 import thumbController from './controllers/thumb';
 import commandController from './controllers/command';
 import saveController from './controllers/save';
+import renameController from './controllers/rename';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.get(/^\/file\/.*/, fileController);
 app.get(/^\/thumb\/.*/, thumbController);
 app.get(/^\/cmd\/.*/, commandController);
 app.post(/^\/save\/.*/, saveController);
+app.post(/^\/rename\/.*/, renameController);
 
 app.get('/', (req, res) => {
   res.render('index');

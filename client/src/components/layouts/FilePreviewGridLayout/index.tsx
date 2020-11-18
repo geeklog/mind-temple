@@ -20,6 +20,13 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
     this.props.toggleFileContextMenu(options);
   }
 
+  onFileNameChange = (newFileName: string, file: FileDesc, index: number) => {
+    this.props.renameFile({
+      filePath: file.path,
+      newName: newFileName
+    });
+  }
+
   render() {
     const {showingFiles, currIndex} = this.props;
     return (
@@ -33,6 +40,7 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
             onClick={this.onItemClick}
             onDoubleClick={this.onItemDoubleClick}
             onContextMenu={this.onItemContextMenu}
+            onFileNameChange={this.onFileNameChange}
           />
         )}
       </div>
