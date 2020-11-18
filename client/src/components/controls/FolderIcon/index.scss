@@ -63,14 +63,37 @@
   }
   .theme-light & {
     > * {
-      background: linear-gradient(15deg, #dedede 0%, #f4f4f4 84%);
-      border: solid 1px #e0e0e0;
+      &.white {
+        background: linear-gradient(15deg, #dedede 0%, #f4f4f4 84%);
+        border: solid 1px #e0e0e0;
+      }
+      &.black {
+        background: linear-gradient(15deg, #4e4d4d 0%, #646464 84%);
+        border: solid 1px #656565;
+      }
+      &.glass {
+        background: linear-gradient(15deg, #f8fcfe 0%, #d0eaff 84%);
+        border: solid 1px #e8f2fd;
+        box-shadow: 0 4px 6px #e1f2ff;
+      }
+      &.blue {
+        background: linear-gradient(15deg, #95dcff 0%, #d0eaff 84%);
+        border: solid 1px #e8f2fd;
+        box-shadow: 0 6px 10px #e1f2ff;
+      }
     }
   }
   .theme-dark & {
     > * {
-      background: linear-gradient(15deg, #4e4d4d 0%, #646464 84%);
-      border: solid 1px #656565;
+      &.black {
+        background: linear-gradient(15deg, #4e4d4d 0%, #646464 84%);
+        border: solid 1px #656565;
+      }
+      &.blue {
+        background: linear-gradient(15deg, #5eb2dd 0%, #d0eaff 84%);
+        border: solid 1px #c6e1ff;
+        box-shadow: 0 3px 8px #43adfe78;
+      }
     }
   }
 }

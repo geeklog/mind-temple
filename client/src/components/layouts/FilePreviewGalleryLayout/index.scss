@@ -90,11 +90,10 @@
       width: 60vh;
       height: 80vh;
       font-size: 1vh;
-      @include themed('background', 'dimBackground');
+      @include themed('background', 'plaintextBackground');
+      @include themed('box-shadow', 'gallerySlideShadow');
       padding: 40px;
       overflow: hidden;
-      @include themed('box-shadow', 'gallery-slide-shadow');
-      text-overflow: ellipsis;
     }
   }
   .folder {

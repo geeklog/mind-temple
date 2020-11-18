@@ -17,6 +17,7 @@
   width: 100%;
   margin-top: $topbarHeight;
   height: calc(100vh - #{$topbarHeight});
+  @include themed('background', 'mainBackground');
 }
 
 .error-msg {
