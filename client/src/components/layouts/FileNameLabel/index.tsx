@@ -11,19 +11,34 @@ interface Props {
 
 interface State {
   editing: boolean;
+  activate: number;
 }
 
 export default class FileNameLabel extends PureComponent<Props, State> {
 
   div: HTMLDivElement;
   state = {
-    editing: false
+    editing: false,
+    activate: 0,
   };
 
   onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (this.state.editing) {
+    const {editing, activate} = this.state;
+
+    if (editing) {
       return;
     }
+
+    // First click activate the label,
+    // Second click let it into editing mode.
+    // Use a 0.5s interval to avoid conflict with double click event
+    if (!this.state.activate || Date.now() - this.state.activate < 300) {
+      this.setState({
+        activate: Date.now()
+      });
+      return;
+    }
+
     this.setState({
       editing: true
     });
@@ -41,7 +56,8 @@ export default class FileNameLabel extends PureComponent<Props, State> {
   onBlur = (event: React.FocusEvent<HTMLDivElement>) => {
     const {onChange} = this.props;
     this.setState({
-      editing: false
+      editing: false,
+      activate: 0
     });
     onChange(this.div.innerText);
   }
@@ -51,7 +67,8 @@ export default class FileNameLabel extends PureComponent<Props, State> {
     if (event.key === 'Enter') {
       event.preventDefault();
       this.setState({
-        editing: false
+        editing: false,
+        activate: 0
       });
       onChange(this.div.innerText);
     }
@@ -62,11 +79,12 @@ export default class FileNameLabel extends PureComponent<Props, State> {
     if (event.target === this.div) {
       return;
     }
-    if (!this.state.editing) {
+    if (!this.state.editing && !this.state.activate) {
       return;
     }
     this.setState({
-      editing: false
+      editing: false,
+      activate: 0
     });
   }
 

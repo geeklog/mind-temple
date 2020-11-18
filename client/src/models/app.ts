@@ -111,6 +111,9 @@ function getSortMethod(folder: FolderDesc) {
 function getShowingFiles(folder: FolderDesc, showHidden: boolean) {
   let files = folder.file.subs;
   const currSort = getSortMethod(folder);
+  if (!files) {
+    return [];
+  }
 
   files = showHidden
     ? files

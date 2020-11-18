@@ -4,9 +4,7 @@
   hyphens: none;
   padding: 1px;
   border: transparent 3px solid;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  user-select: none;
   &.editing {
     cursor: text;
     outline: none;
