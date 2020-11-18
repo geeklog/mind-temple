@@ -7,9 +7,11 @@ import TopMenubar from '../TopMenubar';
 import FileContextMenu from '../layouts/FileContextMenu';
 import { AppProps, connectAppControl } from '../../models/app';
 import { LayoutMode } from '../../models/layout';
-// import { watchPropORStateChanges } from './debug';
 import Sidebar from '../Sidebar/index';
 import FileDetailPane from '../layouts/FileDetailPane';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import { watchPropORStateChanges } from './debug';
 
 class App extends React.PureComponent<AppProps> {
 
@@ -45,6 +47,7 @@ class App extends React.PureComponent<AppProps> {
   componentDidMount() {
     this.props.navigateTo();
     document.addEventListener('keydown', this.onKeyDown);
+    // toast.error('whoa!', {position: 'bottom-right'});
   }
 
   componentWillUnmount() {
@@ -68,6 +71,7 @@ class App extends React.PureComponent<AppProps> {
           </div>
         </main>
         <FileContextMenu />
+        <ToastContainer />
       </div>
     );
   }
