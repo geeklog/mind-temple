@@ -10,6 +10,11 @@ import Icon from '../../controls/Icon';
 
 class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
 
+  onDoubleClick = (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    const {open, showingFiles, currIndex} = this.props;
+    open(showingFiles[currIndex]);
+  }
+
   onContextMenu = (event: any) => {
     const {files, currIndex, toggleFileContextMenu} = this.props;
     const file = files[currIndex];
@@ -87,12 +92,6 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
           </div>
         }
         {isImage &&
-          // <div className="btn btn-prev" onClick={selectPrev}>
-          //   <Icon className="" name="chevron-left"/>
-          // </div>
-          // <div className="btn btn-next" onClick={selectNext}>
-          //   <Icon name="chevron-right"/>
-          // </div>
           <div
             className="frame"
           >
@@ -101,6 +100,7 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
               src={src}
               style={style}
               alt={file.name}
+              onDoubleClick={this.onDoubleClick}
             />
             <div
               className="overlay-left"

@@ -62,18 +62,12 @@ class FileDetailPane extends React.PureComponent<AppProps> {
         onWheel={this.onWheel}
       >
         {isImage &&
-          <div className="frame">
+          <div className="thumb">
             <img
               className="image"
               src={src}
               style={style}
               alt={file.name}
-            />
-            <div
-              className="overlay-left"
-            />
-            <div
-              className="overlay-right"
             />
           </div>
         }

@@ -1,26 +1,29 @@
 import fs from 'fs';
-import path from 'path';
-import cachez from 'cachez';
 import { describeFile, resolvePath } from '../util/fileUtil';
-import fswatch from 'node-watch';
 
 let caches = {};
 
-fswatch('/', { recursive: true}, (event, name) => {
-  if (name.startsWith('/Users/livestar/Library/Application Support')) {
-    return;
-  }
-  if (name.startsWith('/Users/livestar/Library/')) {
-    return;
-  }
-  console.log('fileChanged-------', event, name);
-  caches = {};
-});
+let watcher;
 
 export default async (req, res) => {
   let resourcePath: string = req.path.replace('\/browse\/', '');
   resourcePath = decodeURIComponent(resourcePath);
   const currPath = resolvePath(resourcePath);
+
+  if (watcher) {
+    watcher.close();
+  }
+
+  watcher = fs.watch(currPath, { recursive: true}, (event, name) => {
+    if (name.startsWith('/Users/livestar/Library/Application Support')) {
+      return;
+    }
+    if (name.startsWith('/Users/livestar/Library/')) {
+      return;
+    }
+    console.log('fileChanged-------', event, name);
+    caches = {};
+  });
 
   if (caches[currPath]) {
     return res.json({
