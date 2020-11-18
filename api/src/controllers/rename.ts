@@ -1,7 +1,7 @@
 import { resolvePath } from '../util/fileUtil';
 import fs from 'fs-extra';
 import path from 'path';
-import { purgeBrowseCache } from '../services/cache';
+import cache from '../services/cache';
 
 export default async (req, res) => {
   try {
@@ -10,12 +10,12 @@ export default async (req, res) => {
     const oldPath = resolvePath(resourcePath);
     const newPath = path.join(path.dirname(oldPath), req.body.newName);
     if (oldPath === newPath) {
-      return res.jsn({
+      return res.json({
         ok: 1
       });
     }
     fs.renameSync(oldPath, newPath);
-    purgeBrowseCache();
+    cache.purge(oldPath);
     res.json({
       ok: 1
     });

@@ -18,3 +18,8 @@ export const dirname = (path: string) => {
   parts.pop();
   return parts.join('/');
 };
+
+export const fname = (path: string) => {
+  const parts = path.split('/');
+  return parts.pop();
+};

@@ -1,6 +1,5 @@
-import fs from 'fs';
 import { describeFile, resolvePath } from '../util/fileUtil';
-import { addBrowseCache, getBrowseCache, purgeBrowseCache } from '../services/cache';
+import cache from '../services/cache';
 
 let watcher;
 
@@ -9,22 +8,7 @@ export default async (req, res) => {
   resourcePath = decodeURIComponent(resourcePath);
   const currPath = resolvePath(resourcePath);
 
-  if (watcher) {
-    watcher.close();
-  }
-
-  watcher = fs.watch(currPath, { recursive: true}, (event, name) => {
-    if (name.startsWith('/Users/livestar/Library/Application Support')) {
-      return;
-    }
-    if (name.startsWith('/Users/livestar/Library/')) {
-      return;
-    }
-    console.log('fileChanged-------', event, name);
-    purgeBrowseCache();
-  });
-
-  const cahcedBrowse = getBrowseCache(currPath);
+  const cahcedBrowse = cache.browse(currPath);
   if (cahcedBrowse) {
     return res.json({
       ok: 1,
@@ -33,9 +17,8 @@ export default async (req, res) => {
   }
 
   try {
-    console.log('gettingFile', currPath);
     const file = await describeFile(currPath);
-    addBrowseCache(currPath, file);
+    cache.add(currPath, file);
     res.json({
       ok: 1,
       file

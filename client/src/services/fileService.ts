@@ -99,8 +99,26 @@ export async function command(cmd: string, filePath: string) {
   }
 }
 
+export async function create(filePath: string, newName: string, type: string) {
+  const res = await fetch(`${apiServer}/create/${encodeURIComponent(filePath)}`, {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      newName,
+      type
+    })
+  });
+  const data = await res.json();
+  if (res.ok) {
+    return data.newFile;
+  }
+}
+
 export async function rename(filePath: string, newName: string) {
-  await fetch(`${apiServer}/rename/${encodeURIComponent(filePath)}`, {
+  const res = await fetch(`${apiServer}/rename/${encodeURIComponent(filePath)}`, {
     method: 'post',
      headers: {
       'Accept': 'application/json',
@@ -110,6 +128,10 @@ export async function rename(filePath: string, newName: string) {
        newName
      })
   });
+  const data = await res.json();
+  if (res.ok) {
+    return data.newFile;
+  }
 }
 
 export async function save(filePath: string, file: string) {

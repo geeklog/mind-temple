@@ -11,6 +11,7 @@ import thumbController from './controllers/thumb';
 import commandController from './controllers/command';
 import saveController from './controllers/save';
 import renameController from './controllers/rename';
+import createController from './controllers/create';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.get(/^\/thumb\/.*/, thumbController);
 app.get(/^\/cmd\/.*/, commandController);
 app.post(/^\/save\/.*/, saveController);
 app.post(/^\/rename\/.*/, renameController);
+app.post(/^\/create\/.*/, createController);
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -43,7 +45,10 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
   res.status(err.status || 500);
-  res.render("error");
+  res.json({
+    ok: 0,
+    error: err.stack
+  });
 });
 
 const port = process.env.PORT || 9000;

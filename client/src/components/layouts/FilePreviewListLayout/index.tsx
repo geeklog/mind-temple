@@ -6,7 +6,6 @@ import Label from '../../controls/Label';
 import ToggleButton from '../../controls/ToggleButton';
 import prettyBytes from 'pretty-bytes';
 import { FileDesc } from '../../../models/file';
-import { cmp } from 'mikov';
 import { format } from 'date-fns';
 
 class Header extends React.PureComponent<{
@@ -78,21 +77,6 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
     const {showingFiles, currIndex, currSort} = this.props;
 
     let files = showingFiles;
-    if (currSort.name) {
-      files = showingFiles.sort((f1, f2) => {
-        return (currSort.name === 'asc' ? 1 : -1) * f1.name.localeCompare(f2.name);
-      });
-    }
-    if (currSort.size) {
-      files = showingFiles.sort((f1, f2) => {
-        return (currSort.size === 'asc' ? 1 : -1) * cmp(f1.size, f2.size);
-      });
-    }
-    if (currSort.time) {
-      files = showingFiles.sort((f1, f2) => {
-        return (currSort.time === 'asc' ? 1 : -1) * cmp(new Date(f1.mtime).getTime(), new Date(f2.mtime).getTime());
-      });
-    }
 
     return (
       <div className="files-layout-list">

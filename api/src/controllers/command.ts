@@ -1,5 +1,6 @@
 import childProcess from 'child_process';
 import { dirname } from 'path';
+import cache from '../services/cache';
 import { resolvePath } from '../util/fileUtil';
 
 function exec(cmd: string) {
@@ -38,6 +39,7 @@ export default async (req, res) => {
 
     if (command === 'trash') {
       await exec(`trash '${filePath}'`);
+      cache.purge(filePath);
       return res.json({ ok: 1 });
     }
 

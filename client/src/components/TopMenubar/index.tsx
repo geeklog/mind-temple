@@ -1,11 +1,11 @@
 import React from "react";
-import MenuButtonGroup from "../controls/MenuButtonGroup";
 import NavigationBar from '../NavigationBar';
 import ToggleButton from "../controls/ToggleButton";
 import { AppProps, connectAppControl } from '../../models/app';
 import './index.scss';
 import Button from "../controls/Button";
 import MarkdownEditorControlBar from '../editors/MarkdownEditor/ControlBar';
+import FolderControlBar from "../layouts/FolderControlBar";
 class TopMenubar extends React.PureComponent<AppProps> {
 
   onPathChanged = (currPath: string) => {
@@ -27,9 +27,6 @@ class TopMenubar extends React.PureComponent<AppProps> {
     const {
       currPath,
       currFile,
-      showHiddenFiles,
-      setLayoutMode,
-      toggleHiddenFiles,
     } = this.props;
     const isFolder = currFile.file && currFile.file.type === 'folder';
     const isMarkdown = currFile.file && currFile.file.type === 'markdown';
@@ -55,19 +52,7 @@ class TopMenubar extends React.PureComponent<AppProps> {
           onPathChanged={this.onPathChanged}
         />
         {isFolder &&
-          <MenuButtonGroup
-            btns={['grid', 'list', 'monitor']}
-            choices={['grid', 'list', 'gallery']}
-            onSelected={setLayoutMode}
-          />
-        }
-        {isFolder &&
-          <ToggleButton
-            on={showHiddenFiles}
-            btns={['eye-off', 'eye']}
-            onToggle={toggleHiddenFiles}
-            toggleOnMouseOver={true}
-        />
+          <FolderControlBar {...this.props} />
         }
         {isMarkdown &&
           <MarkdownEditorControlBar {...this.props} />

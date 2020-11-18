@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import './index.scss';
+import eventCenter from '../../../services/eventCenter';
+import { fname } from '../../../utils/pathUtils';
 
 interface Props {
   name: string;
@@ -53,6 +55,7 @@ export default class FileNameLabel extends PureComponent<Props, State> {
       });
       onChange(this.div.innerText);
     }
+    event.stopPropagation();
   }
 
   onClickOutter: any = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -67,10 +70,19 @@ export default class FileNameLabel extends PureComponent<Props, State> {
     });
   }
 
+  onEventRenameFile = (event: string, newFilePath: string) => {
+    if (fname(newFilePath) === this.props.name) {
+      this.setState({
+        editing: true
+      });
+    }
+  }
+
   componentDidMount() {
     const {name} = this.props;
     this.div.innerText = name;
     document.addEventListener('click', this.onClickOutter);
+    eventCenter.listenTo('Cmd:RenameFile', this.onEventRenameFile);
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -82,6 +94,7 @@ export default class FileNameLabel extends PureComponent<Props, State> {
 
   componentWillUnmount() {
     document.removeEventListener('click', this.onClickOutter);
+    eventCenter.deafTo('Cmd:RenameFile', this.onEventRenameFile);
   }
 
   render() {
