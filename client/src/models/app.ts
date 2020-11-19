@@ -44,6 +44,7 @@ interface History {
 interface AppState {
   layout: LayoutMode;
   sidebarOpened: boolean;
+  rightPaneOpened: boolean;
   paths: {[path: string]: FolderDesc};
   pathHistory: History;
   currPath: string;
@@ -59,6 +60,7 @@ interface AppState {
 const defaultState = {
   layout: 'grid',
   sidebarOpened: true,
+  rightPaneOpened: true,
   theme: 'light',
   currPath: '~/Downloads/imgs',
   editorLayout: 'both',
@@ -270,6 +272,12 @@ export const app = createModel<RootModel>()({
       return {
         ...state,
         sidebarOpened: !state.sidebarOpened
+      };
+    },
+    toggleRightPane: (state: AppState) => {
+      return {
+        ...state,
+        rightPaneOpened: !state.rightPaneOpened
       };
     },
     setEditorSaved: (state: AppState, editorSaved: string) => {
@@ -484,6 +492,7 @@ const mapAppState = (state: RootState) => {
     currPath,
     pathHistory,
     sidebarOpened,
+    rightPaneOpened,
     theme,
     showHiddenFiles,
     fileContextMenu,
@@ -505,6 +514,7 @@ const mapAppState = (state: RootState) => {
     showHiddenFiles,
     fileContextMenu,
     sidebarOpened,
+    rightPaneOpened,
     prevLayoutMode: currFolder.prevLayoutMode,
     layoutMode: layout, // currFolder.layoutMode,
     currIndex: currFolder.currIndex,
@@ -557,7 +567,8 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
     // dispatch.app.updateCurrFolder({layoutMode});
   },
   setTheme: (theme: string) => dispatch.app.setTheme(theme),
-  toggleSidebar: () => dispatch.app.toggleSidebar(),
+  toggleSidebar: dispatch.app.toggleSidebar,
+  toggleRightPane: dispatch.app.toggleRightPane,
   setEditorUnsaved: (saved: string) => dispatch.app.setEditorSaved(saved),
   setEditorLayout: (layout: 'edit' | 'preview' | 'both') => dispatch.app.setEditorLayout(layout),
   setEditorTheme: (theme: string) => dispatch.app.setEditorTheme(theme),

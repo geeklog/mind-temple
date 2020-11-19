@@ -30,7 +30,7 @@
     margin: 0 5px;
     cursor: pointer;
   }
-  .toggle-button:first-child {
+  .sidebar-btn {
     position: absolute;
     top: 11px;
     left: -26px;
@@ -52,7 +52,14 @@
       padding: 0;
       padding-bottom: 2px;
       padding-right: 2px;
-      @include themed('fill', 'grayColor');
+    }
+  }
+  .rightpane-btn {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    &.state-true {
+      right: 256px
     }
   }
 }

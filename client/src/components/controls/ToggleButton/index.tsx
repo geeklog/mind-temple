@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '../Icon';
 import classnames from 'classnames';
-
+import './index.scss';
 interface Props {
   on: boolean | string;
   btns: [string, string] | string[];

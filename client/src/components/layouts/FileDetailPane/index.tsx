@@ -4,6 +4,7 @@ import * as service from '../../../services/fileService';
 import classes from 'classnames';
 import PlainTextEditor from '../../editors/PlainTextEditor';
 import MarkdownEditor from '../../editors/MarkdownEditor';
+import ImageEditor from '../../editors/ImageEditor';
 import { AppProps, connectAppControl } from '../../../models/app';
 
 class FileDetailPane extends React.PureComponent<AppProps> {
@@ -36,24 +37,6 @@ class FileDetailPane extends React.PureComponent<AppProps> {
     const isMarkdown = file.type === 'markdown';
     const isText = file.type === 'text';
     const isFile = !isImage && !isDirectory && !isText && !isMarkdown;
-    const src = isImage
-      ? service.file(file.path)
-      : `filetypes/${ext}.svg`;
-
-    let style;
-
-    if (file.type === 'image') {
-      style = {
-        maxWidth: `calc(100vw - 40px)`,
-        maxHeight: `calc(95vh - 50px)`
-      };
-    } else {
-      style = {
-        height: `calc(65vh - 100px)`,
-        maxWidth: `calc(100vw - 200px)`,
-        maxHeight: `calc(100vh - 100px)`
-      };
-    }
 
     return (
       <div
@@ -63,12 +46,7 @@ class FileDetailPane extends React.PureComponent<AppProps> {
       >
         {isImage &&
           <div className="thumb">
-            <img
-              className="image"
-              src={src}
-              style={style}
-              alt={file.name}
-            />
+            <ImageEditor {...this.props} />
           </div>
         }
         {isMarkdown &&
@@ -81,8 +59,12 @@ class FileDetailPane extends React.PureComponent<AppProps> {
           <div className='thumb'>
             <img
               className={classes('preview-img', 'icon')}
-              src={src}
-              style={style}
+              src={`filetypes/${ext}.svg`}
+              style={{
+                height: `calc(65vh - 100px)`,
+                maxWidth: `calc(100vw - 200px)`,
+                maxHeight: `calc(100vh - 100px)`
+              }}
               alt={file.name}
             />
             <div className="file-name">

@@ -1,0 +1,17 @@
+@import '../../styles/theme.scss';
+
+.right-pane {
+  width: 362px;
+  padding: 50px 25px;
+  display: flex;
+  flex-direction: column;
+  @include themedMixin('rightPane');
+  .label {
+    word-break: break-all;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  &.hide {
+    display: none;
+  }
+}

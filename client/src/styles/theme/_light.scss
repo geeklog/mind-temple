@@ -17,6 +17,11 @@ $textEditorBackground: (
   linear-gradient(#eee .1em, transparent .1em)
 );
 
+$rightPane: (
+  background: $white,
+  border-left: #e2e2e2 1px solid
+);
+
 $theme: (
   whiteColor: $white,
   blackColor: $black,
@@ -52,7 +57,7 @@ $theme: (
   filenameBackground: #fafafa,
   topbarBackground: #fafafa,
 
-  thumbSelectedBG: linear-gradient(15deg, #f8fcfe 0%, #f5fbff 84%),
+  thumbSelectedBG: linear-gradient(173deg, #d4edff 0%, #2799ea 100%),
   
   headerColor: $white,
   headerBorder: #d7d7d7 solid 1px,
@@ -62,4 +67,6 @@ $theme: (
   stripEven: $stripEven,
   stripOdd: $stripOdd,
   stripBackground: $stripBackground,
+  rightPane: $rightPane
+  
 )

@@ -17,6 +17,11 @@ $textEditorBackground: (
   linear-gradient(#363636 .1em, transparent .1em)
 );
 
+$rightPane: (
+  background: #4d4d4d,
+  border-left: #363636 1px solid
+);
+
 $theme: (
   whiteColor: $white,
   blackColor: $black,
@@ -61,5 +66,6 @@ $theme: (
 
   stripEven: $stripEven,
   stripOdd: $stripOdd,
-  stripBackground: $stripBackground
+  stripBackground: $stripBackground,
+  rightPane: $rightPane
 )

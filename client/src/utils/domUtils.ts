@@ -49,3 +49,20 @@ export function moveCaretToEnd(div: HTMLDivElement) {
   selection?.removeAllRanges();
   selection?.addRange(range);
 }
+
+export async function loadImageData(src: string) {
+  const img = new Image();
+  img.crossOrigin = "Anonymous";
+  const imgData: any = await new Promise((resolve) => {
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      canvas.width  = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      resolve(ctx.getImageData(0, 0, img.width, img.height));
+    };
+    img.src = src;
+  });
+  return imgData;
+}

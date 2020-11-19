@@ -33,6 +33,7 @@ class TopMenubar extends React.PureComponent<AppProps> {
     return (
       <div className="menu">
         <ToggleButton
+          className="sidebar-btn dim"
           on={this.props.sidebarOpened}
           btns={['chevrons-right', 'chevrons-left']}
           onToggle={this.props.toggleSidebar}
@@ -62,6 +63,12 @@ class TopMenubar extends React.PureComponent<AppProps> {
           btns={['moon', 'sun']}
           onToggle={this.toggleNightMode}
           toggleOnMouseOver={true}
+        />
+        <ToggleButton
+          className="rightpane-btn dim"
+          on={this.props.rightPaneOpened}
+          btns={['chevrons-left', 'chevrons-right']}
+          onToggle={this.props.toggleRightPane}
         />
       </div>
     );

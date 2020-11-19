@@ -38,12 +38,13 @@
         .icon {
           width: 50px;
           height: 50px;
-          @include themed('fill', 'colorWhite');
-          display: none;
+          @include themed('fill', 'whiteColor');
+          opacity: 0;
+          transition: .3s;
         }
         &:hover {
           .icon {
-            display: initial;
+            opacity: 1;
           }
         }
       }
@@ -61,7 +62,7 @@
         .icon {
           width: 50px;
           height: 50px;
-          @include themed('fill', 'colorWhite');
+          @include themed('fill', 'whiteColor');
           display: none;
         }
         &:hover {
@@ -78,11 +79,11 @@
       > .file-name {
         padding-top: 15px;
         text-align: center;
-        @include themed('background', 'filenameBackground');
-        @include themed('box-shadow', 'shadowSmall');
-        padding: 3px 15px;
-        margin-top: 8px;
+        // @include themed('background', 'filenameBackground');
+        // @include themed('box-shadow', 'shadowSmall');
         border-radius: 100px;
+        padding: 0px 8px;
+        margin-top: 20px;
       }
     }
     

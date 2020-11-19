@@ -23,8 +23,8 @@
 ✔ new file, new folder @done(20-11-18 18:23)
 ✔ error notification @done(20-11-18 20:41)
 ✔ fix: when rename error ocurred, should show the error msg, and refocusing on the renaming label @done(20-11-18 21:15)
+✔ more smart sort by name (a_1, a_2, a_11) @done(20-11-19 15:37)
 ☐ hotkey register
-☐ more smart sort by name (a_1, a_2, a_11)
 ☐ fix file-context-menu bounds to page border
 ☐ select multiple files
 ☐ drag files into folder

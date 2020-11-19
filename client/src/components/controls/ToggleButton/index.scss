@@ -1,0 +1,11 @@
+@import '../../../styles/theme.scss';
+
+.toggle-button {
+  &.dim {
+    width: 23px;
+    height: 23px;
+    .icon {
+      @include themed('fill', 'grayColor');
+    }
+  }
+}
