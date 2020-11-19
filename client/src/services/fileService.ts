@@ -1,12 +1,11 @@
-import { endsWith, startsWith } from 'mikov/fn/op';
+import { endsWith } from 'mikov/fn/op';
 import { apiServer } from '../config';
 import { BrowseResponse, FileDesc } from '../models/file';
 import { dirname, joinPath } from '../utils/pathUtils';
-import { toastError } from '../components/controls/toast';
 
-const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif'];
+const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'];
 const supportExtensions = new Set([
-  '7z', 'aac', 'ai', 'archive', 'arj', 'audio', 'avi', 'css', 'csv', 'dbf', 'doc', 'dwg', 'exe', 'fla', 'flac', 'gif', 'html', 'iso', 'jpg', 'js', 'json', 'mdf', 'mp2', 'mp3', 'mp4', 'mxf', 'nrg', 'pdf', 'png', 'ppt', 'psd', 'rar', 'rtf', 'svg', 'text', 'tiff', 'txt', 'video', 'wav', 'wma', 'xls', 'xml', 'zip'
+  '7z', 'aac', 'ai', 'archive', 'arj', 'audio', 'avi', 'css', 'csv', 'dbf', 'doc', 'dwg', 'exe', 'fla', 'flac', 'gif', 'html', 'iso', 'jpg', 'js', 'json', 'mdf', 'mp2', 'mp3', 'mp4', 'mxf', 'nrg', 'pdf', 'png', 'ppt', 'psd', 'rar', 'rtf', 'svg', 'webp', 'text', 'tiff', 'txt', 'video', 'wav', 'wma', 'xls', 'xml', 'zip'
 ]);
 
 export const isImage = (s: string) => endsWith(IMAGE_EXTS)(s.toLowerCase());
@@ -18,7 +17,7 @@ export function resolveExtension(ext: string) {
   if (ext.startsWith('.')) {
     ext = ext.replace('.', '');
   }
-  if (ext === 'jpeg') {
+  if (ext === 'webp' || ext === 'svg' || ext === 'jpeg') {
     ext = 'jpg';
   }
   if (ext === 'md') {

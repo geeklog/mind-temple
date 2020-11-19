@@ -79,7 +79,7 @@
         padding-top: 15px;
         text-align: center;
         @include themed('background', 'filenameBackground');
-        @include themed('box-shadow', 'shadow-sm');
+        @include themed('box-shadow', 'shadowSmall');
         padding: 3px 15px;
         margin-top: 8px;
         border-radius: 100px;

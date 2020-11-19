@@ -1,0 +1,65 @@
+@import 'common';
+
+$stripEven: #f3f3fb;
+$stripOdd: #f8f8fd;
+$stripBackground: repeating-linear-gradient(
+  to bottom,
+  #{$stripOdd},
+  #{$stripOdd} 30px,
+  #{$stripEven} 30px,
+  #{$stripEven} 60px
+);
+
+$textEditorBackground: (
+  linear-gradient(
+    90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px
+  ),
+  linear-gradient(#eee .1em, transparent .1em)
+);
+
+$theme: (
+  whiteColor: $white,
+  blackColor: $black,
+  grayColor: #d4d4d4,
+  fadedColor: #161b1f32,
+  highlightColor: white,
+  textColor: #282c34,
+  
+  border: $black 1px solid,
+
+  shadowSmall: 0 5px 10px rgba(#b5b5b5, 0.2),
+  dimBorder: #e2e2e2 solid 1px,
+  dimBackground: #fafafa,
+
+  mainBackground: $white,
+
+  sidebarBackground: rgb(247,247,255),
+  sidebarShadow: 0px 0px 3px rgba(#b5b5b5, 0.5),
+  
+  scrollbarBackground: #f0f0f0,
+  scrollbarThumb: #d7d7d7,
+  scrollbarBorder: 0px solid #f0f0f0,
+  scrollbarColor: #f7f7fa #f0f0f0,
+  
+  plaintextBackground: white,
+  gallerySlideShadow: 0 5px 9px rgba(181, 181, 181, 0.2),
+  
+  selectedBackground: #2bb1f6,
+  selectedTextColor: $white,
+
+  editorBackground: $white,
+  
+  filenameBackground: #fafafa,
+  topbarBackground: #fafafa,
+
+  thumbSelectedBG: linear-gradient(15deg, #f8fcfe 0%, #f5fbff 84%),
+  
+  headerColor: $white,
+  headerBorder: #d7d7d7 solid 1px,
+  
+  textEditorBackground: $textEditorBackground,
+
+  stripEven: $stripEven,
+  stripOdd: $stripOdd,
+  stripBackground: $stripBackground,
+)

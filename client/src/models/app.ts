@@ -10,6 +10,10 @@ import { LayoutMode } from './layout';
 import eventCenter from '../services/eventCenter';
 import { toastError } from '../components/controls/toast';
 import { startsWith } from 'mikov/fn/op';
+import natsort from 'natsort';
+
+const nartualSortAsc = natsort();
+const nartualSortDsc = natsort({desc: true});
 
 export interface ContextMenuProps {
   file?: FileDesc;
@@ -122,9 +126,9 @@ function getShowingFiles(folder: FolderDesc, showHidden: boolean) {
     : files.filter(({name}) => !name.startsWith('.') && !name.startsWith('~$'));
 
   if (currSort.name) {
-    files = files.sort((f1, f2) => {
-      return (currSort.name === 'asc' ? 1 : -1) * f1.name.localeCompare(f2.name);
-    });
+    files = files.sort((f1, f2) => (
+      currSort.name === 'asc' ? nartualSortAsc : nartualSortDsc
+    )(f1.name, f2.name));
   }
   if (currSort.size) {
     files = files.sort((f1, f2) => {

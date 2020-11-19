@@ -1,0 +1,57 @@
+✔ toggle hidden files @done(20-11-05 17:37)
+✔ open files @done(20-11-05 22:30)
+✔ open folder @done(20-11-05 22:30)
+✔ open in console @done(20-11-05 22:53)
+✔ delete @done(20-11-05 22:53)
+✔ fix: gallery view @done(20-11-06 10:56)
+✔ gallery: bind file actions @done(20-11-06 11:47)
+✔ gallery mouse scroll @done(20-11-06 13:43)
+✔ redux @done (11/10/2020, 10:34:42 AM)
+✔ persist redux @done(20-11-10 15:19)
+✔ every path should have it's currIndex @done(20-11-10 15:56)
+✔ fix folder icon @done(20-11-10 16:50)
+✔ fix style for empty folder & wheel @done(20-11-10 17:03)
+✔ show text content @done(20-11-10 18:40)
+✔ markdown editor - theme @done(20-11-11 16:23)
+✔ markdown editor - save file @done(20-11-11 17:28)
+✔ markdown editor - mathjax @done(20-11-11 19:52)
+✔ markdown editor - syntax plugins @done(20-11-11 19:52)
+✔ theme @done(20-11-13 19:05)
+✔ sidebar @done(20-11-18 09:54)
+✔ sort list view @done(20-11-18 09:54)
+✔ rename file @done(20-11-18 11:48)
+✔ new file, new folder @done(20-11-18 18:23)
+✔ error notification @done(20-11-18 20:41)
+✔ fix: when rename error ocurred, should show the error msg, and refocusing on the renaming label @done(20-11-18 21:15)
+☐ hotkey register
+☐ more smart sort by name (a_1, a_2, a_11)
+☐ fix file-context-menu bounds to page border
+☐ select multiple files
+☐ drag files into folder
+☐ i18n
+☐ tabs
+☐ find a way to config the api-server host
+☐ hide top menu bar
+☐ gallery: folder display it's content
+☐ gallery: magnifying lens
+☐ list move cursor up/down
+☐ view plain text content
+☐ navigation bar history & backward/forward
+☐ navigation bar search hint
+☐ search not found: show search history
+☐ setting panel
+☐ download file
+☐ qrcode
+☐ navigation bar dropdown
+☐ double page mode
+☐ display file info
+☐ tree view
+☐ search in place: (keydown "s", and only show all the file with name contains 's' )
+☐ watch for files changed on server
+
+☐ fix: if client ip is not localhost, forbbit exec command
+☐ fix: right click on file-item should also select it
+☐ multiple selection in folder
+☐ copy/paste files
+☐ execute arbitrary commands on server
+☐ search files in computer, history priorities first

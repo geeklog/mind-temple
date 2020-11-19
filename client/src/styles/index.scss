@@ -1,6 +1,5 @@
 @import "./theme.scss";
 
-
 body {
   background-color: #161B1F;
   @include themed('background-color', 'background');

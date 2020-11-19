@@ -3,6 +3,7 @@ dist
 .history
 /.pnp
 .pnp.js
+build
 
 /coverage
 

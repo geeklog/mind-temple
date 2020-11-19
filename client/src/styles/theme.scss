@@ -1,84 +1,10 @@
-$white: #fefefe;
-$black: #282c34;
-$topbarHeight: 45px;
-
-$bg2: (linear-gradient(90deg, transparent 79px, #4d4d4d 79px, #4d4d4d 81px, transparent 81px),
-linear-gradient(#363636 .1em, transparent .1em));
-$bg1: (
-  linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
-  linear-gradient(#eee .1em, transparent .1em)
-);
+@use './theme/light';
+@use './theme/dark';
+@import './theme/common';
 
 $themes: (
-  light: (
-    colorWhite: $white,
-    blackColor: $black,
-    grayColor: #d4d4d4,
-    faded: #161b1f32,
-    background: $white,
-    highlight: white,
-    border: $black 1px solid,
-    textColor: #282c34,
-    sidebarBackground: rgb(247,247,255),
-    scrollbarBackground: #f0f0f0,
-    scrollbarThumb: #d7d7d7,
-    scrollbarBorder: 0px solid #f0f0f0,
-    scrollbarColor: #f7f7fa #f0f0f0,
-    // mainShadow: 20px 0px 83px #b5b5b5,
-    sidebarShadow: 0px 0px 3px rgba(#b5b5b5, 0.5),
-    plaintextBackground: white,
-    gallerySlideShadow: 0 5px 9px rgba(181, 181, 181, 0.2),
-    shadow-sm: 0 2px 5px rgba(#b5b5b5, 0.5),
-    dimBorder: #e2e2e2 solid 1px,
-    dimBackground: #fafafa,
-    filenameBackground: #fafafa,
-    thumbSelectedBG: linear-gradient(15deg, #f8fcfe 0%, #f5fbff 84%),
-    topbarBackground: #fafafa,
-    editorBackground: $white,
-    selectedColor: #8d8d8e,
-    selectedTextColor: $white,
-    headerColor: $white,
-    headerBorder: #d7d7d7 solid 1px,
-    stripEvenColor: #efefef,
-    stripOddColor: #f4f4f4,
-    stripBackground: repeating-linear-gradient(
-      to bottom, #f4f4f4, #f4f4f4 30px, #efefef 30px, #efefef 60px
-    ),
-    textEditorBGImg: $bg1
-  ),
-  dark: (
-    colorWhite: $white,
-    black: $black,
-    highlight: black,
-    faded: #161b1f32,
-    grayColor: #595959,
-    background: $black,
-    mainBackground: $black,
-    border: $white 1px solid,
-    textColor: $white,
-    sidebarBackground: #21242b,
-    scrollbarBackground: #21242b,
-    scrollbarThumb: #414449,
-    // mainShadow: 20px 0px 83px #191b21,
-    sidebarShadow: 0px 0px 3px #191b21,
-    plaintextBackground: #414449,
-    gallerySlideShadow: 0 20px 50px rgba(#191b21, 0.7),
-    shadow-sm: 0 2px 5px rgba(#191b21, 0.5),
-    dimBorder: #1d2027 solid 1px,
-    dimBackground: #414449,
-    filenameBackground: #848991,
-    topbarBackground: #414449,
-    editorBackground: $black,
-    selectedColor: #a7a7a7,
-    headerColor: #5d5d5d,
-    headerBorder: #5d5d5d solid 1px,
-    stripEvenColor: #262931,
-    stripOddColor: #2f333a,
-    stripBackground: repeating-linear-gradient(
-      to bottom,#2f333a,#2f333a 30px,#262931 30px,#262931 60px
-    ),
-    textEditorBGImg: $bg2
-  )
+  light: light.$theme,
+  dark: dark.$theme
 );
 
 @function themeVar($color) {

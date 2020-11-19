@@ -59,13 +59,13 @@
           font-family: "Ubuntu Mono";
         }
         &:nth-child(odd) {
-          @include themed('background-color', 'stripOddColor');
+          @include themed('background', 'stripOdd');
         }
         &:nth-child(even) {
-          @include themed('background-color', 'stripEvenColor');
+          @include themed('background', 'stripEven');
         }
         &.selected {
-          @include themed('background-color', 'selectedColor');
+          @include themed('background', 'selectedBackground');
           @include themed('color', 'selectedTextColor');
         }
         .thumb {

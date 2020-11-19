@@ -1,0 +1,65 @@
+@import 'common';
+
+$stripEven: #262931;
+$stripOdd: #2f333a;
+$stripBackground: repeating-linear-gradient(
+  to bottom,
+  #{$stripOdd},
+  #{$stripOdd} 30px,
+  #{$stripEven} 30px,
+  #{$stripEven} 60px
+);
+
+$textEditorBackground: (
+  linear-gradient(
+    90deg, transparent 79px, #4d4d4d 79px, #4d4d4d 81px, transparent 81px
+  ),
+  linear-gradient(#363636 .1em, transparent .1em)
+);
+
+$theme: (
+  whiteColor: $white,
+  blackColor: $black,
+  grayColor: #595959,
+  fadedColor: #161b1f32,
+  highlightCOlor: black,
+  textColor: $white,
+  
+  border: $white 1px solid,
+
+  shadowSmall: 0 2px 5px rgba(#191b21, 0.5),
+  dimBorder: #1d2027 solid 1px,
+  dimBackground: #414449,
+
+  mainBackground: $black,
+  
+  sidebarBackground: #21242b,
+  sidebarShadow: 0px 0px 3px #191b21,
+
+  scrollbarBackground: #21242b,
+  scrollbarThumb: #414449,
+  scrollbarBorder: 0px solid #f0f0f0,
+  scrollbarColor: #f7f7fa #f0f0f0,
+
+  plaintextBackground: #414449,
+  gallerySlideShadow: 0 20px 50px rgba(#191b21, 0.7),
+
+  selectedBackground: #b3bbc7,
+  selectedTextColor: $black,
+  
+  editorBackground: $black,
+  
+  filenameBackground: #848991,
+  topbarBackground: #414449,
+
+  thumbSelectedBG: #414449,
+  
+  headerColor: #848991,
+  headerBorder: #1d2027 solid 1px,
+  
+  textEditorBackground: $textEditorBackground,
+
+  stripEven: $stripEven,
+  stripOdd: $stripOdd,
+  stripBackground: $stripBackground
+)
