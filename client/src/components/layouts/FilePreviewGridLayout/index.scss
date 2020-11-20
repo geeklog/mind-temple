@@ -27,11 +27,7 @@
       justify-content: center;
       z-index: 1;
       &.selected {
-        @include themed('background-color', 'selectedColor');
-        .theme-light & {
-          background: linear-gradient(158deg, #f4fbff 0%, #f7fcff 100%);
-          border: #ecf7fe solid 1px;
-        }
+        @include themedMixin('thumbSelected');
       }
       .preview-img {
         &.offset-1 {

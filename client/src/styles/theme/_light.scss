@@ -22,6 +22,11 @@ $rightPane: (
   border-left: #e2e2e2 1px solid
 );
 
+$thumbSelected: (
+  background: linear-gradient(158deg, #e9f6ff 0%, #e1f4ff 100%),
+  border: #e1f5ff solid 1px
+);
+
 $theme: (
   whiteColor: $white,
   blackColor: $black,
@@ -57,8 +62,6 @@ $theme: (
   filenameBackground: #fafafa,
   topbarBackground: #fafafa,
 
-  thumbSelectedBG: linear-gradient(173deg, #d4edff 0%, #2799ea 100%),
-  
   headerColor: $white,
   headerBorder: #d7d7d7 solid 1px,
   
@@ -67,6 +70,8 @@ $theme: (
   stripEven: $stripEven,
   stripOdd: $stripOdd,
   stripBackground: $stripBackground,
-  rightPane: $rightPane
+  
+  rightPane: $rightPane,
+  thumbSelected: $thumbSelected
   
 )

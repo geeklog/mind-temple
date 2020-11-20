@@ -13,7 +13,13 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import { watchPropORStateChanges } from './debug';
 
-class App extends React.PureComponent<AppProps> {
+class App extends React.Component<AppProps> {
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  state = { hasError: false };
 
   onKeyDown = (event: KeyboardEvent) => {
     const {
@@ -58,6 +64,10 @@ class App extends React.PureComponent<AppProps> {
   //   watchPropORStateChanges('App', prevProps, prevState, this.props, this.state);
   // }
 
+  componentDidCatch(error, errorInfo) {
+    console.error(error, errorInfo);
+  }
+
   render() {
     return (
       <div className="app">
@@ -78,7 +88,7 @@ class App extends React.PureComponent<AppProps> {
 
   renderMain() {
     const {currError, layoutMode, currFile} = this.props;
-    if (currError) {
+    if (this.state.hasError || currError) {
       return (
         <div className="error-msg">
           {currError}

@@ -29,8 +29,8 @@ export default class Thumb extends React.PureComponent<Props> {
 
     const imgStyle = img && (
       img.width > img.height
-        ? { width: `${size}px`}
-        : { height: `${size}px`}
+        ? { width: `${size < img.width ? size : img.width }px`}
+        : { height: `${size < img.height ? size : img.height }px`}
     );
 
     return (

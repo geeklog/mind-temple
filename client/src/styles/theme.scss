@@ -23,10 +23,8 @@ $themes: (
 @mixin themedMixin($themeMixin) {
   @each $theme-name, $theme in $themes {
     .theme-#{$theme-name} & {
-      @each $theme-key, $theme-style in $theme {
-        @each $name, $value in $theme-style {
-          #{$name}: $value;
-        }
+      @each $name, $value in map-get($theme, $themeMixin) {
+        #{$name}: $value;
       }
     }
   }

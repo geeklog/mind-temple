@@ -22,6 +22,11 @@ $rightPane: (
   border-left: #363636 1px solid
 );
 
+$thumbSelected: (
+  background: linear-gradient(158deg, #a9e6f0 0%, #39b7ff 100%),
+  border: #d1f1ff solid 1px
+);
+
 $theme: (
   whiteColor: $white,
   blackColor: $black,
@@ -67,5 +72,7 @@ $theme: (
   stripEven: $stripEven,
   stripOdd: $stripOdd,
   stripBackground: $stripBackground,
-  rightPane: $rightPane
+
+  rightPane: $rightPane,
+  thumbSelected: $thumbSelected
 )
