@@ -10,17 +10,17 @@ import { AppProps, connectAppControl } from '../../../models/app';
 class FileDetailPane extends React.PureComponent<AppProps> {
 
   onContextMenu = (event: any) => {
-    const {files, currIndex, toggleFileContextMenu} = this.props;
+    const { files, currIndex, toggleFileContextMenu } = this.props;
     const file = files[currIndex];
     event.preventDefault();
     event.stopPropagation();
     const x = event.pageX;
     const y = event.pageY;
-    toggleFileContextMenu({visible: true, x, y, file});
+    toggleFileContextMenu({ visible: true, x, y, file });
   }
 
   onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    const {selectNext, selectPrev} = this.props;
+    const { selectNext, selectPrev } = this.props;
     if (event.deltaY > 0) {
       selectNext();
     } else if (event.deltaY < 0) {
@@ -29,7 +29,7 @@ class FileDetailPane extends React.PureComponent<AppProps> {
   }
 
   render() {
-    const {currFile} = this.props;
+    const { currFile } = this.props;
     const file = currFile.file;
     const ext = service.resolveExtension(file.ext);
     const isDirectory = file.type === 'folder';
@@ -44,19 +44,15 @@ class FileDetailPane extends React.PureComponent<AppProps> {
         onContextMenu={this.onContextMenu}
         onWheel={this.onWheel}
       >
-        {isImage &&
+        {isImage && (
           <div className="thumb">
             <ImageEditor {...this.props} />
           </div>
-        }
-        {isMarkdown &&
-          <MarkdownEditor {...this.props} />
-        }
-        {isText &&
-          <PlainTextEditor file={file} />
-        }
-        {isFile &&
-          <div className='thumb'>
+        )}
+        {isMarkdown && <MarkdownEditor {...this.props} />}
+        {isText && <PlainTextEditor file={file} />}
+        {isFile && (
+          <div className="thumb">
             <img
               className={classes('preview-img', 'icon')}
               src={`filetypes/${ext}.svg`}
@@ -67,11 +63,9 @@ class FileDetailPane extends React.PureComponent<AppProps> {
               }}
               alt={file.name}
             />
-            <div className="file-name">
-              {file.name}
-            </div>
+            <div className="file-name">{file.name}</div>
           </div>
-        }
+        )}
       </div>
     );
   }

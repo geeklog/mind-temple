@@ -1,7 +1,7 @@
-import {XmlEntities} from 'html-entities';
+import { XmlEntities } from 'html-entities';
 
 export function withinBounds(
-  {x, y}: {x: number, y: number},
+  { x, y }: { x: number; y: number },
   bounds?: DOMRect
 ) {
   if (!bounds) {
@@ -24,7 +24,12 @@ export function withinBounds(
 
 export function blockWheelWithin(ref: () => HTMLElement | null) {
   return (event: React.WheelEvent<HTMLDivElement>) => {
-    if (withinBounds({x: event.clientX, y: event.clientY}, ref()?.getBoundingClientRect())) {
+    if (
+      withinBounds(
+        { x: event.clientX, y: event.clientY },
+        ref()?.getBoundingClientRect()
+      )
+    ) {
       event.preventDefault();
       event.stopPropagation();
     }
@@ -50,13 +55,13 @@ export function moveCaretToEnd(div: HTMLDivElement) {
   selection?.addRange(range);
 }
 
-export async function loadImageData(src: string) {
+export async function loadImageData(src: string): Promise<ImageData> {
   const img = new Image();
-  img.crossOrigin = "Anonymous";
-  const imgData: any = await new Promise((resolve) => {
+  img.crossOrigin = 'Anonymous';
+  const imgData: ImageData = await new Promise((resolve) => {
     img.onload = function() {
       const canvas = document.createElement('canvas');
-      canvas.width  = img.width;
+      canvas.width = img.width;
       canvas.height = img.height;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0);
