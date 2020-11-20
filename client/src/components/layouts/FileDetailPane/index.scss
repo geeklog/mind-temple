@@ -6,6 +6,7 @@
   .thumb {
     height: calc(100vh - #{$topbarHeight});
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }

@@ -1,17 +1,41 @@
 @import '../../styles/theme.scss';
 
 .right-pane {
-  width: 362px;
-  padding: 50px 25px;
-  display: flex;
-  flex-direction: column;
+  height: 100%;
+  flex-shrink: 0;
   @include themedMixin('rightPane');
   .label {
     word-break: break-all;
     font-weight: bold;
     margin: 10px 0;
   }
+  .content {
+    width: 362px;
+    padding: 50px 25px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
   &.hide {
-    display: none;
+    .content {
+      background-color: gold;
+      width: 5px;
+      padding: 0;
+      display: none;
+    }
+  }
+  .toggle-button {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    z-index: 100;
+    .icon {
+      width: 23px;
+      height: 23px;
+      fill: orange;
+    }
+    &.state-true {
+      right: 330px
+    }
   }
 }

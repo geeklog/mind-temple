@@ -64,12 +64,6 @@ class TopMenubar extends React.PureComponent<AppProps> {
           onToggle={this.toggleNightMode}
           toggleOnMouseOver={true}
         />
-        <ToggleButton
-          className="rightpane-btn dim"
-          on={this.props.rightPaneOpened}
-          btns={['chevrons-left', 'chevrons-right']}
-          onToggle={this.props.toggleRightPane}
-        />
       </div>
     );
   }

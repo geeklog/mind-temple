@@ -5,17 +5,14 @@ import { ImageDesc } from '../../../models/file';
 import RightPane from '../../RightPane';
 import Label from '../../controls/Label';
 import './index.scss';
-import { uniq } from 'lodash';
-import { sortColorByHSP, sortColorByHSV, sortColorByRGB } from '../../../utils/colorUtils';
+import { sortColorByRGB } from '../../../utils/colorUtils';
 import { loadImageData } from '../../../utils/domUtils';
 
 export default class ImageEditor extends PureComponent<AppProps> {
-
   paletteCanvas: HTMLCanvasElement;
 
   async componentDidMount() {
-
-    const {currFile} = this.props;
+    const { currFile } = this.props;
     const file = currFile.file as ImageDesc;
     const src = service.file(file.path);
     const canvas = this.paletteCanvas;
@@ -46,10 +43,10 @@ export default class ImageEditor extends PureComponent<AppProps> {
 
     const ndata = [];
     for (let h = 0; h < 800; h++) {
-      const c = colors[Math.floor(h * colors.length / 800)];
-      const r = (c & 0xFF0000) >> 16;
-      const g = (c & 0x00FF00) >> 8;
-      const b = c & 0x0000FF;
+      const c = colors[Math.floor((h * colors.length) / 800)];
+      const r = (c & 0xff0000) >> 16;
+      const g = (c & 0x00ff00) >> 8;
+      const b = c & 0x0000ff;
       for (let w = 0; w < 200; w++) {
         ndata.push(r);
         ndata.push(g);
@@ -66,36 +63,37 @@ export default class ImageEditor extends PureComponent<AppProps> {
   }
 
   render() {
-    const {currFile, rightPaneOpened} = this.props;
+    const { currFile } = this.props;
     const file = currFile.file as ImageDesc;
     const src = service.file(file.path);
     return (
       <div className="image-editor">
         <div className="main-area">
-        <img
-          id="curr-edit-img"
-          className="image"
-          src={src}
-          style={{ maxHeight: `calc(100vh - 45px)` }}
-          alt={file.name}
-        />
+          <img
+            id="curr-edit-img"
+            className="image"
+            src={src}
+            style={{
+              maxHeight: `calc(100vh - 45px)`,
+              maxWidth: '100%'
+            }}
+            alt={file.name}
+          />
         </div>
-        <RightPane
-          opened={rightPaneOpened}
-        >
-        <Label text={file.name} />
-        <Label text={`${file.width}x${file.height}`} />
-        <canvas
-          id="color-palette-canvas"
-          width="200"
-          height="800"
-          style={{
-            border: 'black 1px solid'
-          }}
-          ref={ref => this.paletteCanvas = ref}
-        />
+        <RightPane {...this.props}>
+          <Label text={file.name} />
+          <Label text={`${file.width}x${file.height}`} />
+          <canvas
+            id="color-palette-canvas"
+            width="200"
+            height="800"
+            style={{
+              border: 'black 1px solid'
+            }}
+            ref={(ref) => (this.paletteCanvas = ref)}
+          />
         </RightPane>
       </div>
-      );
-    }
+    );
   }
+}

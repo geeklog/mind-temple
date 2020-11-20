@@ -1,22 +1,26 @@
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import './index.scss';
+import ToggleButton from '../controls/ToggleButton';
+import { AppProps } from '../../models/app';
 
-interface Props {
-  opened: boolean;
-  className?: string;
-}
-
-export default class RightPane extends PureComponent<Props> {
+export default class RightPane extends PureComponent<AppProps> {
   render() {
-    const { className, opened } = this.props;
+    const { rightPaneOpened } = this.props;
     return (
       <div className={classnames(
         'right-pane',
-        opened ? '' : 'hide',
-        className
+        rightPaneOpened ? '' : 'hide',
       )}>
-        {this.props.children}
+        <ToggleButton
+          className="dim"
+          on={this.props.rightPaneOpened}
+          btns={['chevrons-left', 'chevrons-right']}
+          onToggle={this.props.toggleRightPane}
+        />
+        <div className="content">
+          {this.props.children}
+        </div>
       </div>
     );
   }
