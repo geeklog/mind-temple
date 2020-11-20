@@ -3,6 +3,7 @@ import FilePreviewGridItem from './FilePreviewGridItem';
 import './index.scss';
 import { AppProps, connectAppControl } from '../../../models/app';
 import { FileDesc } from '../../../models/file';
+import hotkeys from '../../../services/hotkeys';
 
 class FilePreviewGridLayout extends React.PureComponent<AppProps> {
 
@@ -25,6 +26,19 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
       filePath: file.path,
       newName: newFileName
     });
+  }
+
+  trashCurrFile = () => {
+    const {trash, showingFiles, currIndex} = this.props;
+    trash(showingFiles[currIndex]);
+  }
+
+  componentDidMount() {
+    hotkeys.registerCommand('Cmd:TrashCurrFile', this.trashCurrFile);
+  }
+
+  componentWillUnmount() {
+    hotkeys.unregisterCommand('Cmd:TrashCurrFile');
   }
 
   render() {

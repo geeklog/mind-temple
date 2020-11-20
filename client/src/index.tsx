@@ -7,6 +7,9 @@ import { store } from './store';
 import Spinner from 'react-spinkit';
 import { getPersistor } from '@rematch/persist';
 import { PersistGate } from 'redux-persist/es/integration/react';
+import { setupKeybindings } from './config';
+
+setupKeybindings();
 
 ReactDOM.render(
   <React.StrictMode>
