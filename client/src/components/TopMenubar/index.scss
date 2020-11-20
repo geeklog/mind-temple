@@ -9,6 +9,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1;
   @include themed('background', 'topbarBackground');
   @include themed('border-bottom', 'dimBorder');
   button {
@@ -29,29 +30,5 @@
     height: 25px;
     margin: 0 5px;
     cursor: pointer;
-  }
-  .sidebar-btn {
-    position: absolute;
-    top: 11px;
-    left: -26px;
-    z-index: 10;
-    padding: 0;
-    border-radius: 7px;
-    width: 23px;
-    height: 23px;
-    &.state-false {
-      left: -19px;
-      top: 11px;
-      @include themed('background', 'highlight');
-      @include themed('box-shadow', 'shadow-sm');
-      padding-left: 7px;
-      width: 29px;
-    }
-    .icon {
-      margin: 0;
-      padding: 0;
-      padding-bottom: 2px;
-      padding-right: 2px;
-    }
   }
 }

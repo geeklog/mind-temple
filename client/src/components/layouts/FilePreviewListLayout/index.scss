@@ -3,6 +3,7 @@
 .files-layout-list {
   $header-height: 30px;
   position: relative;
+  flex-grow: 1;
   .headers {
     display: flex;
     width: 100%;
@@ -11,6 +12,9 @@
       flex: 1;
       &:first-child {
         flex: 2;
+        .label {
+          padding: 0 35px;
+        }
       }
       @include themed('background-color', 'headerColor');
       @include themed('border-bottom', 'headerBorder');

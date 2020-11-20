@@ -27,6 +27,12 @@ $thumbSelected: (
   border: #e1f5ff solid 1px
 );
 
+$hint: (
+  border-radius: 400px,
+  background: #2bb1f6,
+  color: $white
+);
+
 $theme: (
   whiteColor: $white,
   blackColor: $black,
@@ -72,6 +78,6 @@ $theme: (
   stripBackground: $stripBackground,
   
   rightPane: $rightPane,
-  thumbSelected: $thumbSelected
-  
+  thumbSelected: $thumbSelected,
+  hint: $hint
 )

@@ -32,12 +32,6 @@ class TopMenubar extends React.PureComponent<AppProps> {
     const isMarkdown = currFile.file && currFile.file.type === 'markdown';
     return (
       <div className="menu">
-        <ToggleButton
-          className="sidebar-btn dim"
-          on={this.props.sidebarOpened}
-          btns={['chevrons-right', 'chevrons-left']}
-          onToggle={this.props.toggleSidebar}
-        />
         <Button
           icon="arrow-left"
           disabled={!this.props.canNavigateBackward}

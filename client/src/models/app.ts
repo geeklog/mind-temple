@@ -322,7 +322,6 @@ export const app = createModel<RootModel>()({
       let {currIndex} = folder;
       const showingFiles = getShowingFiles(folder, state.showHiddenFiles);
       let selectIndices = folder.selectIndices.sort();
-      console.log('selectPrev1', currIndex, selectIndices);
       const firstSelectIndex = selectIndices[0];
       currIndex = firstSelectIndex - 1;
       if (!showingFiles.length) {

@@ -3,10 +3,31 @@
 .sidebar {
   @include themed('background', 'sidebarBackground');
   @include themed('box-shadow', 'sidebarShadow');
-  width: 200px;
-  padding: 10px;
-  z-index: 10;
-  &.hide {
-    display: none;
+  z-index: 1;
+  flex-shrink: 0;
+  padding: 0px;
+  .content {
+    width: 200px;
+    padding: 10px;
+    &.hide {
+      display: none;
+    }
+  }
+  .sidebar-btn {
+    position: absolute;
+    top: 48px;
+    left: 170px;
+    z-index: 10;
+    &.state-false {
+      @include themedMixin('hint');
+      left: -15px;
+      width: 40px;
+      padding: 0 15px;
+    }
+    .icon {
+      margin: 0;
+      width: 23px;
+      height: 23px;
+    }
   }
 }

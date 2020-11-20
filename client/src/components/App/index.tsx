@@ -71,12 +71,10 @@ class App extends React.Component<AppProps> {
   render() {
     return (
       <div className="app">
-        <Sidebar
-          opened={this.props.sidebarOpened}
-        />
+        <TopMenubar />
         <main className="main">
-          <TopMenubar />
           <div className="container">
+            <Sidebar {...this.props} />
             {this.renderMain()}
           </div>
         </main>

@@ -67,7 +67,7 @@ class HotkeyService {
     this.keybindings.push([keybinding.split('+').map(s => s.trim().toLowerCase()), command]);
   }
 
-  registerCommand(command: string, action: Action) {
+  registerCommand(command: string, action: any) {
     this.cmds[command] = action;
   }
 
