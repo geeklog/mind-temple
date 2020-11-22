@@ -27,9 +27,12 @@
 ✔ error boundary @done(20-11-20 14:15)
 ✔ prettier formatting .tsx @done(20-11-20 14:15)
 ✔ hotkey register @done(20-11-20 15:01)
+✔ sort by folder first @done(20-11-21 03:49)
+☐ toggle topbar
+☐ carousel
+☐ fix file-context-menu bounds to page border
 ☐ draw more icons with css
 ☐ apple tv hover effect
-☐ fix file-context-menu bounds to page border
 ☐ select multiple files
 ☐ drag files into folder
 ☐ i18n

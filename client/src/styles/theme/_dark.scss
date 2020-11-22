@@ -23,8 +23,8 @@ $rightPane: (
 );
 
 $thumbSelected: (
-  background: linear-gradient(158deg, #a9e6f0 0%, #39b7ff 100%),
-  border: #d1f1ff solid 1px
+  background: #414449,
+  border: none
 );
 
 $theme: (
@@ -62,8 +62,6 @@ $theme: (
   filenameBackground: #848991,
   topbarBackground: #414449,
 
-  thumbSelectedBG: #414449,
-  
   headerColor: #848991,
   headerBorder: #1d2027 solid 1px,
   

@@ -52,6 +52,7 @@
       user-select: none;
       white-space: nowrap;
       font-weight: 600;
+      font-size: 14px;
       cursor: pointer;
       @include themed('color', 'fadedColor');
       &.solid {

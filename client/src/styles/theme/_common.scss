@@ -1,3 +1,6 @@
 $white: #fefefe;
 $black: #282c34;
-$topbarHeight: 45px;
+:root {
+  --topbar-height: 45px;
+}
+$topbarHeight: var(--topbar-height);

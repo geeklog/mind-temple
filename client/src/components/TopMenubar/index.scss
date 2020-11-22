@@ -12,6 +12,9 @@
   z-index: 1;
   @include themed('background', 'topbarBackground');
   @include themed('border-bottom', 'dimBorder');
+  &.hide {
+    display: none;
+  }
   button {
     display: flex;
     background: none;

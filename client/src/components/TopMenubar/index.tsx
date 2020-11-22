@@ -6,6 +6,8 @@ import './index.scss';
 import Button from "../controls/Button";
 import MarkdownEditorControlBar from '../editors/MarkdownEditor/ControlBar';
 import FolderControlBar from "../layouts/FolderControlBar";
+import classnames from 'classnames';
+import hotkeys from "../../services/hotkeys";
 class TopMenubar extends React.PureComponent<AppProps> {
 
   onPathChanged = (currPath: string) => {
@@ -21,6 +23,20 @@ class TopMenubar extends React.PureComponent<AppProps> {
   componentDidMount() {
     document.documentElement.className = '';
     document.documentElement.classList.add(`theme-${this.props.theme}`);
+    hotkeys.registerCommand('Cmd:ToggleTopbar', this.props.toggleTopbar);
+  }
+  
+  componentWillUnmount() {
+    hotkeys.unregisterCommand('Cmd:ToggleTopbar');
+  }
+
+  componentDidUpdate() {
+    let root = document.documentElement;
+    if (this.props.topbarOpened) {
+      root.style.setProperty('--topbar-height', '45px');
+    } else {
+      root.style.setProperty('--topbar-height', '0px');
+    }
   }
 
   render() {
@@ -31,7 +47,12 @@ class TopMenubar extends React.PureComponent<AppProps> {
     const isFolder = currFile.file && currFile.file.type === 'folder';
     const isMarkdown = currFile.file && currFile.file.type === 'markdown';
     return (
-      <div className="menu">
+      <div
+        className={classnames(
+          "menu",
+          this.props.topbarOpened ? '' : 'hide'
+        )}
+      >
         <Button
           icon="arrow-left"
           disabled={!this.props.canNavigateBackward}

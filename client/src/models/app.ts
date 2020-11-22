@@ -43,6 +43,7 @@ interface History {
 
 interface AppState {
   layout: LayoutMode;
+  topbarOpened: boolean;
   sidebarOpened: boolean;
   rightPaneOpened: boolean;
   paths: {[path: string]: FolderDesc};
@@ -59,6 +60,7 @@ interface AppState {
 
 const defaultState = {
   layout: 'grid',
+  topbarOpened: true,
   sidebarOpened: true,
   rightPaneOpened: true,
   theme: 'light',
@@ -128,9 +130,17 @@ function getShowingFiles(folder: FolderDesc, showHidden: boolean) {
     : files.filter(({name}) => !name.startsWith('.') && !name.startsWith('~$'));
 
   if (currSort.name) {
-    files = files.sort((f1, f2) => (
-      currSort.name === 'asc' ? nartualSortAsc : nartualSortDsc
-    )(f1.name, f2.name));
+    files = files.sort((f1, f2) => {
+      if (f1.type === 'folder' && f2.type !== 'folder') {
+        return -1;
+      }
+      if (f1.type !== 'folder' && f2.type === 'folder') {
+        return 1;
+      }
+      return (
+        currSort.name === 'asc' ? nartualSortAsc : nartualSortDsc
+      )(f1.name, f2.name);
+    });
   }
   if (currSort.size) {
     files = files.sort((f1, f2) => {
@@ -266,6 +276,13 @@ export const app = createModel<RootModel>()({
       return {
         ...state,
         theme
+      };
+    },
+    toggleTopbar: (state: AppState) => {
+      console.log('toggleTopbar:', !state.topbarOpened);
+      return {
+        ...state,
+        topbarOpened: !state.topbarOpened
       };
     },
     toggleSidebar: (state: AppState) => {
@@ -490,6 +507,7 @@ const mapAppState = (state: RootState) => {
     paths: folders,
     currPath,
     pathHistory,
+    topbarOpened,
     sidebarOpened,
     rightPaneOpened,
     theme,
@@ -512,6 +530,7 @@ const mapAppState = (state: RootState) => {
     theme,
     showHiddenFiles,
     fileContextMenu,
+    topbarOpened,
     sidebarOpened,
     rightPaneOpened,
     prevLayoutMode: currFolder.prevLayoutMode,
@@ -566,6 +585,7 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
     // dispatch.app.updateCurrFolder({layoutMode});
   },
   setTheme: (theme: string) => dispatch.app.setTheme(theme),
+  toggleTopbar: dispatch.app.toggleTopbar,
   toggleSidebar: dispatch.app.toggleSidebar,
   toggleRightPane: dispatch.app.toggleRightPane,
   setEditorUnsaved: (saved: string) => dispatch.app.setEditorSaved(saved),

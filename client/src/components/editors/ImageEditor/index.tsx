@@ -74,7 +74,7 @@ export default class ImageEditor extends PureComponent<AppProps> {
             className="image"
             src={src}
             style={{
-              maxHeight: `calc(100vh - 45px)`,
+              maxHeight: `calc(100vh - var(--topbar-height)`,
               maxWidth: '100%'
             }}
             alt={file.name}

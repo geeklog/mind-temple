@@ -34,6 +34,12 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
     }
   }
 
+  componentDidMount() {
+    // setTimeout(() => {
+      // this.props.selectNext();
+    // }, 100);
+  }
+
   render() {
     const {showingFiles, currIndex} = this.props;
     const file = showingFiles[currIndex];
@@ -41,11 +47,11 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
     return (
       <div className="files-layout-gallery" onWheel={this.onWheel}>
         {this.renderSlide(file)}
-        <div className="bottom-bar">
+        {/* <div className="bottom-bar">
           <div className="dot-group">{
             showingFiles.map((file: any, i: number) => <div key={i} className={`dot ${i === currIndex ? 'selected' : ''}`} />)
           }</div>
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -65,8 +71,8 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
 
     if (file.type === 'image') {
       style = {
-        maxWidth: `calc(100vw - 40px)`,
-        maxHeight: `calc(95vh - 50px)`
+        maxWidth: `100%`,
+        maxHeight: `calc(100vh - var(--topbar-height) - 2px)`
       };
     } else {
       style = {
