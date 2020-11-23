@@ -41,6 +41,9 @@ class HotkeyService {
   }
 
   checkKeybinding(keySeq: string[], command: string, event: KeyboardEvent) {
+    if (!event.shiftKey && !event.metaKey && !event.altKey && !event.ctrlKey) {
+      return;
+    }
     const action = this.cmds[command];
     if (!action) {
       console.log('!action', command);

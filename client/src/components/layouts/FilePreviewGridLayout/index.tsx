@@ -4,8 +4,38 @@ import './index.scss';
 import { AppProps, connectAppControl } from '../../../models/app';
 import { FileDesc } from '../../../models/file';
 import hotkeys from '../../../services/hotkeys';
+import { LayoutMode } from '../../../models/layout';
 
 class FilePreviewGridLayout extends React.PureComponent<AppProps> {
+
+  onKeyDown = (event: React.KeyboardEvent) => {
+    const {
+      prevLayoutMode,
+      layoutMode,
+      selectPrev,
+      selectNext,
+      setLayoutMode
+    } = this.props;
+
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      selectPrev();
+      return;
+    }
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      selectNext();
+      return;
+    }
+    if (event.key === ' ') {
+      event.preventDefault();
+      if (layoutMode !== 'gallery') {
+        setLayoutMode('gallery');
+      } else {
+        setLayoutMode(prevLayoutMode as LayoutMode);
+      }
+    }
+  }
 
   onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const {setCurrIndex} = this.props;
@@ -57,6 +87,7 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
       <div
         className="files-layout-grid"
         onClick={this.onClick}
+        onKeyDown={this.onKeyDown}
       >
         {showingFiles.map((file, i) =>
           <FilePreviewGridItem

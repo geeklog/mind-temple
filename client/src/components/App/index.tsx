@@ -6,12 +6,10 @@ import FilePreviewGalleryLayout from '../layouts/FilePreviewGalleryLayout';
 import TopMenubar from '../TopMenubar';
 import FileContextMenu from '../layouts/FileContextMenu';
 import { AppProps, connectAppControl } from '../../models/app';
-import { LayoutMode } from '../../models/layout';
 import Sidebar from '../Sidebar/index';
 import FileDetailPane from '../layouts/FileDetailPane';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { watchPropORStateChanges } from './debug';
 
 class App extends React.Component<AppProps> {
 
@@ -20,49 +18,6 @@ class App extends React.Component<AppProps> {
   }
 
   state = { hasError: false };
-
-  onKeyDown = (event: KeyboardEvent) => {
-    const {
-      prevLayoutMode,
-      layoutMode,
-      selectPrev,
-      selectNext,
-      setLayoutMode
-    } = this.props;
-
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      selectPrev();
-      return;
-    }
-    if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      selectNext();
-      return;
-    }
-    if (event.key === ' ') {
-      event.preventDefault();
-      if (layoutMode !== 'gallery') {
-        setLayoutMode('gallery');
-      } else {
-        setLayoutMode(prevLayoutMode as LayoutMode);
-      }
-    }
-  }
-
-  componentDidMount() {
-    this.props.navigateTo();
-    document.addEventListener('keydown', this.onKeyDown);
-    // toast.error('whoa!', {position: 'bottom-right'});
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.onKeyDown);
-  }
-
-  // componentWillUpdate(prevProps: any, prevState: any) {
-  //   watchPropORStateChanges('App', prevProps, prevState, this.props, this.state);
-  // }
 
   componentDidCatch(error, errorInfo) {
     console.error(error, errorInfo);

@@ -20,12 +20,12 @@ class FileDetailPane extends React.PureComponent<AppProps> {
   }
 
   onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    const { selectNext, selectPrev } = this.props;
-    if (event.deltaY > 0) {
-      selectNext();
-    } else if (event.deltaY < 0) {
-      selectPrev();
-    }
+    // const { selectNext, selectPrev } = this.props;
+    // if (event.deltaY > 0) {
+    //   selectNext();
+    // } else if (event.deltaY < 0) {
+    //   selectPrev();
+    // }
   }
 
   render() {

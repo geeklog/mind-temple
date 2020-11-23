@@ -3,7 +3,6 @@ import ReactMarkdown from 'react-markdown';
 import * as remote from '../../../services/fileService';
 import './index.scss';
 import classnames from 'classnames';
-// import { markdown, formatTextForPreview } from '../../../utils/markdownUtils';
 import {funky} from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
 // @ts-ignore
@@ -11,7 +10,7 @@ import {InlineMath, BlockMath} from 'react-katex';
 import 'katex/dist/katex.min.css';
 import math from 'remark-math';
 import { AppProps } from '../../../models/app';
-import { formatTextForEditor, formatTextForPreview } from '../../../utils/markdownUtils';
+import { formatTextForPreview } from '../../../utils/markdownUtils';
 
 export default class MarkdownEditor extends Component<AppProps> {
 
@@ -19,7 +18,7 @@ export default class MarkdownEditor extends Component<AppProps> {
   editor: HTMLDivElement | null = null;
 
   onEditKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    event.stopPropagation();
+    // event.stopPropagation();
   }
 
   onEditChange = (e?: any) => {
@@ -82,14 +81,12 @@ export default class MarkdownEditor extends Component<AppProps> {
         plugins={[math]}
         renderers={{
           break: (a: any) => {
-            console.log('break', a);
             return <br />;
           },
           code: ({language, value}: any) => {
             return <SyntaxHighlighter style={funky} language={language} children={value} />;
           },
           image: ({src}: any) => {
-            console.log('img', src);
             if (src.startsWith('./')) {
               src = remote.resolveRelativePath(currFile.path, src) ;
             }

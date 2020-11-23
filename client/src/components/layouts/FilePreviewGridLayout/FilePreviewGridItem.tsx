@@ -29,7 +29,7 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
   }
 
   onContextMenu = (event: any) => {
-    this.onClick();
+    this.onClick(event);
     const {file, index} = this.props;
     event.preventDefault();
     event.stopPropagation();
