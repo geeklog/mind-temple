@@ -16,7 +16,7 @@
     position: relative;
     .edit-area {
       @include themedMixin('markdownEditor');
-      padding: 30px;
+      padding: 20px 30px;
       position: absolute;
       width: 50%;
       height: 100%;
@@ -38,13 +38,15 @@
       word-wrap: break-word;
       &.edit {
         width: 100%;
+        border-right: none;
+        padding: 0 calc((100% - 800px) / 2);
       }
       &.preview {
         display: none;
       }
     }
     .preview-area {
-      padding: 30px;
+      padding: 20px 30px;
       position: absolute;
       width: 50%;
       height: 100%;
@@ -56,6 +58,7 @@
       }
       &.preview {
         width: 100%;
+        padding: 0 calc((100% - 800px) / 2);
       }
       &.theme-greenville {
         @include md-theme-greenville;

@@ -83,6 +83,7 @@ export default class MarkdownEditor extends Component<AppProps> {
             return <br />;
           },
           code: ({language, value}: any) => {
+            value = value.split('\n').map(s => s.trimRight()).join('\n');
             return <SyntaxHighlighter style={codeTheme} language={language} children={value} />;
           },
           image: ({src}: any) => {
