@@ -2,7 +2,7 @@ import React from 'react';
 import './index.scss';
 import classnames from 'classnames';
 import { AppProps } from '../../models/app';
-import ToggleButton from '../controls/ToggleButton';
+// import ToggleButton from '../controls/ToggleButton';
 import hotkeys from '../../services/hotkeys';
 
 export default class Sidebar extends React.PureComponent<AppProps> {
@@ -15,15 +15,15 @@ export default class Sidebar extends React.PureComponent<AppProps> {
   }
 
   render() {
-    const {sidebarOpened, toggleSidebar} = this.props;
+    const {sidebarOpened} = this.props;
     return (
       <div className="sidebar">
-        <ToggleButton
+        {/* <ToggleButton
           className="sidebar-btn dim"
           on={sidebarOpened}
           btns={['chevrons-right', 'chevrons-left']}
           onToggle={toggleSidebar}
-        />
+        /> */}
         <div className={classnames(
           "content",
           sidebarOpened ? '' : 'hide'
