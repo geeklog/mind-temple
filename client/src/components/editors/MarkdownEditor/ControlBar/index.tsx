@@ -6,6 +6,7 @@ import ToggleButton from '../../../controls/ToggleButton';
 import * as remote from '../../../../services/fileService';
 import { formatTextForPreview } from '../../../../utils/markdownUtils';
 import './index.scss';
+import hotkeys from "../../../../services/hotkeys";
 
 export default class MarkdownEditorControlBar extends React.PureComponent<AppProps> {
 
@@ -32,6 +33,14 @@ export default class MarkdownEditorControlBar extends React.PureComponent<AppPro
 
   onTogglePreview = (previewVisible: boolean) => {
     this.setState({previewVisible});
+  }
+
+  componentDidMount() {
+    hotkeys.registerCommand('Cmd:SaveCurrFile', () => this.onEditSave());
+  }
+
+  componentWillUnmount() {
+    hotkeys.unregisterCommand('Cmd:SaveCurrFile');
   }
 
   render() {
