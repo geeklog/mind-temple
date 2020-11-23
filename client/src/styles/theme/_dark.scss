@@ -27,6 +27,12 @@ $thumbSelected: (
   border: none
 );
 
+$markdownEditor: (
+  background: $black,
+  color: #e2e2e2,
+  border-right: 1px dashed #b3bbc7
+);
+
 $theme: (
   whiteColor: $white,
   blackColor: $black,
@@ -72,5 +78,6 @@ $theme: (
   stripBackground: $stripBackground,
 
   rightPane: $rightPane,
-  thumbSelected: $thumbSelected
+  thumbSelected: $thumbSelected,
+  markdownEditor: $markdownEditor
 )

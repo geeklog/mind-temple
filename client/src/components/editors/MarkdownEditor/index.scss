@@ -10,13 +10,12 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  @include themed('border-top', 'dimBorder');
   .main-area {
     height: 100%;
     width: 100%;
     position: relative;
     .edit-area {
-      @include themed('background', 'editorBackground');
+      @include themedMixin('markdownEditor');
       padding: 30px;
       position: absolute;
       width: 50%;
@@ -26,14 +25,12 @@
       overflow-x: hidden;
       outline: none;
       hyphens: none;
-      border-right: 1px dashed #586e75;
       -webkit-font-smoothing: antialiased;
       box-sizing: border-box;
-      color: rgb(51, 51, 51);
       display: inline;
-      font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-family: "Ubuntu Mono", "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
       font-size: 16px;
-      line-height: 25px;
+      line-height: 1.8;
       orphans: 4;
       tab-size: 4;
       white-space: pre-wrap;

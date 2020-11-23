@@ -33,6 +33,12 @@ $hint: (
   color: $white
 );
 
+$markdownEditor: (
+  background: $white,
+  color: $black,
+  border-right: 1px dashed #586e75
+);
+
 $theme: (
   whiteColor: $white,
   blackColor: $black,
@@ -63,8 +69,6 @@ $theme: (
   selectedBackground: #2bb1f6,
   selectedTextColor: $white,
 
-  editorBackground: $white,
-  
   filenameBackground: #fafafa,
   topbarBackground: #fafafa,
 
@@ -79,5 +83,6 @@ $theme: (
   
   rightPane: $rightPane,
   thumbSelected: $thumbSelected,
-  hint: $hint
+  hint: $hint,
+  markdownEditor: $markdownEditor
 )

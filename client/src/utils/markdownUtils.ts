@@ -6,6 +6,7 @@ const MarkdownIt: any = null;
 
 export function formatTextForPreview(text: string) {
   text = decodeHTMLEntities(text);
+  text = text.split('\n').map(line => line + '  ').join('\n');
   return text;
 }
 
