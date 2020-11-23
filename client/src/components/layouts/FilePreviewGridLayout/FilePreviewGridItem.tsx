@@ -17,6 +17,8 @@ interface Props {
 export default class FilePreviewGridItem extends React.PureComponent<Props> {
 
   onClick = (event?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.preventDefault();
+    event.stopPropagation();
     const {file, index} = this.props;
     this.props.onClick(file, index);
   }

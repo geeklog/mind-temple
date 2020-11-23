@@ -46,6 +46,11 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
     trash(selectedFiles);
   }
 
+  onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const {setCurrIndex} = this.props;
+    setCurrIndex(null);
+  }
+
   onItemClick =  (file: FileDesc, index: number) => {
     const {setCurrIndex, addSelectIndex} = this.props;
     if (hotkeys.metaHolding) {
@@ -99,7 +104,10 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
     let files = showingFiles;
 
     return (
-      <div className="files-layout-list">
+      <div
+        className="files-layout-list"
+        onClick={this.onClick}
+      >
         <div className="headers">
           <Header
             name="Name"

@@ -7,6 +7,11 @@ import hotkeys from '../../../services/hotkeys';
 
 class FilePreviewGridLayout extends React.PureComponent<AppProps> {
 
+  onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const {setCurrIndex} = this.props;
+    setCurrIndex(null);
+  }
+
   onItemClick = (file: FileDesc, index: number) => {
     const {setCurrIndex, addSelectIndex} = this.props;
     if (hotkeys.metaHolding) {
@@ -49,7 +54,10 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
   render() {
     const {showingFiles, currFile: {selectIndices}} = this.props;
     return (
-      <div className="files-layout-grid">
+      <div
+        className="files-layout-grid"
+        onClick={this.onClick}
+      >
         {showingFiles.map((file, i) =>
           <FilePreviewGridItem
             index={i}
