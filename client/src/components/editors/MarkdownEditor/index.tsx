@@ -3,9 +3,8 @@ import ReactMarkdown from 'react-markdown';
 import * as remote from '../../../services/fileService';
 import './index.scss';
 import classnames from 'classnames';
-import {funky} from 'react-syntax-highlighter/dist/esm/styles/prism';
+import {atomDark as codeTheme} from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
-// @ts-ignore
 import {InlineMath, BlockMath} from 'react-katex';
 import 'katex/dist/katex.min.css';
 import math from 'remark-math';
@@ -84,7 +83,7 @@ export default class MarkdownEditor extends Component<AppProps> {
             return <br />;
           },
           code: ({language, value}: any) => {
-            return <SyntaxHighlighter style={funky} language={language} children={value} />;
+            return <SyntaxHighlighter style={codeTheme} language={language} children={value} />;
           },
           image: ({src}: any) => {
             if (src.startsWith('./')) {
