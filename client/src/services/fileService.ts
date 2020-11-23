@@ -1,6 +1,7 @@
 import { endsWith } from 'mikov/fn/op';
 import { apiServer } from '../config';
 import { BrowseResponse, FileDesc } from '../models/file';
+import { post } from '../utils/fetchUtils';
 import { dirname, joinPath } from '../utils/pathUtils';
 
 const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'];
@@ -86,19 +87,6 @@ export function thumb(file: FileDesc, size?: {w?: number, h?: number}): string {
   return `${apiServer}/thumb/${encodeURIComponent(file.path)}${postfix}`;
 }
 
-async function post(url: string, body: any) {
-  const res = await fetch(url, {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  });
-  const data = await res.json();
-  return data;
-}
-
 export async function trash(filePaths: string[]) {
   return await post(`${apiServer}/trash`, {
     files: filePaths
@@ -119,45 +107,19 @@ export async function command(cmd: string, filePath: string) {
 }
 
 export async function create(filePath: string, newName: string, type: string) {
-  const res = await fetch(`${apiServer}/create/${encodeURIComponent(filePath)}`, {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      newName,
-      type
-    })
+  const data = await post(`${apiServer}/create/${encodeURIComponent(filePath)}`, {
+    newName,
+    type
   });
-  const data = await res.json();
-  if (res.ok) {
+  if (data.ok) {
     return data.newFile;
   }
 }
 
 export async function rename(filePath: string, newName: string) {
-  const res = await fetch(`${apiServer}/rename/${encodeURIComponent(filePath)}`, {
-    method: 'post',
-     headers: {
-      'Accept': 'application/json',
-       'Content-Type': 'application/json'
-     },
-     body: JSON.stringify({
-       newName
-     })
-  });
-  const data = await res.json();
-  return data;
+  return await post(`${apiServer}/rename/${encodeURIComponent(filePath)}`, { newName });
 }
 
 export async function save(filePath: string, file: string) {
-  await fetch(`${apiServer}/save/${encodeURIComponent(filePath)}`, {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({file})
-  });
+  await post(`${apiServer}/save/${encodeURIComponent(filePath)}`, {file});
 }
