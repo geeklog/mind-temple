@@ -5,7 +5,6 @@ import { encodeHTMLEntities, decodeHTMLEntities } from './domUtils';
 const MarkdownIt: any = null;
 
 export function formatTextForPreview(text: string) {
-  console.log('rawText', text);
   text = decodeHTMLEntities(text);
   return text;
 }
