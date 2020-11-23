@@ -86,6 +86,25 @@ export function thumb(file: FileDesc, size?: {w?: number, h?: number}): string {
   return `${apiServer}/thumb/${encodeURIComponent(file.path)}${postfix}`;
 }
 
+async function post(url: string, body: any) {
+  const res = await fetch(url, {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+  const data = await res.json();
+  return data;
+}
+
+export async function trash(filePaths: string[]) {
+  return await post(`${apiServer}/trash`, {
+    files: filePaths
+  });
+}
+
 export async function command(cmd: string, filePath: string) {
   try {
     const res = await fetch(`${apiServer}/cmd/${encodeURIComponent(filePath)}?cmd=${cmd}`);

@@ -28,12 +28,11 @@
 ✔ prettier formatting .tsx @done(20-11-20 14:15)
 ✔ hotkey register @done(20-11-20 15:01)
 ✔ sort by folder first @done(20-11-21 03:49)
-☐ toggle topbar
+✔ toggle topbar @done(20-11-23 10:07)
+✔ select multiple files @done(20-11-23 11:28)
 ☐ carousel
 ☐ fix file-context-menu bounds to page border
 ☐ draw more icons with css
-☐ apple tv hover effect
-☐ select multiple files
 ☐ drag files into folder
 ☐ i18n
 ☐ tabs
@@ -62,3 +61,4 @@
 ☐ copy/paste files
 ☐ execute arbitrary commands on server
 ☐ search files in computer, history priorities first
+☐ apple tv hover effect

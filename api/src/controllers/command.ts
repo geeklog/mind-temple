@@ -37,12 +37,6 @@ export default async (req, res) => {
       return res.json({ ok: 1 });
     }
 
-    if (command === 'trash') {
-      await exec(`trash '${filePath}'`);
-      cache.purge(filePath);
-      return res.json({ ok: 1 });
-    }
-
     return res.json({
       ok: 0,
       message: `Unknown command: ${command}`

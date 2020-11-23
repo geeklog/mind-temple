@@ -25,7 +25,7 @@ export interface ContextMenuProps {
 interface FolderDesc {
   layoutMode: string;
   prevLayoutMode: string;
-  currIndex: number;
+  currIndex: number | null;
   selectIndices: number[];
   sortByName?: string;
   sortByTime?: string;
@@ -334,6 +334,10 @@ export const app = createModel<RootModel>()({
       remote.command('open-console', file.path);
       return state;
     },
+    selectIndex: (state: AppState, currIndex: number | null) => {
+      const selectIndices = currIndex === null ? [] : [currIndex];
+      return updateCurrFolder(state, {currIndex, selectIndices});
+    },
     selectPrev: (state: AppState) => {
       const folder = state.paths[state.currPath];
       let {currIndex} = folder;
@@ -373,6 +377,12 @@ export const app = createModel<RootModel>()({
       const targetFile = showingFiles.find(f => f.path === targetFilePath);
       const currIndex = showingFiles.indexOf(targetFile);
       const selectIndices = [currIndex];
+      return updateCurrFolder(state, {currIndex, selectIndices});
+    },
+    addSelectIndex: (state: AppState, index: number) => {
+      const folder = state.paths[state.currPath];
+      let {currIndex, selectIndices} = folder;
+      selectIndices = [...selectIndices, index];
       return updateCurrFolder(state, {currIndex, selectIndices});
     },
     toggleHiddenFiles: (state: AppState, showHiddenFiles: boolean) => {
@@ -468,8 +478,18 @@ export const app = createModel<RootModel>()({
         // console.log('open', file);
         app.navigateTo(file.path);
       },
-      async trash(file: FileDesc, state): Promise<void> {
-        await remote.command('trash', file.path);
+      async trash(files: FileDesc[], state): Promise<void> {
+        const res = await remote.trash(files.map(f => f.path));
+        if (!res.ok) {
+          toastError(res.error);
+          return;
+        }
+        for (const {ok, path, error} of res.executes) {
+          if (!ok) {
+            toastError(`Error try to delete file: ${path} ${error}`);
+          }
+        }
+        app.selectIndex(null);
         app.browse(null);
       },
       async renameFile({filePath, newName}: {filePath: string, newName: string}, state): Promise<void> {
@@ -569,6 +589,16 @@ const mapAppState = (state: RootState) => {
     showingFiles: currFolder.file.type === 'folder'
       ? getShowingFiles(currFolder, showHiddenFiles)
       : null,
+    selectedFiles: (() => {
+      const {selectIndices} = currFolder;
+      const showingFiles = currFolder.file.type === 'folder'
+        ? getShowingFiles(currFolder, showHiddenFiles)
+        : null;
+      if (!showingFiles) {
+        return null;
+      }
+      return selectIndices.map(i => showingFiles[i]);
+    })(),
     editorLayout,
     editorSaved,
     editorTheme,
@@ -579,7 +609,8 @@ const mapAppState = (state: RootState) => {
 const mapAppDispatch = (dispatch: Dispatch) => ({
   selectPrev: dispatch.app.selectPrev,
   selectNext: dispatch.app.selectNext,
-  setCurrIndex: (currIndex: number) => dispatch.app.updateCurrFolder({currIndex}),
+  setCurrIndex: (index: number) => dispatch.app.selectIndex(index),
+  addSelectIndex: (index: number) => dispatch.app.addSelectIndex(index),
   setLayoutMode: (layoutMode: LayoutMode) => {
     dispatch.app.change({layout: layoutMode});
     // dispatch.app.updateCurrFolder({layoutMode});

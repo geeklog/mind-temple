@@ -12,6 +12,7 @@ import commandController from './controllers/command';
 import saveController from './controllers/save';
 import renameController from './controllers/rename';
 import createController from './controllers/create';
+import trashController from './controllers/trash';
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.get(/^\/cmd\/.*/, commandController);
 app.post(/^\/save\/.*/, saveController);
 app.post(/^\/rename\/.*/, renameController);
 app.post(/^\/create\/.*/, createController);
+app.post(/^\/trash/, trashController);
 
 app.get('/', (req, res) => {
   res.render('index');

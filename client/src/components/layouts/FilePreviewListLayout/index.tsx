@@ -7,6 +7,7 @@ import ToggleButton from '../../controls/ToggleButton';
 import prettyBytes from 'pretty-bytes';
 import { FileDesc } from '../../../models/file';
 import { format } from 'date-fns';
+import hotkeys from '../../../services/hotkeys';
 
 class Header extends React.PureComponent<{
   name: string,
@@ -40,8 +41,19 @@ class Header extends React.PureComponent<{
 
 class FilePreviewListLayout extends React.PureComponent<AppProps> {
 
+  trashCurrFile = () => {
+    const {trash, selectedFiles} = this.props;
+    trash(selectedFiles);
+  }
+
   onItemClick =  (file: FileDesc, index: number) => {
-    this.props.setCurrIndex(index);
+    const {setCurrIndex, addSelectIndex} = this.props;
+    if (hotkeys.metaHolding) {
+      console.log('addSelectIndex', index);
+      addSelectIndex(index);
+    } else {
+      setCurrIndex(index);
+    }
   }
 
   onItemDoubleClick =  (file: FileDesc, index: number) => {
@@ -73,8 +85,16 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
     });
   }
 
+  componentDidMount() {
+    hotkeys.registerCommand('Cmd:TrashCurrFile', this.trashCurrFile);
+  }
+
+  componentWillUnmount() {
+    hotkeys.unregisterCommand('Cmd:TrashCurrFile');
+  }
+
   render() {
-    const {showingFiles, currIndex, currSort} = this.props;
+    const {showingFiles, currFile: {selectIndices}, currSort} = this.props;
 
     let files = showingFiles;
 
@@ -105,7 +125,7 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
                 key={file.path}
                 file={file}
                 index={i}
-                selected={currIndex === i}
+                selected={selectIndices.indexOf(i) >= 0}
                 text={file.name}
                 icon={25}
                 isFileName={true}
@@ -123,7 +143,7 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
                 key={file.path}
                 file={file}
                 index={i}
-                selected={currIndex === i}
+                selected={selectIndices.indexOf(i) >= 0}
                 text={`${file.mtime ? format(new Date(file.mtime), 'yyyy-MM-dd HH:mm:ss') : '~'}`}
                 onClick={this.onItemClick}
                 onDoubleClick={this.onItemDoubleClick}
@@ -138,7 +158,7 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
                 key={file.path}
                 file={file}
                 index={i}
-                selected={currIndex === i}
+                selected={selectIndices.indexOf(i) >= 0}
                 text={`${prettyBytes(file.size || 0)}`}
                 onClick={this.onItemClick}
                 onDoubleClick={this.onItemDoubleClick}

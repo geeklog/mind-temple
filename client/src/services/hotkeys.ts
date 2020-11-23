@@ -2,15 +2,36 @@ type Action = () => Promise<void> | void;
 
 class HotkeyService {
 
+  ctrlHolding: boolean;
+  metaHolding: boolean;
+  altHolding: boolean;
+  shiftHolding: boolean;
+
   private cmds: {[cmdName: string]: Action} = {};
   private keybindings: Array<[string[], string]> = [];
 
   activate() {
     document.addEventListener('keydown', this.onKey);
+    document.addEventListener('keydown', this.keyDownCheckHolding);
+    document.addEventListener('keyup', this.keyUpCheckHolding);
   }
 
   deactivate() {
     document.removeEventListener('keydown', this.onKey);
+    document.removeEventListener('keydown', this.keyDownCheckHolding);
+    document.removeEventListener('keyup', this.keyUpCheckHolding);
+  }
+
+  keyDownCheckHolding = (event: KeyboardEvent) => {
+    if (event.metaKey) {
+      this.metaHolding = true;
+    }
+  }
+
+  keyUpCheckHolding = (event: KeyboardEvent) => {
+    if (event.key === 'Meta') {
+      this.metaHolding = false;
+    }
   }
 
   onKey = (event: KeyboardEvent) => {

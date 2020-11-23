@@ -7,8 +7,13 @@ import hotkeys from '../../../services/hotkeys';
 
 class FilePreviewGridLayout extends React.PureComponent<AppProps> {
 
-  onItemClick =  (file: FileDesc, index: number) => {
-    this.props.setCurrIndex(index);
+  onItemClick = (file: FileDesc, index: number) => {
+    const {setCurrIndex, addSelectIndex} = this.props;
+    if (hotkeys.metaHolding) {
+      addSelectIndex(index);
+    } else {
+      setCurrIndex(index);
+    }
   }
 
   onItemDoubleClick =  (file: FileDesc, index: number) => {
@@ -29,8 +34,8 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
   }
 
   trashCurrFile = () => {
-    const {trash, showingFiles, currIndex} = this.props;
-    trash(showingFiles[currIndex]);
+    const {trash, selectedFiles} = this.props;
+    trash(selectedFiles);
   }
 
   componentDidMount() {
@@ -42,7 +47,7 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
   }
 
   render() {
-    const {showingFiles, currIndex} = this.props;
+    const {showingFiles, currFile: {selectIndices}} = this.props;
     return (
       <div className="files-layout-grid">
         {showingFiles.map((file, i) =>
@@ -50,7 +55,7 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
             index={i}
             key={i}
             file={file}
-            selected={i === currIndex}
+            selected={selectIndices.indexOf(i) >= 0 }
             onClick={this.onItemClick}
             onDoubleClick={this.onItemDoubleClick}
             onContextMenu={this.onItemContextMenu}
