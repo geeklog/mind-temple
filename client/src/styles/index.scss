@@ -32,6 +32,7 @@ code {
 // style for scrollbar
 *::-webkit-scrollbar {
   width: 10px;
+  height: 8px;
   @include themed('background', 'scrollbarBackground');
 }
 * {
