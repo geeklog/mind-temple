@@ -21,43 +21,55 @@ class FileDetailPane extends React.PureComponent<AppProps> {
   }
 
   render() {
-    const { currFile } = this.props;
-    const file = currFile.file;
-    const thumbExt = resolveExtensionForThumb(file.ext);
-    const isDirectory = file.type === 'folder';
-    const isImage = !isDirectory && isImageExt(file.ext);
-    const isMarkdown = file.type === 'markdown';
-    const isCode = isSourceCode(file.ext);
-    const isText = !isMarkdown && !isCode && (file.type === 'text' || file.size <= 1024 * 1024 * 2);
-    const isFile = !isImage && !isDirectory && !isText && !isMarkdown && !isCode;
     return (
       <div
         className="file-detail-pane"
         onContextMenu={this.onContextMenu}
       >
-        {isImage && (
-          <div className="thumb">
-            <ImageEditor {...this.props} />
-          </div>
-        )}
-        {isMarkdown && <MarkdownEditor {...this.props} />}
-        {isCode && <SourceCodeEditor file={file} />}
-        {isText && <PlainTextEditor file={file} />}
-        {isFile && (
-          <div className="thumb">
-            <img
-              className={classes('preview-img', 'icon')}
-              src={`filetypes/${thumbExt}.svg`}
-              style={{
-                height: `calc(65vh - 100px)`,
-                maxWidth: `calc(100vw - 200px)`,
-                maxHeight: `calc(100vh - 100px)`
-              }}
-              alt={file.name}
-            />
-            <div className="file-name">{file.name}</div>
-          </div>
-        )}
+        {this.renderFileDetail()}
+      </div>
+    );
+  }
+
+  renderFileDetail() {
+    const { currFile } = this.props;
+    const file = currFile.file;
+    const thumbExt = resolveExtensionForThumb(file.ext);
+    const isFolder = file.type === 'folder';
+    const isImage = !isFolder && isImageExt(file.ext);
+    const isMarkdown = file.type === 'markdown';
+    const isCode = isSourceCode(file.ext);
+    const isText = (file.type === 'text' || file.size <= 1024 * 1024 * 2);
+
+    if (isImage) {
+      return (
+        <div className="thumb">
+          <ImageEditor {...this.props} />
+        </div>
+      );
+    }
+    if (isMarkdown) {
+      return <MarkdownEditor {...this.props} />;
+    }
+    if (isCode) {
+      return <SourceCodeEditor file={file} />;
+    }
+    if (isText) {
+      return <PlainTextEditor file={file} />;
+    }
+    return (
+      <div className="thumb">
+        <img
+          className={classes('preview-img', 'icon')}
+          src={`filetypes/${thumbExt}.svg`}
+          style={{
+            height: `calc(65vh - 100px)`,
+            maxWidth: `calc(100vw - 200px)`,
+            maxHeight: `calc(100vh - 100px)`
+          }}
+          alt={file.name}
+        />
+        <div className="file-name">{file.name}</div>
       </div>
     );
   }

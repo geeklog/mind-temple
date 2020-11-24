@@ -11,7 +11,7 @@ import { loadImageData } from '../../../utils/domUtils';
 export default class ImageEditor extends PureComponent<AppProps> {
   paletteCanvas: HTMLCanvasElement;
 
-  async componentDidMount() {
+  async analyseColor() {
     const { currFile } = this.props;
     const file = currFile.file as ImageDesc;
     const src = service.file(file.path);
@@ -42,8 +42,8 @@ export default class ImageEditor extends PureComponent<AppProps> {
     console.log('total', colors.length);
 
     const ndata = [];
-    for (let h = 0; h < 800; h++) {
-      const c = colors[Math.floor((h * colors.length) / 800)];
+    for (let h = 0; h < 200; h++) {
+      const c = colors[Math.floor((h * colors.length) / 200)];
       const r = (c & 0xff0000) >> 16;
       const g = (c & 0x00ff00) >> 8;
       const b = c & 0x0000ff;
@@ -54,8 +54,8 @@ export default class ImageEditor extends PureComponent<AppProps> {
         ndata.push(255);
       }
     }
-    const newImgData = context.createImageData(200, 800);
-    for (let i = 0, len = 200 * 800 * 4; i < len; i++) {
+    const newImgData = context.createImageData(200, 200);
+    for (let i = 0, len = 200 * 200 * 4; i < len; i++) {
       newImgData.data[i] = ndata[i];
     }
 
@@ -86,7 +86,7 @@ export default class ImageEditor extends PureComponent<AppProps> {
           <canvas
             id="color-palette-canvas"
             width="200"
-            height="800"
+            height="200"
             style={{
               border: 'black 1px solid'
             }}
