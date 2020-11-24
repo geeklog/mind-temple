@@ -33,7 +33,7 @@ export default class FileNameLabel extends PureComponent<Props, State> {
     // First click activate the label,
     // Second click let it into editing mode.
     // Use a 0.5s interval to avoid conflict with double click event
-    if (!activate || Date.now() - activate < 300) {
+    if (!activate || Date.now() - activate < 600) {
       this.setState({
         activate: Date.now()
       });

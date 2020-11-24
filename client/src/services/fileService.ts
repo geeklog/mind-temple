@@ -1,49 +1,7 @@
-import { endsWith } from 'mikov/fn/op';
 import { apiServer } from '../config';
 import { BrowseResponse, FileDesc } from '../models/file';
 import { post } from '../utils/fetchUtils';
 import { dirname, joinPath } from '../utils/pathUtils';
-
-const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'];
-const supportExtensions = new Set([
-  '7z', 'aac', 'ai', 'archive', 'arj', 'audio', 'avi', 'css', 'csv', 'dbf', 'doc', 'dwg', 'exe', 'fla', 'flac', 'gif', 'html', 'iso', 'jpg', 'js', 'json', 'mdf', 'mp2', 'mp3', 'mp4', 'mxf', 'nrg', 'pdf', 'png', 'ppt', 'psd', 'rar', 'rtf', 'svg', 'webp', 'text', 'tiff', 'txt', 'video', 'wav', 'wma', 'xls', 'xml', 'zip'
-]);
-
-export const isImage = (s: string) => endsWith(IMAGE_EXTS)(s.toLowerCase());
-
-export function resolveExtension(ext: string) {
-  if (!ext) {
-    ext = 'unknown';
-  }
-  if (ext.startsWith('.')) {
-    ext = ext.replace('.', '');
-  }
-  if (ext === 'webp' || ext === 'svg' || ext === 'jpeg') {
-    ext = 'jpg';
-  }
-  if (ext === 'md') {
-    ext = 'txt';
-  }
-  if (ext === 'apk') {
-    ext = 'zip';
-  }
-  if (ext === 'dmg') {
-    ext = 'doc';
-  }
-  if (ext === 'docx') {
-    ext = 'doc';
-  }
-  if (ext === 'xlsx') {
-    ext = 'xls';
-  }
-  if (ext === 'br') {
-    ext = 'zip';
-  }
-  if (!supportExtensions.has(ext)) {
-    ext = 'unknown';
-  }
-  return ext;
-}
 
 export async function browse(currPath: string): Promise<BrowseResponse> {
   try {

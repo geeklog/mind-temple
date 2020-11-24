@@ -52,7 +52,7 @@
       height: 100%;
       right: 0;
       overflow-y: auto;
-      overflow-x: hidden;
+      overflow-x: auto;
       &.edit {
         display: none;
       }

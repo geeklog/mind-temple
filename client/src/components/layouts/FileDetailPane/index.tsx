@@ -1,11 +1,12 @@
 import React from 'react';
 import './index.scss';
-import * as service from '../../../services/fileService';
 import classes from 'classnames';
 import PlainTextEditor from '../../editors/PlainTextEditor';
+import SourceCodeEditor from '../../editors/SourceCodeEditor';
 import MarkdownEditor from '../../editors/MarkdownEditor';
 import ImageEditor from '../../editors/ImageEditor';
 import { AppProps, connectAppControl } from '../../../models/app';
+import { resolveExtensionForThumb, isImageExt, isSourceCode } from '../../../utils/extUtils';
 
 class FileDetailPane extends React.PureComponent<AppProps> {
 
@@ -19,30 +20,20 @@ class FileDetailPane extends React.PureComponent<AppProps> {
     toggleFileContextMenu({ visible: true, x, y, file });
   }
 
-  onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    // const { selectNext, selectPrev } = this.props;
-    // if (event.deltaY > 0) {
-    //   selectNext();
-    // } else if (event.deltaY < 0) {
-    //   selectPrev();
-    // }
-  }
-
   render() {
     const { currFile } = this.props;
     const file = currFile.file;
-    const ext = service.resolveExtension(file.ext);
+    const thumbExt = resolveExtensionForThumb(file.ext);
     const isDirectory = file.type === 'folder';
-    const isImage = !isDirectory && service.isImage(ext);
+    const isImage = !isDirectory && isImageExt(file.ext);
     const isMarkdown = file.type === 'markdown';
-    const isText = file.type === 'text';
-    const isFile = !isImage && !isDirectory && !isText && !isMarkdown;
-
+    const isCode = isSourceCode(file.ext);
+    const isText = !isMarkdown && !isCode && (file.type === 'text' || file.size <= 1024 * 1024 * 2);
+    const isFile = !isImage && !isDirectory && !isText && !isMarkdown && !isCode;
     return (
       <div
         className="file-detail-pane"
         onContextMenu={this.onContextMenu}
-        onWheel={this.onWheel}
       >
         {isImage && (
           <div className="thumb">
@@ -50,12 +41,13 @@ class FileDetailPane extends React.PureComponent<AppProps> {
           </div>
         )}
         {isMarkdown && <MarkdownEditor {...this.props} />}
+        {isCode && <SourceCodeEditor file={file} />}
         {isText && <PlainTextEditor file={file} />}
         {isFile && (
           <div className="thumb">
             <img
               className={classes('preview-img', 'icon')}
-              src={`filetypes/${ext}.svg`}
+              src={`filetypes/${thumbExt}.svg`}
               style={{
                 height: `calc(65vh - 100px)`,
                 maxWidth: `calc(100vw - 200px)`,

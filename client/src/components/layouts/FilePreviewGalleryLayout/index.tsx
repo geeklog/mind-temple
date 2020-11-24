@@ -7,6 +7,7 @@ import { AppProps, connectAppControl } from '../../../models/app';
 import { FileDesc } from '../../../models/file';
 import PlainTextPreview from './PlainTextPreview';
 import Icon from '../../controls/Icon';
+import { resolveExtensionForThumb, isImageExt } from '../../../utils/extUtils';
 
 class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
 
@@ -58,14 +59,14 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
 
   renderSlide(file: FileDesc) {
     const {selectPrev, selectNext} = this.props;
-    const ext = service.resolveExtension(file.ext);
+    const thumbExt = resolveExtensionForThumb(file.ext);
     const isDirectory = file.type === 'folder';
-    const isImage = !isDirectory && service.isImage(ext);
+    const isImage = !isDirectory && isImageExt(file.ext);
     const isText = file.type === 'text';
     const isFile = !isImage && !isDirectory && !isText;
     const src = isImage
       ? service.file(file.path)
-      : `filetypes/${ext}.svg`;
+      : `filetypes/${thumbExt}.svg`;
 
     let style;
 

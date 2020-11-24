@@ -4,6 +4,7 @@ import { FileDesc, ImageDesc } from '../../../models/file';
 import * as service from '../../../services/fileService';
 import Icon from '../../controls/Icon';
 import { AppProps, connectAppControl } from '../../../models/app';
+import { isImageExt, resolveExtensionForThumb } from '../../../utils/extUtils';
 
 interface Props extends AppProps {
   index: number;
@@ -36,13 +37,13 @@ class GallerySubGridItem extends React.PureComponent<Props> {
   render() {
     const {file, selected} = this.props;
     const size = 40;
-    const ext = service.resolveExtension(file.ext);
+    const thumbExt = resolveExtensionForThumb(file.ext);
     const isDirectory = file.type === 'folder';
-    const isImage = !isDirectory && service.isImage(ext);
+    const isImage = !isDirectory && isImageExt(file.ext);
     const isFile = !isImage && !isDirectory;
     const src = isImage
       ? service.thumb(file, {h: size})
-      : `filetypes/${ext}.svg`;
+      : `filetypes/${thumbExt}.svg`;
 
     const img = file as ImageDesc;
 

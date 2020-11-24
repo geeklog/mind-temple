@@ -3,6 +3,7 @@ import { FileDesc, ImageDesc } from '../../models/file';
 import * as service from '../../services/fileService';
 import classes from 'classnames';
 import FolderIcon from '../controls/FolderIcon';
+import { isImageExt, resolveExtensionForThumb } from '../../utils/extUtils';
 
 interface Props {
   size: number;
@@ -14,13 +15,13 @@ interface Props {
 export default class Thumb extends React.PureComponent<Props> {
   render() {
     const {file, selected, type, size} = this.props;
-    let ext = service.resolveExtension(file.ext);
+    let thumbExt = resolveExtensionForThumb(file.ext);
     let isDirectory = file.type === 'folder';
-    let isImage = !isDirectory && service.isImage(ext);
+    let isImage = !isDirectory && isImageExt(file.ext);
     let isFile = !isImage && !isDirectory;
     const src = isImage
       ? service.thumb(file, type === 'grid' ? {h: size} : {w: size})
-      : `filetypes/${ext}.svg`;
+      : `filetypes/${thumbExt}.svg`;
 
     const img = file as ImageDesc;
 
