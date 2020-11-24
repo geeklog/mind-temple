@@ -47,11 +47,12 @@ export default class SourceCodeEditor extends Component<AppProps, State> {
   }
 
   async componentDidUpdate(prevProps: AppProps) {
-    if (prevProps.currFile.path === this.props.currFile.path) {
+    if (prevProps.currFile.path === this.props.currFile.path
+      && prevProps.theme === this.props.theme) {
       return;
     }
     const {theme} = this.props;
-    monaco.editor.setTheme('vs-' + theme);
+    this.editor.updateOptions({theme: `vs-${theme}`});
   }
 
   render() {
