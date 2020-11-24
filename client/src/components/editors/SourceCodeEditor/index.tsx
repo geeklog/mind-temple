@@ -1,24 +1,20 @@
 import React, { Component } from 'react';
-import { FileDesc } from '../../../models/file';
 import * as remote from '../../../services/fileService';
 import * as monaco from 'monaco-editor';
 import './index.scss';
 import { languageType } from '../../../utils/extUtils';
+import { AppProps } from '../../../models/app';
 
 monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
   noSemanticValidation: true,
   noSyntaxValidation: true,
 });
 
-interface Props {
-  file: FileDesc;
-}
-
 interface State {
   code: string;
 }
 
-export default class SourceCodeEditor extends Component<Props, State> {
+export default class SourceCodeEditor extends Component<AppProps, State> {
   div: HTMLDivElement;
   editor: monaco.editor.IStandaloneCodeEditor;
 
@@ -27,18 +23,19 @@ export default class SourceCodeEditor extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    const {file} = this.props;
-    const code = await remote.text(file.path);
+    const {currFile, theme} = this.props;
+    const code = await remote.text(currFile.file.path);
     if (this.div) {
       this.editor = monaco.editor.create(this.div, {
         value: code,
-        language: languageType(file.ext),
+        language: languageType(currFile.file.ext),
         lineHeight: 20,
         fontFamily: 'Ubuntu Mono',
         fontSize: 18,
-        theme: 'vs-light',
+        theme: 'vs-' + theme,
         lineNumbers: 'on',
         scrollBeyondLastLine: false,
+        automaticLayout: true,
       });
     }
     window.addEventListener('resize', this.onResize);
@@ -49,20 +46,24 @@ export default class SourceCodeEditor extends Component<Props, State> {
     window.removeEventListener('resize', this.onResize);
   }
 
-  async componentDidUpdate(prevProps: Props) {
-    if (prevProps.file.path === this.props.file.path) {
+  async componentDidUpdate(prevProps: AppProps) {
+    if (prevProps.currFile.path === this.props.currFile.path) {
       return;
     }
-    const code = await remote.text(this.props.file.path);
-    this.setState({ code });
+    const {theme} = this.props;
+    monaco.editor.setTheme('vs-' + theme);
   }
 
   render() {
     return (
       <div
         className="source-code-editor"
-        ref={(ref) => this.div = ref}
-      />
+      >
+        <div
+          className="editor"
+          ref={(ref) => this.div = ref}
+        />
+      </div>
     );
   }
 }

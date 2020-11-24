@@ -55,7 +55,7 @@ class FileDetailPane extends React.PureComponent<AppProps> {
       return <MarkdownEditor {...this.props} />;
     }
     if (isCode) {
-      return <SourceCodeEditor file={file} />;
+      return <SourceCodeEditor {...this.props} />;
     }
     if (isText) {
       return <PlainTextEditor file={file} />;

@@ -25,13 +25,13 @@ class TopMenubar extends React.PureComponent<AppProps> {
     document.documentElement.classList.add(`theme-${this.props.theme}`);
     hotkeys.registerCommand('Cmd:ToggleTopbar', this.props.toggleTopbar);
   }
-  
+
   componentWillUnmount() {
     hotkeys.unregisterCommand('Cmd:ToggleTopbar');
   }
 
   componentDidUpdate() {
-    let root = document.documentElement;
+    const root = document.documentElement;
     if (this.props.topbarOpened) {
       root.style.setProperty('--topbar-height', '45px');
     } else {

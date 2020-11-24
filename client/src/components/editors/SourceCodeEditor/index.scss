@@ -1,4 +1,8 @@
 .source-code-editor {
-  height: calc(100%);
+  height: calc(100vh - var(--topbar-height));
+  width: calc(100vw - var(--sidebar-width));
   overflow: hidden;
+  .editor {
+    height: 100%;
+  }
 }
