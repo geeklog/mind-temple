@@ -5,6 +5,8 @@ import { AppProps, connectAppControl } from '../../../models/app';
 import { FileDesc } from '../../../models/file';
 import hotkeys from '../../../services/hotkeys';
 import { LayoutMode } from '../../../models/layout';
+import { ContextMenuOptions } from '../type';
+import { isClickOnElement } from '../../../utils/domUtils';
 
 class FilePreviewGridLayout extends React.PureComponent<AppProps> {
 
@@ -38,6 +40,9 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
   }
 
   onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (isClickOnElement(event, 'grid-item')) {
+      return;
+    }
     const {setCurrIndex} = this.props;
     setCurrIndex(null);
   }
@@ -55,9 +60,10 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
     this.props.open(file);
   }
 
-  onItemContextMenu = (options: {
-    visible: boolean; x: number; y: number; index: number; file: FileDesc;
-  }) => {
+  onItemContextMenu = (options: ContextMenuOptions) => {
+    const {setCurrIndex } = this.props;
+    const {index} = options;
+    setCurrIndex(index);
     this.props.toggleFileContextMenu(options);
   }
 

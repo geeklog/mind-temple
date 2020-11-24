@@ -33,6 +33,11 @@ $markdownEditor: (
   border-right: 1px dashed $white
 );
 
+$contextMenu: (
+  background: rgb(80, 80, 80),
+  box-shadow: (0 5px 9px #242424)
+);
+
 $theme: (
   whiteColor: $white,
   blackColor: $black,
@@ -79,5 +84,6 @@ $theme: (
 
   rightPane: $rightPane,
   thumbSelected: $thumbSelected,
-  markdownEditor: $markdownEditor
+  markdownEditor: $markdownEditor,
+  contextMenu: $contextMenu
 )

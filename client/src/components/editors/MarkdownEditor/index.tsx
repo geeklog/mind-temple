@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactMarkdown from 'react-markdown';
+import gfm from 'remark-gfm';
 import * as remote from '../../../services/fileService';
 import './index.scss';
 import classnames from 'classnames';
@@ -77,7 +78,7 @@ export default class MarkdownEditor extends Component<AppProps> {
           `theme-${editorTheme}`,
           editorLayout
         )}
-        plugins={[math]}
+        plugins={[gfm, math]}
         renderers={{
           break: (a: any) => {
             return <br />;

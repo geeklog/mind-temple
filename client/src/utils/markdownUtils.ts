@@ -6,7 +6,7 @@ const MarkdownIt: any = null;
 
 export function formatTextForPreview(text: string) {
   text = decodeHTMLEntities(text);
-  text = text.split('\n').map(line => line + '  ').join('\n');
+  text = respectNewlines(text);
   return text;
 }
 
@@ -14,6 +14,20 @@ export function formatTextForEditor(text: string) {
   text = encodeHTMLEntities(text);
   text = text.replace(/\n/g, '<br>');
   return text;
+}
+
+// Add two space to every lines to make markdown respect new line
+export function respectNewlines(text: string) {
+  return text.split('\n')
+    .map(line => {
+      // except for markdown table & code block & other special blocks
+      if (line.startsWith('|') && line.endsWith('|')) {
+        return line;
+      } else {
+        return line + '  ';
+      }
+    })
+    .join('\n');
 }
 
 export function markdown(text: string) {

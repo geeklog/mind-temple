@@ -17,8 +17,6 @@ interface Props {
 export default class FilePreviewGridItem extends React.PureComponent<Props> {
 
   onClick = (event?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    event.preventDefault();
-    event.stopPropagation();
     const {file, index} = this.props;
     this.props.onClick(file, index);
   }
@@ -29,7 +27,6 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
   }
 
   onContextMenu = (event: any) => {
-    this.onClick(event);
     const {file, index} = this.props;
     event.preventDefault();
     event.stopPropagation();

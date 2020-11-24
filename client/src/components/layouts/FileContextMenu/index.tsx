@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import Icon from '../../controls/Icon';
-import { connectAppControl, AppProps } from '../../../models/app';
+import { AppProps } from '../../../models/app';
 import './index.scss';
+import { boundsInScreen } from '../../../utils/domUtils';
 
 type LiMouseEvent = React.MouseEvent<HTMLLIElement, MouseEvent>;
 
-class FileContextMenu extends PureComponent<AppProps> {
+export default class FileContextMenu extends PureComponent<AppProps> {
+  ul: HTMLUListElement;
 
   open = () => {
     const {fileContextMenu: {file}, openInServer} = this.props;
@@ -32,27 +34,35 @@ class FileContextMenu extends PureComponent<AppProps> {
     //
   }
 
+  hide = () => {
+    this.props.toggleFileContextMenu({visible: false});
+  }
+
   componentDidMount() {
-    const {toggleFileContextMenu} = this.props as any;
-    document.addEventListener('click', () => {
-      toggleFileContextMenu(false);
-    });
+    document.addEventListener('click', this.hide);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.hide);
+  }
+
+  componentDidUpdate() {
+    if (!this.ul) {
+      return;
+    }
+    const {fileContextMenu: {x, y}} = this.props;
+    const pos = boundsInScreen(this.ul, {x, y, padding: 20});
+    this.ul.style.left = `${pos.x}px`;
+    this.ul.style.top = `${pos.y}px`;
   }
 
   render() {
-    const {fileContextMenu: {visible, x, y}} = this.props;
+    const {fileContextMenu: {visible}} = this.props;
     const visibleClassed = visible ? '' : 'hide';
-    let style = {};
-    if (x !== undefined && y !== undefined) {
-      style = {
-        left: x + 'px',
-        top: y + 'px'
-      };
-    }
     return (
       <ul
         className={classnames('file-context-menu', visibleClassed)}
-        style={style}
+        ref={ref => this.ul = ref}
       >
         <li
           className={classnames('item')}
@@ -93,5 +103,3 @@ class FileContextMenu extends PureComponent<AppProps> {
     );
   }
 }
-
-export default connectAppControl(FileContextMenu);

@@ -6,11 +6,10 @@
   top: 0;
   left: 0;
   z-index: 100;
-  padding: 0 10px;
+  padding: 0;
   border-radius: 10px;
-  @include themed('background', 'dimBackground');
-  @include themed('box-shadow', 'dimShadow');
-  background-color: rgb(80, 80, 80);
+  overflow: hidden;
+  @include themedMixin('contextMenu');
   &.hide {
     display: none;
   }
@@ -19,7 +18,15 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    margin: 10px 0;
+    margin: 0;
+    padding: 5px 10px;
+    &:hover {
+      @include themed('background', 'selectedBackground');
+      @include themed('color', 'selectedTextColor');
+      .icon {
+        @include themed('fill', 'selectedTextColor');
+      }
+    }
     .icon {
       width: 20px;
       height: 20px;

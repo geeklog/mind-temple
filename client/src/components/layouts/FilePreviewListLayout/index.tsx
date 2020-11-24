@@ -8,6 +8,8 @@ import prettyBytes from 'pretty-bytes';
 import { FileDesc } from '../../../models/file';
 import { format } from 'date-fns';
 import hotkeys from '../../../services/hotkeys';
+import { ContextMenuOptions } from '../type';
+import { isClickOnElement } from '../../../utils/domUtils';
 
 class Header extends React.PureComponent<{
   name: string,
@@ -47,6 +49,9 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
   }
 
   onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (isClickOnElement(event, 'cell')) {
+      return;
+    }
     const {setCurrIndex} = this.props;
     setCurrIndex(null);
   }
@@ -65,9 +70,10 @@ class FilePreviewListLayout extends React.PureComponent<AppProps> {
     this.props.open(file);
   }
 
-  onItemContextMenu = (options: {
-    visible: boolean; x: number; y: number; index: number; file: FileDesc;
-  }) => {
+  onItemContextMenu = (options: ContextMenuOptions) => {
+    const {setCurrIndex } = this.props;
+    const {index} = options;
+    setCurrIndex(index);
     this.props.toggleFileContextMenu(options);
   }
 

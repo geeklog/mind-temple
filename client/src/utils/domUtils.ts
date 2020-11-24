@@ -46,6 +46,41 @@ export function decodeHTMLEntities(text: string) {
   return entities.decode(text).replace(/<br>/g, '\n');
 }
 
+export function boundsInScreen(
+  element: HTMLElement,
+  {x, y, padding}: {x?: number, y?: number, padding?: number} = {}) {
+  const elRect = element.getBoundingClientRect();
+  x = x || elRect.x;
+  y = y || elRect.y;
+  padding = padding || 50;
+  const w = elRect.width;
+  const h = elRect.height;
+  if (x < padding) {
+    x = padding;
+  }
+  if ((x + w) > window.innerWidth - padding) {
+    x = window.innerWidth - padding - w;
+  }
+  if (y < padding) {
+    y = padding;
+  }
+  if (y + w > window.innerHeight - padding) {
+    y = window.innerHeight - padding - h;
+  }
+  return {x, y};
+}
+
+export function isClickOnElement(event: React.MouseEvent<HTMLDivElement, MouseEvent>, className: string) {
+  let el = event.target;
+  while (el) {
+    if ((el as HTMLElement).classList.contains(className)) {
+      return true;
+    }
+    el = (el as HTMLElement).parentElement;
+  }
+  return false;
+}
+
 export function moveCaretToEnd(div: HTMLDivElement) {
   const range = document.createRange();
   range.selectNodeContents(div);

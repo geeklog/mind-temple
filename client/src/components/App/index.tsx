@@ -33,7 +33,7 @@ class App extends React.Component<AppProps> {
             {this.renderMain()}
           </div>
         </main>
-        <FileContextMenu />
+        <FileContextMenu {...this.props}/>
         <ToastContainer />
       </div>
     );

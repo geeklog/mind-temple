@@ -12,6 +12,9 @@ class FileDetailPane extends React.PureComponent<AppProps> {
 
   onContextMenu = (event: any) => {
     const { files, currIndex, toggleFileContextMenu } = this.props;
+    if (!files) {
+      return;
+    }
     const file = files[currIndex];
     event.preventDefault();
     event.stopPropagation();

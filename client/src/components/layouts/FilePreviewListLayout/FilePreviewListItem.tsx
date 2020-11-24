@@ -26,8 +26,6 @@ export default class FilePreviewListItem extends PureComponent<Props> {
   }
 
   onClick = (event: any) => {
-    event.preventDefault();
-    event.stopPropagation();
     const {file, index} = this.props;
     this.props.onClick(file, index);
   }
