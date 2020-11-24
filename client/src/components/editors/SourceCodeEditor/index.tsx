@@ -30,7 +30,7 @@ export default class SourceCodeEditor extends Component<AppProps, State> {
         value: code,
         language: languageType(currFile.file.ext),
         lineHeight: 20,
-        fontFamily: 'Ubuntu Mono',
+        fontFamily: '"Ubuntu Mono", "Source Code Pro", "Open Sans", "Clear Sans", "Andale Mono", "Courier New", "Helvetica Neue", Helvetica, Arial, sans-serif',
         fontSize: 18,
         theme: 'vs-' + theme,
         lineNumbers: 'on',

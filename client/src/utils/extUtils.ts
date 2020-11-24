@@ -1,7 +1,7 @@
 import { endsWith } from 'mikov/fn/op';
 
 const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'];
-const SRCCODE_EXTS = ['c', 'cpp', 'java', 'scala', 'py', 'json', 'yml', 'html', 'js', 'ts', 'jsx', 'tsx', 'css', 'scss', 'php', 'lua', 'sql', 'go', 'swift', 'rb', 'rust', 'dart', 'lisp', 'perl', 'sh'];
+const SRCCODE_EXTS = ['c', 'cpp', 'java', 'scala', 'py', 'json', 'yml', 'html', 'js', 'ts', 'jsx', 'tsx', 'css', 'scss', 'php', 'lua', 'sql', 'go', 'swift', 'rb', 'rust', 'dart', 'lisp', 'perl', 'sh', 'lock'];
 const OTHER_EXTS = ['7z', 'aac', 'ai', 'archive', 'arj', 'audio', 'avi', 'css', 'csv', 'dbf', 'doc', 'dwg', 'exe', 'fla', 'flac', 'gif', 'html', 'iso', 'jpg', 'js', 'json', 'mdf', 'mp2', 'mp3', 'mp4', 'mxf', 'nrg', 'pdf', 'png', 'ppt', 'psd', 'rar', 'rtf', 'svg', 'webp', 'text', 'tiff', 'txt', 'video', 'wav', 'wma', 'xls', 'xml', 'zip'];
 
 const supportExtensions = new Set([
