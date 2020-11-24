@@ -1,7 +1,7 @@
 @import 'common';
 
 $stripEven: #262931;
-$stripOdd: #2f333a;
+$stripOdd: #2a2e34;
 $stripBackground: repeating-linear-gradient(
   to bottom,
   #{$stripOdd},
@@ -73,7 +73,7 @@ $theme: (
   filenameBackground: #848991,
   topbarBackground: #414449,
 
-  headerColor: #848991,
+  headerColor: #4f5358,
   headerBorder: #1d2027 solid 1px,
   
   textEditorBackground: $textEditorBackground,
