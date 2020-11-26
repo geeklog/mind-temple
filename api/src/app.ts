@@ -13,11 +13,12 @@ import saveController from './controllers/save';
 import renameController from './controllers/rename';
 import createController from './controllers/create';
 import trashController from './controllers/trash';
+import bookController from './controllers/book';
 
 const app = express();
 
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+app.set('view engine', 'pug');
 
 app.use(cors());
 // app.use(logger("dev"));
@@ -30,13 +31,14 @@ app.get(/^\/browse\/.*/, browseController);
 app.get(/^\/file\/.*/, fileController);
 app.get(/^\/thumb\/.*/, thumbController);
 app.get(/^\/cmd\/.*/, commandController);
+app.get(/^\/book/, bookController);
 app.post(/^\/save\/.*/, saveController);
 app.post(/^\/rename\/.*/, renameController);
 app.post(/^\/create\/.*/, createController);
 app.post(/^\/trash/, trashController);
 
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', {content: 'hello'});
 });
 
 app.use((req, res, next) => {

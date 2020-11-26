@@ -82,8 +82,8 @@ class HotkeyService {
     if (ctrl && !event.ctrlKey) {
       return;
     }
-    event.preventDefault();
-    event.stopImmediatePropagation();
+    event.preventDefault?.();
+    event.stopImmediatePropagation?.();
     action();
   }
 

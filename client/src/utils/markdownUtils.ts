@@ -1,6 +1,7 @@
 import {splitOnce} from './util';
 import { parseMacro } from './macroUtils';
 import { encodeHTMLEntities, decodeHTMLEntities } from './domUtils';
+import { isAllSameChar } from './strUtils';
 
 const MarkdownIt: any = null;
 
@@ -14,6 +15,44 @@ export function formatTextForEditor(text: string) {
   text = encodeHTMLEntities(text);
   text = text.replace(/\n/g, '<br>');
   return text;
+}
+
+ /**
+  * Extract quoted block of text by specify a format
+  * @param fence `-`
+  * ```
+  * -------------------
+  * quote block content
+  * quote block content
+  * -------------------
+  *
+  * normal text...
+  * ```
+  * @param text text to parse
+  */
+export function extractQuoteBlock(fence: string, text: string) {
+  const textLines = text.split('\n');
+  let insideBlock = false;
+  let blockLines: string[] = [];
+  let normalTextLines: string[] = [];
+  let line = textLines.shift();
+  while (line !== undefined) {
+    if (insideBlock) {
+      if (isAllSameChar(fence, line.trim())) {
+        blockLines.push(line);
+        insideBlock = false;
+      } else {
+        blockLines.push(line);
+      }
+    } else if (isAllSameChar(fence, line.trim())) {
+      blockLines.push(line);
+      insideBlock = true;
+    } else {
+      normalTextLines.push(line);
+    }
+    line = textLines.shift();
+  }
+  return [blockLines.join('\n'), normalTextLines.join('\n')];
 }
 
 // Add two space to every lines to make markdown respect new line

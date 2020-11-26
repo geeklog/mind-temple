@@ -1,0 +1,13 @@
+html
+  head
+    title= book.name
+    link(rel='stylesheet' href='/stylesheets/book.css')
+    script(src='/scripts/iframe.js')
+  style.
+    html,body {
+      --theme: !{book.theme.theme};
+      --main-color: !{book.theme.mainColor}
+    }
+  body
+    div(class='book theme-'+book.theme.theme) !{book.content}
+    script(async, src='/scripts/book.js')

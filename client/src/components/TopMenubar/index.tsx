@@ -8,6 +8,8 @@ import MarkdownEditorControlBar from '../editors/MarkdownEditor/ControlBar';
 import FolderControlBar from "../layouts/FolderControlBar";
 import classnames from 'classnames';
 import hotkeys from "../../services/hotkeys";
+import BookReaderControlBar from "../editors/BookReader/ControlBar";
+import eventCenter from "../../services/eventCenter";
 class TopMenubar extends React.PureComponent<AppProps> {
 
   onPathChanged = (currPath: string) => {
@@ -17,13 +19,9 @@ class TopMenubar extends React.PureComponent<AppProps> {
   toggleNightMode = (b: boolean) => {
     document.documentElement.className = '';
     document.documentElement.classList.add(`theme-${b ? 'light' : 'dark'}`);
+    document.documentElement.style.setProperty('--theme', b ? 'light' : 'dark');
+    eventCenter.dispatchEvent('Evt:UpdateVar', {'--theme': b ? 'light' : 'dark'});
     this.props.setTheme(b ? 'light' : 'dark');
-  }
-
-  componentDidMount() {
-    document.documentElement.className = '';
-    document.documentElement.classList.add(`theme-${this.props.theme}`);
-    hotkeys.registerCommand('Cmd:ToggleTopbar', this.props.toggleTopbar);
   }
 
   componentWillUnmount() {
@@ -34,8 +32,10 @@ class TopMenubar extends React.PureComponent<AppProps> {
     const root = document.documentElement;
     if (this.props.topbarOpened) {
       root.style.setProperty('--topbar-height', '45px');
+      eventCenter.dispatchEvent('Evt:UpdateVar', {'--topbar-height': '45px'});
     } else {
       root.style.setProperty('--topbar-height', '0px');
+      eventCenter.dispatchEvent('Evt:UpdateVar', {'--topbar-height': '0px'});
     }
   }
 
@@ -46,6 +46,7 @@ class TopMenubar extends React.PureComponent<AppProps> {
     } = this.props;
     const isFolder = currFile.file && currFile.file.type === 'folder';
     const isMarkdown = currFile.file && currFile.file.type === 'markdown';
+    const isBook = currFile.file && currFile.file.type === 'text';
     return (
       <div
         className={classnames(
@@ -72,6 +73,9 @@ class TopMenubar extends React.PureComponent<AppProps> {
         }
         {isMarkdown &&
           <MarkdownEditorControlBar {...this.props} />
+        }
+        {isBook &&
+          <BookReaderControlBar {...this.props} />
         }
         <ToggleButton
           on={this.props.theme === 'light'}

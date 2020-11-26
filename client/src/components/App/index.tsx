@@ -10,6 +10,8 @@ import Sidebar from '../Sidebar/index';
 import FileDetailPane from '../layouts/FileDetailPane';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import eventCenter from '../../services/eventCenter';
+import hotkeys from '../../services/hotkeys';
 
 class App extends React.Component<AppProps> {
 
@@ -18,6 +20,14 @@ class App extends React.Component<AppProps> {
   }
 
   state = { hasError: false };
+
+  componentDidMount() {
+    document.documentElement.className = '';
+    document.documentElement.classList.add(`theme-${this.props.theme}`);
+    document.documentElement.style.setProperty('--theme', this.props.theme);
+    eventCenter.dispatchEvent('Evt:UpdateVar', {'--theme': this.props.theme});
+    hotkeys.registerCommand('Cmd:ToggleTopbar', this.props.toggleTopbar);
+  }
 
   componentDidCatch(error, errorInfo) {
     console.error(error, errorInfo);

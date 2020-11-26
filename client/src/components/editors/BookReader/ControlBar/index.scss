@@ -1,0 +1,24 @@
+@import '../../../../styles/theme.scss';
+
+.markdown-editor-control-bar {
+  display: flex;
+  align-items: center;
+  .save {
+    margin-right: 8px;
+    @include themed('color', 'textColor');
+    font-size: 16px;
+  }
+  .editor-layout {
+    .icon {
+      margin-top: 3px;
+      width: 25px;
+      height: 25px;
+    }
+  }
+  .theme {
+    @include themed('border', 'border');
+    align-self: stretch;
+    margin: 3px 0;
+    margin-right: 5px;
+  }
+}

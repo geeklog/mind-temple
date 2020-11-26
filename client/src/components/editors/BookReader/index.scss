@@ -1,15 +1,23 @@
 @import '../../../styles/theme.scss';
 
-.plain-text-editor {
+.book-reader {
   @include themed('background-color', 'background');
   @include themed('color', 'color');
   @include themed('background-image', 'textEditorBGImg');
   background-size: 100% 30px;
-  height: 100%;
+  height: calc(100vh - var(--topbar-height));
   width: 100%;
-  padding: 2px calc((100% - 800px) / 2);
+  position: absolute;
+  border: 0;
   font-family: "Roboto Mono No Space", "PingFang SC", Tahoma, Arial, "Microsoft YaHei", "微软雅黑", STXihei, "华文细黑" , SimSun, "宋体", Heiti, "黑体", sans-serif;
   line-height: 30px;
   outline: none;
   overflow-y: auto;
+  z-index: 1;
+  &.hide {
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+    z-index: 0;
+  }
 }

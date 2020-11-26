@@ -3,6 +3,8 @@ import { BrowseResponse, FileDesc } from '../models/file';
 import { post } from '../utils/fetchUtils';
 import { dirname, joinPath } from '../utils/pathUtils';
 
+export { apiServer } from '../config';
+
 export async function browse(currPath: string): Promise<BrowseResponse> {
   try {
     const res = await fetch(`${apiServer}/browse/${encodeURIComponent(currPath)}`);
@@ -43,6 +45,14 @@ export function thumb(file: FileDesc, size?: {w?: number, h?: number}): string {
     }
   }
   return `${apiServer}/thumb/${encodeURIComponent(file.path)}${postfix}`;
+}
+
+export function getSSRBookSrc(filePath: string): string {
+  return `${apiServer}/book/${encodeURIComponent(filePath)}`;
+}
+
+export async function loadSSRBookContent(filePath: string) {
+  return await (await fetch(`${apiServer}/book/${encodeURIComponent(filePath)}`)).text();
 }
 
 export async function trash(filePaths: string[]) {

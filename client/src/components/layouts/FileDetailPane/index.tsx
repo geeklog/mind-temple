@@ -7,6 +7,7 @@ import MarkdownEditor from '../../editors/MarkdownEditor';
 import ImageEditor from '../../editors/ImageEditor';
 import { AppProps, connectAppControl } from '../../../models/app';
 import { resolveExtensionForThumb, isImageExt, isSourceCode } from '../../../utils/extUtils';
+import BookReader from '../../editors/BookReader';
 
 class FileDetailPane extends React.PureComponent<AppProps> {
 
@@ -58,7 +59,7 @@ class FileDetailPane extends React.PureComponent<AppProps> {
       return <SourceCodeEditor {...this.props} />;
     }
     if (isText) {
-      return <PlainTextEditor file={file} />;
+      return <BookReader {...this.props} />;
     }
     return (
       <div className="thumb">

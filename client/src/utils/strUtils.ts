@@ -11,3 +11,15 @@ export function splitAt(str: string, at: number) {
   }
   return arr;
 }
+
+export function isAllSameChar(char: string, str: string) {
+  if (str.length === 0) {
+    return false;
+  }
+  for (const c of str) {
+    if (c !== char) {
+      return false;
+    }
+  }
+  return true;
+}

@@ -48,7 +48,8 @@ export function decodeHTMLEntities(text: string) {
 
 export function boundsInScreen(
   element: HTMLElement,
-  {x, y, padding}: {x?: number, y?: number, padding?: number} = {}) {
+  { x, y, padding }: { x?: number; y?: number; padding?: number } = {}
+) {
   const elRect = element.getBoundingClientRect();
   x = x || elRect.x;
   y = y || elRect.y;
@@ -58,7 +59,7 @@ export function boundsInScreen(
   if (x < padding) {
     x = padding;
   }
-  if ((x + w) > window.innerWidth - padding) {
+  if (x + w > window.innerWidth - padding) {
     x = window.innerWidth - padding - w;
   }
   if (y < padding) {
@@ -67,10 +68,13 @@ export function boundsInScreen(
   if (y + w > window.innerHeight - padding) {
     y = window.innerHeight - padding - h;
   }
-  return {x, y};
+  return { x, y };
 }
 
-export function isClickOnElement(event: React.MouseEvent<HTMLDivElement, MouseEvent>, className: string) {
+export function isClickOnElement(
+  event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  className: string
+) {
   let el = event.target;
   while (el) {
     if ((el as HTMLElement).classList.contains(className)) {
@@ -105,4 +109,46 @@ export async function loadImageData(src: string): Promise<ImageData> {
     img.src = src;
   });
   return imgData;
+}
+
+export function bubbleIframeMouseMove(iframe) {
+  // Save any previous onmousemove handler
+  let existingOnMouseMove = iframe.contentWindow.onmousemove;
+
+  // Attach a new onmousemove listener
+  iframe.contentWindow.onmousemove = function(e) {
+    // Fire any existing onmousemove listener
+    if (existingOnMouseMove) {
+      existingOnMouseMove(e);
+    }
+
+    // Create a new event for the this window
+    let evt = document.createEvent('MouseEvents');
+
+    // We'll need this to offset the mouse move appropriately
+    let boundingClientRect = iframe.getBoundingClientRect();
+
+    // Initialize the event, copying exiting event values
+    // for the most part
+    evt.initMouseEvent(
+      'mousemove',
+      true, // bubbles
+      false, // not cancelable
+      window,
+      e.detail,
+      e.screenX,
+      e.screenY,
+      e.clientX + boundingClientRect.left,
+      e.clientY + boundingClientRect.top,
+      e.ctrlKey,
+      e.altKey,
+      e.shiftKey,
+      e.metaKey,
+      e.button,
+      null // no related element
+    );
+
+    // Dispatch the mousemove event on the iframe element
+    iframe.dispatchEvent(evt);
+  };
 }
