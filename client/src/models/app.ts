@@ -178,7 +178,6 @@ function updateFolder(state: AppState, folder: Partial<FolderDesc>) {
     files: [],
     error: '',
   }) as FolderDesc;
-  console.log('updateFolder', state.paths[folder.path]);
   return {...state};
 }
 
@@ -379,10 +378,15 @@ export const app = createModel<RootModel>()({
       const selectIndices = [currIndex];
       return updateCurrFolder(state, {currIndex, selectIndices});
     },
-    addSelectIndex: (state: AppState, index: number) => {
+    toggleSelectIndex: (state: AppState, index: number) => {
       const folder = state.paths[state.currPath];
       let {currIndex, selectIndices} = folder;
-      selectIndices = [...selectIndices, index];
+      if (selectIndices.indexOf(index) >= 0) {
+        selectIndices.splice(selectIndices.indexOf(index), 1);
+        selectIndices = [...selectIndices];
+      } else {
+        selectIndices = [...selectIndices, index];
+      }
       return updateCurrFolder(state, {currIndex, selectIndices});
     },
     selectIndicesBetween: (
@@ -628,7 +632,7 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
   selectPrev: dispatch.app.selectPrev,
   selectNext: dispatch.app.selectNext,
   setCurrIndex: (index: number) => dispatch.app.selectIndex(index),
-  addSelectIndex: (index: number) => dispatch.app.addSelectIndex(index),
+  toggleSelectIndex: (index: number) => dispatch.app.toggleSelectIndex(index),
   selectIndicesBetween: (startIndex: number, endIndex: number) => dispatch.app.selectIndicesBetween({startIndex, endIndex}),
   setLayoutMode: (layoutMode: LayoutMode) => {
     dispatch.app.change({layout: layoutMode});

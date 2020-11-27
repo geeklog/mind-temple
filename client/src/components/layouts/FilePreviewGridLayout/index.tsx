@@ -48,7 +48,7 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
   }
 
   onItemClick = (file: FileDesc, index: number) => {
-    const {setCurrIndex, addSelectIndex} = this.props;
+    const {setCurrIndex, toggleSelectIndex: addSelectIndex} = this.props;
     if (hotkeys.metaHolding) {
       addSelectIndex(index);
     } else {

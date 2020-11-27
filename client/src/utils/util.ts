@@ -1,6 +1,9 @@
 import {uniq, flatten} from 'lodash';
 
 export function range(start: number, end: number) {
+  if (end < start) {
+    [start, end] = [end, start];
+  }
   const arr = [];
   for (let i = start; i <= end; i++) {
     arr.push(i);

@@ -82,7 +82,7 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
   }
 
   onItemClick =  (file: FileDesc, index: number) => {
-    const {currIndex, setCurrIndex, addSelectIndex, selectIndicesBetween} = this.props;
+    const {currIndex, setCurrIndex, toggleSelectIndex: addSelectIndex, selectIndicesBetween} = this.props;
     if (hotkeys.metaHolding) {
       addSelectIndex(index);
     } else if (hotkeys.shiftHolding) {
