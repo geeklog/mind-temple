@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
 import FilePreviewGridLayout from '../layouts/FilePreviewGridLayout';
-import FilePreviewListLayout from '../layouts/FilePreviewListLayout';
+import FileListLayout from '../layouts/FilePreviewListLayout';
 import FilePreviewGalleryLayout from '../layouts/FilePreviewGalleryLayout';
 import TopMenubar from '../TopMenubar';
 import FileContextMenu from '../layouts/FileContextMenu';
@@ -70,7 +70,7 @@ class App extends React.Component<AppProps> {
       return (
         <>
           {layoutMode === 'grid' && <FilePreviewGridLayout />}
-          {layoutMode === 'list' && <FilePreviewListLayout />}
+          {layoutMode === 'list' && <FileListLayout />}
           {layoutMode === 'gallery' && <FilePreviewGalleryLayout />}
         </>
       );

@@ -72,6 +72,16 @@
           @include themed('background', 'selectedBackground');
           @include themed('color', 'selectedTextColor');
         }
+        &.dragging {
+          background: #bee9ff !important;
+        }
+        &.nodrop {
+          background: rgb(228, 228, 228) !important;
+        }
+        &.dropping:not(.nodrop) {
+          @include themed('background', 'selectedBackground');
+          @include themed('color', 'selectedTextColor');
+        }
         .thumb {
           margin-right: 10px;
           position: relative;

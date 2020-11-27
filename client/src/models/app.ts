@@ -505,6 +505,17 @@ export const app = createModel<RootModel>()({
           eventCenter.dispatchEvent('Cmd:RenameFile', filePath);
         }
       },
+      async moveFiles({files, targetPath}: {files: FileDesc[], targetPath: string}): Promise<void> {
+        const r = await remote.moveFiles(files, targetPath);
+        if (r.ok) {
+          app.browse(null);
+        }
+        if (r.error.length) {
+          for (const err of r.error) {
+            toastError(err);
+          }
+        }
+      },
       async createNewItem(
         {filePath, newName, type}: {filePath: string, newName: string, type: string},
         state: ExtractRematchStateFromModels<RootModel>
@@ -637,6 +648,7 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
   openFolderInServer: dispatch.app.openFolderInServer,
   gotoColsoleInServer: dispatch.app.gotoColsoleInServer,
   renameFile: dispatch.app.renameFile,
+  moveFiles: dispatch.app.moveFiles,
   toggleHiddenFiles: dispatch.app.toggleHiddenFiles,
   toggleFileContextMenu: dispatch.app.toggleFileContextMenu,
   setEditorUnsavedContent: dispatch.app.setEditorUnsavedContent

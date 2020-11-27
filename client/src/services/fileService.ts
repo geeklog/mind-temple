@@ -88,6 +88,13 @@ export async function rename(filePath: string, newName: string) {
   return await post(`${apiServer}/rename/${encodeURIComponent(filePath)}`, { newName });
 }
 
+export async function moveFiles(files: FileDesc[], targetPath: string) {
+  return await post(`${apiServer}/move/`, {
+    files: files.map(f => f.path),
+    targetPath
+  });
+}
+
 export async function save(filePath: string, file: string) {
   await post(`${apiServer}/save/${encodeURIComponent(filePath)}`, {file});
 }

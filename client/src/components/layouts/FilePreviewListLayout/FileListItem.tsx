@@ -14,7 +14,7 @@ interface Props extends FileItemProps {
   onFileNameChange?: (newFileName: string, file: FileDesc, index: number) => void;
 }
 
-export default class FilePreviewListItem extends PureComponent<Props> {
+export default class FileListItem extends PureComponent<Props> {
 
   onContextMenu = (event: any) => {
     event.preventDefault();
@@ -35,6 +35,35 @@ export default class FilePreviewListItem extends PureComponent<Props> {
     this.props.onDoubleClick(file, index);
   }
 
+  onDragStart = (event: React.DragEvent<HTMLLIElement>) => {
+    const {file, index} = this.props;
+    this.props.onDragStart(file, index, event);
+  }
+
+  onDragEnd = (event: React.DragEvent<HTMLLIElement>) => {
+    const {file, index} = this.props;
+    this.props.onDragEnd(file, index, event);
+  }
+
+  onDragOver = (event: React.DragEvent<HTMLLIElement>) => {
+    event.preventDefault();
+  }
+
+  onDragEnter = (event: React.DragEvent<HTMLLIElement>) => {
+    const {file, index} = this.props;
+    this.props.onDragEnter(file, index, event);
+  }
+
+  onDragLeave = (event: React.DragEvent<HTMLLIElement>) => {
+    const {file, index} = this.props;
+    this.props.onDragLeave(file, index, event);
+  }
+
+  onDrop = () => {
+    const {file, index} = this.props;
+    this.props.onDrop(file, index);
+  }
+
   onFileNameChange = (newFileName: string) => {
     const { file, index }: Props = this.props;
     if (file.name === newFileName) {
@@ -44,18 +73,35 @@ export default class FilePreviewListItem extends PureComponent<Props> {
   }
 
   render() {
-    const {file, selected, className, icon, text, isFileName} = this.props;
+    const {file, selected, dragging, dropping, className, icon, text, isFileName} = this.props;
+    const nodrop = dropping && (file.type !== 'folder' || selected || dragging);
     const selectedClassed = `${ selected ? 'selected' : ''}`;
+    const draggingClassed = `${ dragging ? 'dragging' : ''}`;
+    const droppingClassed = `${ dropping ? 'dropping' : ''}`;
+    const nodropClassed = nodrop ? 'nodrop' : '';
+    // const style = nodrop ? {cursor: 'no-drop'} : {};
+
     return (
       <li
         className={classnames(
           'cell',
           className,
-          selectedClassed
+          selectedClassed,
+          draggingClassed,
+          droppingClassed,
+          nodropClassed
         )}
+        // style={style}
+        draggable={true}
         onClick={this.onClick}
         onContextMenu={this.onContextMenu}
         onDoubleClick={this.onDoubleClick}
+        onDragStart={this.onDragStart}
+        onDragEnd={this.onDragEnd}
+        onDragOver={this.onDragOver}
+        onDragEnter={this.onDragEnter}
+        onDragLeave={this.onDragLeave}
+        onDrop={this.onDrop}
       >
         {icon &&
           <Thumb

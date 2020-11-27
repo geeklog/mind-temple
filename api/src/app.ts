@@ -11,6 +11,7 @@ import thumbController from './controllers/thumb';
 import commandController from './controllers/command';
 import saveController from './controllers/save';
 import renameController from './controllers/rename';
+import moveController from './controllers/move';
 import createController from './controllers/create';
 import trashController from './controllers/trash';
 import bookController from './controllers/book';
@@ -36,6 +37,7 @@ app.post(/^\/save\/.*/, saveController);
 app.post(/^\/rename\/.*/, renameController);
 app.post(/^\/create\/.*/, createController);
 app.post(/^\/trash/, trashController);
+app.post(/^\/move/, moveController);
 
 app.get('/', (req, res) => {
   res.render('index', {content: 'hello'});

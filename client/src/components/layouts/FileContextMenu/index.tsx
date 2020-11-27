@@ -26,8 +26,8 @@ export default class FileContextMenu extends PureComponent<AppProps> {
   }
 
   trash = () => {
-    const {fileContextMenu: {file}, trash} = this.props;
-    trash([file!]);
+    const {selectedFiles, trash} = this.props;
+    trash(selectedFiles);
   }
 
   download = (event: LiMouseEvent) => {
