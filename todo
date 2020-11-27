@@ -30,17 +30,23 @@
 ✔ sort by folder first @done(20-11-21 03:49)
 ✔ toggle topbar @done(20-11-23 10:07)
 ✔ select multiple files @done(20-11-23 11:28)
-☐ carousel
-☐ fix file-context-menu bounds to page border
+✔ fix file-context-menu bounds to page border @done(20-11-27 16:42)
+✔ drag files into folder @done(20-11-27 16:42)
+✔ hide top menu bar @done(20-11-27 16:45)
+✔ list move cursor up/down @done(20-11-27 17:14)
+✔ key down `Enter` to go into folder @done(20-11-27 17:14)
+✔ key down `Backspace` to go to parent folder @done(20-11-27 17:15)
+☐ shift + click to select multiple files in between.
+☐ file context menu: move file to upper level
+☐ improve image browsing efficiency by preloading the next image in background.
+☐ considier using multiple api processes to speed up file loading.
+☐ image carousel, set interval
 ☐ draw more icons with css
-☐ drag files into folder
 ☐ i18n
 ☐ tabs
 ☐ find a way to config the api-server host
-☐ hide top menu bar
 ☐ gallery: folder display it's content
 ☐ gallery: magnifying lens
-☐ list move cursor up/down
 ☐ view plain text content
 ☐ navigation bar history & backward/forward
 ☐ navigation bar search hint
@@ -54,7 +60,6 @@
 ☐ tree view
 ☐ search in place: (keydown "s", and only show all the file with name contains 's' )
 ☐ watch for files changed on server
-
 ☐ fix: if client ip is not localhost, forbbit exec command
 ☐ fix: right click on file-item should also select it
 ☐ multiple selection in folder

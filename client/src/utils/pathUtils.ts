@@ -14,7 +14,7 @@ export const joinPath = (...parts: string[]) => {
 };
 
 export const dirname = (path: string) => {
-  const parts = path.split('/');
+  const parts = path.split('/').filter((part, i) => i === 0 || !!part);
   parts.pop();
   return parts.join('/');
 };

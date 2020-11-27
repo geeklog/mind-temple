@@ -68,7 +68,9 @@ export default class FileNameLabel extends PureComponent<Props, State> {
       });
       onChange(this.div.innerText);
     }
-    event.stopPropagation();
+    if (this.state.editing) {
+      event.stopPropagation();
+    }
   }
 
   onClickOutter: any = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

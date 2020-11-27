@@ -10,6 +10,8 @@ import { ContextMenuOptions } from '../type';
 import { isClickOnElement } from '../../../utils/domUtils';
 import Header from './FileListHeader';
 import DraggingItems from './DraggingItems';
+import { LayoutMode } from '../../../models/layout';
+import { dirname } from '../../../utils/pathUtils';
 
 interface State {
   dragging: boolean;
@@ -34,6 +36,47 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
     }
     const {setCurrIndex} = this.props;
     setCurrIndex(null);
+  }
+
+  onKeyDown = (event: React.KeyboardEvent) => {
+    const {
+      prevLayoutMode,
+      layoutMode,
+      selectPrev,
+      selectNext,
+      setLayoutMode,
+      selectedFiles,
+      currFile,
+      navigateTo,
+      open
+    } = this.props;
+
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      selectPrev();
+      return;
+    }
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      selectNext();
+      return;
+    }
+    if (event.key === 'Enter' && selectedFiles.length === 1 && selectedFiles[0].type === 'folder') {
+      open(selectedFiles[0]);
+      return;
+    }
+    if (event.key === 'Backspace' && !event.metaKey) {
+      navigateTo(dirname(currFile.path));
+      return;
+    }
+    if (event.key === ' ') {
+      event.preventDefault();
+      if (layoutMode !== 'gallery') {
+        setLayoutMode('gallery');
+      } else {
+        setLayoutMode(prevLayoutMode as LayoutMode);
+      }
+    }
   }
 
   onItemClick =  (file: FileDesc, index: number) => {
@@ -130,7 +173,9 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
     return (
       <div
         className="files-layout-list"
+        tabIndex={0}
         onClick={this.onClick}
+        onKeyDown={this.onKeyDown}
       >
         <DraggingItems items={selectedFiles} />
         <div className="headers">
