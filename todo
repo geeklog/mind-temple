@@ -36,7 +36,8 @@
 ✔ list move cursor up/down @done(20-11-27 17:14)
 ✔ key down `Enter` to go into folder @done(20-11-27 17:14)
 ✔ key down `Backspace` to go to parent folder @done(20-11-27 17:15)
-☐ shift + click to select multiple files in between.
+✔ shift + click to select multiple files in between. @done(20-11-27 17:43)
+✔ cmd + click revert the selection if item is selected @done(20-11-27 18:00)
 ☐ file context menu: move file to upper level
 ☐ improve image browsing efficiency by preloading the next image in background.
 ☐ considier using multiple api processes to speed up file loading.
