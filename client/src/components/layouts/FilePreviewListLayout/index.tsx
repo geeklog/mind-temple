@@ -141,6 +141,9 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
       dragging: false,
       droppingIndex: undefined
     });
+    if (~selectedFiles.indexOf(file)) {
+      return;
+    }
     moveFiles({files: selectedFiles, targetPath: file.path});
   }
 
