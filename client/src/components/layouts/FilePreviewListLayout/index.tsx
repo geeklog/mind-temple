@@ -62,10 +62,12 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
       return;
     }
     if (event.key === 'Enter' && selectedFiles.length === 1 && selectedFiles[0].type === 'folder') {
+      event.preventDefault();
       open(selectedFiles[0]);
       return;
     }
     if (event.key === 'Backspace' && !event.metaKey) {
+      event.preventDefault();
       navigateTo(dirname(currFile.path));
       return;
     }
@@ -80,9 +82,11 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
   }
 
   onItemClick =  (file: FileDesc, index: number) => {
-    const {setCurrIndex, addSelectIndex} = this.props;
+    const {currIndex, setCurrIndex, addSelectIndex, selectIndicesBetween} = this.props;
     if (hotkeys.metaHolding) {
       addSelectIndex(index);
+    } else if (hotkeys.shiftHolding) {
+      selectIndicesBetween(currIndex, index);
     } else {
       setCurrIndex(index);
     }

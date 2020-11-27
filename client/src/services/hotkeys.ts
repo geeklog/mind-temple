@@ -26,11 +26,29 @@ class HotkeyService {
     if (event.metaKey) {
       this.metaHolding = true;
     }
+    if (event.shiftKey) {
+      this.shiftHolding = true;
+    }
+    if (event.ctrlKey) {
+      this.ctrlHolding = true;
+    }
+    if (event.altKey) {
+      this.altHolding = true;
+    }
   }
 
   keyUpCheckHolding = (event: KeyboardEvent) => {
     if (event.key === 'Meta') {
       this.metaHolding = false;
+    }
+    if (event.key === 'Shift') {
+      this.shiftHolding = false;
+    }
+    if (event.key === 'Ctrl') {
+      this.ctrlHolding = false;
+    }
+    if (event.key === 'Alt') {
+      this.altHolding = false;
     }
   }
 

@@ -5,7 +5,7 @@ import { RootModel } from './index';
 import * as remote from '../services/fileService';
 import { between, cmp } from 'mikov';
 import { connect } from 'react-redux';
-import { defaultAttributes } from '../utils/util';
+import { defaultAttributes, range } from '../utils/util';
 import { LayoutMode } from './layout';
 import eventCenter from '../services/eventCenter';
 import { toastError } from '../components/controls/toast';
@@ -385,6 +385,13 @@ export const app = createModel<RootModel>()({
       selectIndices = [...selectIndices, index];
       return updateCurrFolder(state, {currIndex, selectIndices});
     },
+    selectIndicesBetween: (
+      state: AppState,
+      {startIndex, endIndex}: {startIndex: number, endIndex: number}
+    ) => {
+      const selectIndices = range(startIndex, endIndex);
+      return updateCurrFolder(state, {currIndex: selectIndices[0], selectIndices});
+    },
     toggleHiddenFiles: (state: AppState, showHiddenFiles: boolean) => {
       let folder = state.paths[state.currPath];
       let {currIndex} = folder;
@@ -622,6 +629,7 @@ const mapAppDispatch = (dispatch: Dispatch) => ({
   selectNext: dispatch.app.selectNext,
   setCurrIndex: (index: number) => dispatch.app.selectIndex(index),
   addSelectIndex: (index: number) => dispatch.app.addSelectIndex(index),
+  selectIndicesBetween: (startIndex: number, endIndex: number) => dispatch.app.selectIndicesBetween({startIndex, endIndex}),
   setLayoutMode: (layoutMode: LayoutMode) => {
     dispatch.app.change({layout: layoutMode});
     // dispatch.app.updateCurrFolder({layoutMode});

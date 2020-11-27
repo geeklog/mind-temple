@@ -1,5 +1,12 @@
 import {uniq, flatten} from 'lodash';
-import deepEqual from 'deep-equal';
+
+export function range(start: number, end: number) {
+  const arr = [];
+  for (let i = start; i <= end; i++) {
+    arr.push(i);
+  }
+  return arr;
+}
 
 export function interlace(arr: any[], brr: any[]) {
   arr = [...arr];
