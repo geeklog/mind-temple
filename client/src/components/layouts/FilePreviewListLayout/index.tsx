@@ -12,6 +12,7 @@ import Header from './FileListHeader';
 import DraggingItems from './DraggingItems';
 import { LayoutMode } from '../../../models/layout';
 import { dirname } from '../../../utils/pathUtils';
+import classnames from 'classnames';
 
 interface State {
   dragging: boolean;
@@ -234,7 +235,7 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
       <div className="column">
         {files.map((file, i) =>
           <FileListItem
-            className={className}
+            className={classnames('cell', className)}
             key={file.path}
             file={file}
             index={i}
