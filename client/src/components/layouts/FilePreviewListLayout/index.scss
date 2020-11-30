@@ -4,6 +4,7 @@
   $header-height: 30px;
   position: relative;
   flex-grow: 1;
+  overflow: hidden;
   .headers {
     display: flex;
     width: 100%;
@@ -43,7 +44,8 @@
     display: flex;
     justify-content: stretch;
     height: calc(100vh - #{$topbarHeight} - #{$header-height});
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     @include themed('background', 'stripBackground');
     .column {
       flex: 1;

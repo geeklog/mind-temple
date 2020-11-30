@@ -1,6 +1,5 @@
 import React from 'react';
 import { FileDesc } from '../../../models/file';
-import Icon from '../../controls/Icon';
 import GallerySubGridItem from './GallerySubGridItem';
 import { AppProps, connectAppControl } from '../../../models/app';
 import { blockWheelWithin } from '../../../utils/domUtils';
@@ -27,7 +26,6 @@ class GalleryFolderItem extends React.PureComponent<Props> {
   render() {
     const {file} = this.props;
     const subCurrIndex = this.props.getFolder(file.path)?.currIndex ?? 0;
-    console.log('file', file);
     return (
       <FolderIcon
         className="folder"

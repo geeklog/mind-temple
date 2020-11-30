@@ -168,7 +168,12 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
 
   componentDidMount() {
     hotkeys.registerCommand('Cmd:TrashCurrFile', this.trashCurrFile);
-    this.props.setCurrIndex(null);
+  }
+
+  componentDidUpdate(prevProps: AppProps) {
+    if (prevProps.currPath !== this.props.currPath) {
+      this.props.setCurrIndex(null);
+    }
   }
 
   componentWillUnmount() {

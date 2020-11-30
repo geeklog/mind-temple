@@ -27,6 +27,25 @@ class App extends React.Component<AppProps> {
     document.documentElement.style.setProperty('--theme', this.props.theme);
     eventCenter.dispatchEvent('Evt:UpdateVar', {'--theme': this.props.theme});
     hotkeys.registerCommand('Cmd:ToggleTopbar', this.props.toggleTopbar);
+    const root = document.documentElement;
+    if (this.props.topbarOpened) {
+      root.style.setProperty('--topbar-height', '45px');
+      eventCenter.dispatchEvent('Evt:UpdateVar', {'--topbar-height': '45px'});
+    } else {
+      root.style.setProperty('--topbar-height', '0px');
+      eventCenter.dispatchEvent('Evt:UpdateVar', {'--topbar-height': '0px'});
+    }
+  }
+
+  componentDidUpdate() {
+    const root = document.documentElement;
+    if (this.props.topbarOpened) {
+      root.style.setProperty('--topbar-height', '45px');
+      eventCenter.dispatchEvent('Evt:UpdateVar', {'--topbar-height': '45px'});
+    } else {
+      root.style.setProperty('--topbar-height', '0px');
+      eventCenter.dispatchEvent('Evt:UpdateVar', {'--topbar-height': '0px'});
+    }
   }
 
   componentDidCatch(error, errorInfo) {

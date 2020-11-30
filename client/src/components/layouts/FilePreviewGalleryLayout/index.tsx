@@ -36,9 +36,11 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
   }
 
   componentDidMount() {
-    // setTimeout(() => {
-      // this.props.selectNext();
-    // }, 100);
+    const {showingFiles, currIndex} = this.props;
+    const file = showingFiles[currIndex];
+    if (!file) {
+      this.props.setCurrIndex(0);
+    }
   }
 
   render() {
@@ -58,6 +60,9 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
   }
 
   renderSlide(file: FileDesc) {
+    if (!file) {
+      return <div />;
+    }
     const {selectPrev, selectNext} = this.props;
     const thumbExt = resolveExtensionForThumb(file.ext);
     const isDirectory = file.type === 'folder';
@@ -73,7 +78,7 @@ class FilePreviewGalleryLayout extends React.PureComponent<AppProps> {
     if (file.type === 'image') {
       style = {
         maxWidth: `100%`,
-        maxHeight: `calc(100vh - var(--topbar-height) - 2px)`
+        maxHeight: `calc(100vh - var(--topbar-height))`
       };
     } else {
       style = {

@@ -13,6 +13,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    overflow: hidden;
     .btn {
       outline: none;
       background-color: transparent;
@@ -27,6 +28,8 @@
     }
     .frame {
       position: relative;
+      border: 0;
+      height: 100%;
       .overlay-left {
         position: absolute;
         background-color: transparent;
