@@ -1,6 +1,6 @@
 export interface BrowseResponse {
   ok: 0 | 1;
-  message?: string;
+  error?: string;
   file: FileDesc;
 }
 

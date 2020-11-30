@@ -12,8 +12,8 @@ export async function browse(currPath: string): Promise<BrowseResponse> {
     return data;
   } catch (error) {
     return {
-      ok: 1,
-      message: error.message,
+      ok: 0,
+      error: error.message,
       file: null
     };
   }
@@ -68,7 +68,7 @@ export async function command(cmd: string, filePath: string) {
     return data;
   } catch (error) {
     return {
-      ok: 1,
+      ok: 0,
       message: error.message,
     };
   }

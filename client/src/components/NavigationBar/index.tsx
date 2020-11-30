@@ -11,6 +11,7 @@ interface Props {
 
 interface State {
   longestPath: string;
+  inputingPath: string;
   editMode: boolean;
 }
 
@@ -18,6 +19,7 @@ class NavigationBar extends React.Component<Partial<Props>, State> {
 
   state = {
     longestPath : '',
+    inputingPath: '',
     editMode: false
   };
 
@@ -42,6 +44,7 @@ class NavigationBar extends React.Component<Partial<Props>, State> {
   }
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({inputingPath: event.target.value});
     this.props.onPathChanged(event.target.value);
   }
 
@@ -68,7 +71,7 @@ class NavigationBar extends React.Component<Partial<Props>, State> {
 
   render() {
     const {currPath} = this.props;
-    let { longestPath, editMode } = this.state;
+    let { longestPath, editMode, inputingPath } = this.state;
 
     if (longestPath.length < currPath.length) {
       longestPath = currPath;
@@ -88,7 +91,7 @@ class NavigationBar extends React.Component<Partial<Props>, State> {
             this.input = ref;
             ref?.focus();
           }}
-          value={currPath}
+          value={editMode ? (inputingPath || currPath) : currPath}
           onChange={this.onInputChange}
           onBlur={this.onInputBlur}
         />

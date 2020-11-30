@@ -50,6 +50,7 @@ interface AppState {
   pathHistory: History;
   currPath: string;
   theme: string;
+  error: string;
   showHiddenFiles: boolean;
   fileContextMenu: ContextMenuProps;
   editorLayout: 'edit' | 'preview' | 'both';
@@ -64,6 +65,7 @@ const defaultState = {
   sidebarOpened: true,
   rightPaneOpened: true,
   theme: 'light',
+  error: '',
   currPath: '~/Downloads/imgs',
   editorLayout: 'both',
   editorSaved: 'saved',
@@ -440,8 +442,8 @@ export const app = createModel<RootModel>()({
         const res: BrowseResponse = await remote.browse(currPath);
         console.log('browse---2', currPath);
         const changed: Partial<FolderDesc> = {};
-        changed.path = currPath;
         if (res.ok) {
+          changed.path = currPath;
           changed.file = res.file;
           if (changed.file && changed.file.type === 'folder') {
             let folder = state.app.paths[currPath];
@@ -450,10 +452,11 @@ export const app = createModel<RootModel>()({
             const currIndex = folder?.currIndex ?? 0;
             changed.currIndex = ensureIndexRange(showingFiles, currIndex);
           }
+          app.change({error: res.error});
+          app.updateCurrFolder(changed);
         } else {
-          changed.error = res.message;
+          app.change({error: res.error});
         }
-        app.updateCurrFolder(changed);
       },
       async navigateTo(path: string, state: ExtractRematchStateFromModels<RootModel>) {
         if (path === state.app.currPath) {
@@ -548,6 +551,7 @@ const mapAppState = (state: RootState) => {
     layout,
     paths: folders,
     currPath,
+    error,
     pathHistory,
     topbarOpened,
     sidebarOpened,
@@ -592,7 +596,7 @@ const mapAppState = (state: RootState) => {
     })(),
     canNavigateForward: pathHistory.currIndex < pathHistory.history.length - 1,
     canNavigateBackward: pathHistory.currIndex > 0,
-    currError: currFolder.error,
+    currError: error,
     getFolder: (path: string) => folders[path],
     getNextAvaliableFileName: (name: string) => {
       let originName = name;

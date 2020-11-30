@@ -8,6 +8,7 @@ class BrowseCache {
   browse(currPath: string) {
     if (this.watcher) {
       this.watcher.close();
+      this.watcher = null;
     }
 
     this.watcher = fs.watch(currPath, { recursive: true}, (event, name, ...args) => {
