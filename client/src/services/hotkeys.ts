@@ -14,12 +14,21 @@ class HotkeyService {
     document.addEventListener('keydown', this.onKey);
     document.addEventListener('keydown', this.keyDownCheckHolding);
     document.addEventListener('keyup', this.keyUpCheckHolding);
+    window.addEventListener('mousemove', this.onMouseMove);
   }
 
   deactivate() {
     document.removeEventListener('keydown', this.onKey);
     document.removeEventListener('keydown', this.keyDownCheckHolding);
     document.removeEventListener('keyup', this.keyUpCheckHolding);
+    window.removeEventListener('mousemove', this.onMouseMove);
+  }
+
+  onMouseMove(event: MouseEvent) {
+    this.ctrlHolding = event.ctrlKey;
+    this.metaHolding = event.metaKey;
+    this.altHolding = event.altKey;
+    this.shiftHolding = event.shiftKey;
   }
 
   keyDownCheckHolding = (event: KeyboardEvent) => {
