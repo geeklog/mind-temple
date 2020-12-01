@@ -68,7 +68,6 @@ export default class FileItem extends PureComponent<FileItemProps> {
     const droppingClassed = `${ dropping ? 'dropping' : ''}`;
     const nodropClassed = nodrop ? 'nodrop' : '';
 
-    console.log('className', className);
     return (
       <div
         className={classnames(

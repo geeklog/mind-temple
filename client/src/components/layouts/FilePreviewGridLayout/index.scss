@@ -7,6 +7,10 @@
   align-content: flex-start;
   text-align: initial;
   padding: 0 40px;
+  outline: none;
+  overflow: auto;
+  // this is necessary for calculate the position of grid-items
+  position: relative;
   .grid-item {
     margin: 2px;
     display: flex;

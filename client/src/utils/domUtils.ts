@@ -46,6 +46,26 @@ export function decodeHTMLEntities(text: string) {
   return entities.decode(text).replace(/<br>/g, '\n');
 }
 
+export function isWithinScreen(element: Element) {
+  const elRect = element.getBoundingClientRect();
+  const {x, y} = elRect;
+  const w = elRect.width;
+  const h = elRect.height;
+  if (x < 0) {
+    return false;
+  }
+  if (x + w > window.innerWidth) {
+    return false;
+  }
+  if (y < 0) {
+    return false;
+  }
+  if (y + h > window.innerHeight) {
+    return false;
+  }
+  return true;
+}
+
 export function boundsInScreen(
   element: HTMLElement,
   { x, y, padding }: { x?: number; y?: number; padding?: number } = {}
@@ -65,7 +85,7 @@ export function boundsInScreen(
   if (y < padding) {
     y = padding;
   }
-  if (y + w > window.innerHeight - padding) {
+  if (y + h > window.innerHeight - padding) {
     y = window.innerHeight - padding - h;
   }
   return { x, y };

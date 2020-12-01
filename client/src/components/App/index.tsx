@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import FilePreviewGridLayout from '../layouts/FilePreviewGridLayout';
+import FileGridLayout from '../layouts/FilePreviewGridLayout';
 import FileListLayout from '../layouts/FilePreviewListLayout';
 import FilePreviewGalleryLayout from '../layouts/FilePreviewGalleryLayout';
 import TopMenubar from '../TopMenubar';
@@ -88,7 +88,7 @@ class App extends React.Component<AppProps> {
     if (currFile.file.type === 'folder') {
       return (
         <>
-          {layoutMode === 'grid' && <FilePreviewGridLayout />}
+          {layoutMode === 'grid' && <FileGridLayout />}
           {layoutMode === 'list' && <FileListLayout />}
           {layoutMode === 'gallery' && <FilePreviewGalleryLayout />}
         </>

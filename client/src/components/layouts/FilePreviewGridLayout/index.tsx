@@ -8,7 +8,98 @@ import { LayoutMode } from '../../../models/layout';
 import { ContextMenuOptions } from '../type';
 import { isClickOnElement } from '../../../utils/domUtils';
 
-class FilePreviewGridLayout extends React.PureComponent<AppProps> {
+class FileGridLayout extends React.PureComponent<AppProps> {
+  layout: HTMLDivElement;
+
+  selectAbove() {
+    const layout = document.getElementsByClassName('files-layout-grid')[0];
+    const {currIndex, setCurrIndex} = this.props;
+    const currItem = layout.children[currIndex];
+    if (!currItem) {
+      return;
+    }
+    const {x: currX, y: currY} = currItem.getBoundingClientRect();
+
+    // find the closest x, and closest y, also y < currItem.y;
+    const siblings = layout.children;
+    let dx;
+    let ymax;
+    let targetIndex;
+
+    for (let i = 0; i < siblings.length; i++) {
+      if (i === currIndex) {
+        continue;
+      }
+      const item = siblings[i];
+      const {x, y} = item.getBoundingClientRect();
+      if (y >= currY) {
+        continue;
+      }
+      if (targetIndex === undefined) {
+        targetIndex = i;
+        dx = Math.abs(x - currX);
+        ymax = y;
+        continue;
+      }
+      if (dx < Math.abs(x - currX)) {
+        continue;
+      }
+      if (ymax > y) {
+        continue;
+      }
+      dx = Math.abs(x - currX);
+      ymax = y;
+      targetIndex = i;
+    }
+    if (targetIndex !== undefined) {
+      setCurrIndex(targetIndex);
+    }
+  }
+
+  selectBelow() {
+    const layout = this.layout;
+    const {currIndex, setCurrIndex} = this.props;
+    const currItem = layout.children[currIndex];
+    if (!currItem) {
+      return;
+    }
+    const {x: currX, y: currY} = currItem.getBoundingClientRect();
+
+    // find the closest x, and closest y, also y > currItem.y;
+    const siblings = layout.children;
+    let dx;
+    let ymin;
+    let targetIndex;
+
+    for (let i = 0; i < siblings.length; i++) {
+      if (i === currIndex) {
+        continue;
+      }
+      const item = siblings[i];
+      const {x, y} = item.getBoundingClientRect();
+      if (y <= currY) {
+        continue;
+      }
+      if (targetIndex === undefined) {
+        targetIndex = i;
+        dx = Math.abs(x - currX);
+        ymin = y;
+        continue;
+      }
+      if (dx < Math.abs(x - currX)) {
+        continue;
+      }
+      if (ymin < y) {
+        continue;
+      }
+      dx = Math.abs(x - currX);
+      ymin = y;
+      targetIndex = i;
+    }
+    if (targetIndex !== undefined) {
+      setCurrIndex(targetIndex);
+    }
+  }
 
   onKeyDown = (event: React.KeyboardEvent) => {
     const {
@@ -27,6 +118,16 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
     if (event.key === 'ArrowRight') {
       event.preventDefault();
       selectNext();
+      return;
+    }
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      this.selectAbove();
+      return;
+    }
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.selectBelow();
       return;
     }
     if (event.key === ' ') {
@@ -87,13 +188,39 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
     hotkeys.unregisterCommand('Cmd:TrashCurrFile');
   }
 
+  componentDidUpdate(prevProps: AppProps) {
+    if (prevProps.currIndex === this.props.currIndex) {
+      return;
+    }
+    if (!this.layout) {
+      return;
+    }
+    const currItem = this.layout.children[this.props.currIndex] as HTMLDivElement;
+    if (!currItem) {
+      return;
+    }
+
+    // scroll to make sure item stay inside screen
+
+    const elRect = currItem.getBoundingClientRect();
+    const {top} = elRect; // y position relative to window
+    const h = elRect.height;
+    if (top < 0) {
+      this.layout.scrollTop = currItem.offsetTop;
+    } else if (top + h > window.innerHeight) {
+      this.layout.scrollTop = currItem.offsetTop + currItem.offsetHeight - this.layout.clientHeight;
+    }
+  }
+
   render() {
     const {showingFiles, currFile: {selectIndices}} = this.props;
     return (
       <div
         className="files-layout-grid"
         onClick={this.onClick}
+        tabIndex={0}
         onKeyDown={this.onKeyDown}
+        ref={(ref) => this.layout = ref}
       >
         {showingFiles.map((file, i) =>
           <FilePreviewGridItem
@@ -112,4 +239,4 @@ class FilePreviewGridLayout extends React.PureComponent<AppProps> {
   }
 }
 
-export default connectAppControl(FilePreviewGridLayout);
+export default connectAppControl(FileGridLayout);

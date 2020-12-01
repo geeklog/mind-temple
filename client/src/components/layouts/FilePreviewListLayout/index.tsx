@@ -21,6 +21,7 @@ interface State {
 
 class FileListLayout extends React.PureComponent<AppProps, State> {
 
+  layout: HTMLDivElement;
   state = {
     dragging: false,
     droppingIndex: undefined
@@ -174,6 +175,28 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
   componentDidUpdate(prevProps: AppProps) {
     if (prevProps.currPath !== this.props.currPath) {
       this.props.setCurrIndex(null);
+      return;
+    }
+    if (prevProps.currIndex === this.props.currIndex) {
+      return;
+    }
+    if (!this.layout) {
+      return;
+    }
+    const currItem = this.layout.children[0].children[this.props.currIndex] as HTMLDivElement;
+    if (!currItem) {
+      return;
+    }
+
+    // scroll to make sure item stay inside screen
+
+    const elRect = currItem.getBoundingClientRect();
+    const {top} = elRect; // y position relative to window
+    const h = elRect.height;
+    if (top < 0) {
+      this.layout.scrollTop = currItem.offsetTop;
+    } else if (top + h > window.innerHeight) {
+      this.layout.scrollTop = currItem.offsetTop + currItem.offsetHeight - this.layout.clientHeight;
     }
   }
 
@@ -208,7 +231,10 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
             onSort={this.onSortBySize}
           />
         </div>
-        <div className="contents">
+        <div
+          className="contents"
+          ref={(ref) => this.layout = ref}
+        >
           {this.renderColumn('fname')}
           {this.renderColumn('size')}
           {this.renderColumn('date')}
