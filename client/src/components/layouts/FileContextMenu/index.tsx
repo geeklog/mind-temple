@@ -4,6 +4,7 @@ import Icon from '../../controls/Icon';
 import { AppProps } from '../../../models/app';
 import './index.scss';
 import { boundsInScreen } from '../../../utils/domUtils';
+import { dirname } from '../../../utils/pathUtils';
 
 type LiMouseEvent = React.MouseEvent<HTMLLIElement, MouseEvent>;
 
@@ -28,6 +29,14 @@ export default class FileContextMenu extends PureComponent<AppProps> {
   trash = () => {
     const {selectedFiles, trash} = this.props;
     trash(selectedFiles);
+  }
+
+  moveUpper = () => {
+    const {selectedFiles, moveFiles, currFile} = this.props;
+    moveFiles({
+      files: selectedFiles,
+      targetPath: dirname(currFile.path)
+    });
   }
 
   download = (event: LiMouseEvent) => {
@@ -91,6 +100,13 @@ export default class FileContextMenu extends PureComponent<AppProps> {
         >
           <Icon name="trash-2" />
           Trash
+        </li>
+        <li
+          className={classnames('item', 'disabled')}
+          onClick={this.moveUpper}
+        >
+          <Icon name="upload" />
+          Move to upper folder
         </li>
         <li
           className={classnames('item', 'disabled')}

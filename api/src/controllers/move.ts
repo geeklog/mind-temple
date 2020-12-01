@@ -14,7 +14,12 @@ export default async (req, res) => {
       try {
         fs.moveSync(file, dest);
       } catch (error) {
-        errors.push('Folder contains file that has same name: ' + path.basename(file));
+        if (error.message.startsWith('EACCES: permission denied')) {
+          errors.push('Permission denied');
+        } else {
+          console.log('error', error);
+          errors.push('File name duplicated: ' + path.basename(file));
+        }
       }
     }
     cache.purge(currFolder);
