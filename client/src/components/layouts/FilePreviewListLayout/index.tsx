@@ -136,17 +136,19 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
     });
   }
 
-  onItemDrop = (file: FileDesc, index: number) => {
+  onItemDrop = (targetFile: FileDesc, index: number) => {
     const {moveFiles, selectedFiles} = this.props;
-    console.log('onItemDrop', file, index);
     this.setState({
       dragging: false,
       droppingIndex: undefined
     });
-    if (~selectedFiles.indexOf(file)) {
+    if (~selectedFiles.indexOf(targetFile)) {
       return;
     }
-    moveFiles({files: selectedFiles, targetPath: file.path});
+    if (targetFile.type !== 'folder') {
+      return;
+    }
+    moveFiles({files: selectedFiles, targetPath: targetFile.path});
   }
 
   onSortByName = (order: string) => {

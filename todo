@@ -39,6 +39,7 @@
 ✔ shift + click to select multiple files in between. @done(20-11-27 17:43)
 ✔ cmd + click revert the selection if item is selected @done(20-11-27 18:00)
 ✔ fix grid layout hotkeys @done(20-12-01 13:53)
+✔ fix: right click on file-item should also select it @done(20-12-01 14:07)
 ☐ side bar show favorite
   ☐ emoji
 ☐ fix txt reader
@@ -69,7 +70,6 @@
 ☐ search in place: (keydown "s", and only show all the file with name contains 's' )
 ☐ watch for files changed on server
 ☐ fix: if client ip is not localhost, forbbit exec command
-☐ fix: right click on file-item should also select it
 ☐ multiple selection in folder
 ☐ copy/paste files
 ☐ execute arbitrary commands on server
