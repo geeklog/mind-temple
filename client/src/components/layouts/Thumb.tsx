@@ -8,13 +8,14 @@ import { isImageExt, resolveExtensionForThumb } from '../../utils/extUtils';
 interface Props {
   size: number;
   file: FileDesc;
+  color?: string;
   selected: boolean;
   type: 'grid' | 'list';
 }
 
 export default class Thumb extends React.PureComponent<Props> {
   render() {
-    const {file, selected, type, size} = this.props;
+    const {color, file, selected, type, size} = this.props;
     let thumbExt = resolveExtensionForThumb(file.ext);
     let isDirectory = file.type === 'folder';
     let isImage = !isDirectory && isImageExt(file.ext);
@@ -40,7 +41,10 @@ export default class Thumb extends React.PureComponent<Props> {
         title={file.name}
       >
         {isDirectory &&
-          <FolderIcon size={type === 'grid' ? 'medium' : 'small' }/>
+          <FolderIcon
+            size={type === 'grid' ? 'medium' : 'small' }
+            color={color}
+          />
         }
         {isImage &&
           <img

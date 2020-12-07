@@ -1,6 +1,6 @@
 import * as remote from '../services/fileService';
 import { range } from '../utils/util';
-import { AppState } from './app.types';
+import { AppState, Favorite } from './app.types';
 import { updateFolder, updateCurrFolder, sortFolder, getShowingFiles, ensureIndexRange } from './app.utils';
 import { FileDesc } from './file';
 
@@ -44,6 +44,34 @@ const reducers = {
     return {
       ...state,
       rightPaneOpened: !state.rightPaneOpened
+    };
+  },
+  addFavorite: (state: AppState, favorite: Favorite) => {
+    const fav = state.favorites.find(fav => fav.file.path === favorite.file.path);
+    if (fav) {
+      const i = state.favorites.indexOf(fav);
+      state.favorites[i] = favorite;
+      return {
+        ...state,
+        favorites: [...state.favorites]
+      };
+    } else {
+       return {
+         ...state,
+         favorites: [...state.favorites, favorite]
+       };
+    }
+  },
+  removeFavorite: (state: AppState, path: string) => {
+    const fav = state.favorites.find(fav => fav.file.path === path);
+    if (!fav) {
+      return state;
+    }
+    const i = state.favorites.indexOf(fav);
+    state.favorites.splice(i, 1);
+    return {
+      ...state,
+      favorites: [...state.favorites]
     };
   },
   setEditorSaved: (state: AppState, editorSaved: string) => {

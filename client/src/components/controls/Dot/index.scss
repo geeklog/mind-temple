@@ -1,0 +1,25 @@
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 100px;
+  border: #ececec 1px solid;
+  margin-left: 6px;
+  &.green {
+    background: #6ddc6d;
+  }
+  &.red {
+    background: #ff4f4f;
+  }
+  &.yellow {
+    background: #ffe13e;
+  }
+  &.black {
+    background: #4e4d4d;
+  }
+  &.white {
+    background: white;
+  }
+  &.blue {
+    background: #5eb2dd;
+  }
+}

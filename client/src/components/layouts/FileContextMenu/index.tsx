@@ -5,6 +5,8 @@ import { AppProps } from '../../../models/app';
 import './index.scss';
 import { boundsInScreen } from '../../../utils/domUtils';
 import { dirname } from '../../../utils/pathUtils';
+import { FileDesc } from '../../../models/file';
+import Dot from '../../controls/Dot';
 
 type LiMouseEvent = React.MouseEvent<HTMLLIElement, MouseEvent>;
 
@@ -45,6 +47,15 @@ export default class FileContextMenu extends PureComponent<AppProps> {
 
   hide = () => {
     this.props.toggleFileContextMenu({visible: false});
+  }
+
+  toggleFavorite = (color: string) => {
+    const {selectedFiles} = this.props;
+    const file: FileDesc = selectedFiles[0];
+    this.props.addFavorite({
+      file,
+      color
+    });
   }
 
   componentDidMount() {
@@ -114,6 +125,18 @@ export default class FileContextMenu extends PureComponent<AppProps> {
         >
           <Icon name="download" />
           Download
+        </li>
+        <li>
+          <Icon name="heart" />
+          Favorite
+          <div className="dot-group">
+            <Dot color='green' onClick={this.toggleFavorite} />
+            <Dot color='red' onClick={this.toggleFavorite} />
+            <Dot color='blue' onClick={this.toggleFavorite} />
+            <Dot color='yellow' onClick={this.toggleFavorite} />
+            <Dot color='black' onClick={this.toggleFavorite} />
+            <Dot color='white' onClick={this.toggleFavorite} />
+          </div>
         </li>
       </ul>
     );

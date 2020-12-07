@@ -246,17 +246,17 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
   }
 
   renderColumn(columnType: string) {
-    const {showingFiles, currFile: {selectIndices}} = this.props;
+    const {showingFiles, currFile: {selectIndices}, getFileColor} = this.props;
     const {dragging, droppingIndex} = this.state;
     let files = showingFiles;
     const className = ({fname: 'fname', size: 'size', date: 'date'})[columnType];
-    let textGen: any;
+    let label: any;
     if (columnType === 'fname') {
-      textGen = (file: FileDesc) => file.name;
+      label = (file: FileDesc) => file.name;
     } else if (columnType === 'size') {
-      textGen = (file: FileDesc) => `${prettyBytes(file.size || 0)}`;
+      label = (file: FileDesc) => `${prettyBytes(file.size || 0)}`;
     } else if (columnType === 'date') {
-      textGen = (file: FileDesc) => `${file.mtime ? format(new Date(file.mtime), 'yyyy-MM-dd HH:mm:ss') : '~'}`;
+      label = (file: FileDesc) => `${file.mtime ? format(new Date(file.mtime), 'yyyy-MM-dd HH:mm:ss') : '~'}`;
     }
 
     return (
@@ -265,12 +265,13 @@ class FileListLayout extends React.PureComponent<AppProps, State> {
           <FileListItem
             className={classnames('cell', className)}
             key={file.path}
+            color={getFileColor(file.path)}
             file={file}
             index={i}
             selected={selectIndices.indexOf(i) >= 0}
             dragging={dragging && selectIndices.indexOf(i) >= 0}
             dropping={dragging && droppingIndex === i}
-            text={textGen(file)}
+            text={label(file)}
             icon={columnType === 'fname' ? 25 : undefined}
             isFileName={columnType === 'fname'}
             onClick={this.onItemClick}

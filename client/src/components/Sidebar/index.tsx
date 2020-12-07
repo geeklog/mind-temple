@@ -3,6 +3,7 @@ import './index.scss';
 import classnames from 'classnames';
 import { AppProps } from '../../models/app';
 import hotkeys from '../../services/hotkeys';
+import FileListItem from '../layouts/FilePreviewListLayout/FileListItem';
 
 export default class Sidebar extends React.PureComponent<AppProps> {
 
@@ -23,13 +24,35 @@ export default class Sidebar extends React.PureComponent<AppProps> {
   }
 
   render() {
-    const {sidebarOpened} = this.props;
+    const {sidebarOpened, favorites, getFileColor} = this.props;
     return (
       <div className="sidebar">
         <div className={classnames(
           "content",
           sidebarOpened ? '' : 'hide'
         )}>
+          <div className="title"><span className="emoji">❤️</span>Favorites</div>
+          {favorites.map((fav, i) => {
+            const file = fav.file;
+            return (
+              <div className="fav-item">
+                <FileListItem
+                  className={classnames('file-item')}
+                  key={file.path}
+                  color={getFileColor(file.path)}
+                  file={file}
+                  index={i}
+                  selected={false}
+                  dragging={false}
+                  dropping={false}
+                  text={file.name}
+                  icon={25}
+                  isFileName={true}
+                />
+              </div>
+            );
+          }
+          )}
         </div>
       </div>
     );

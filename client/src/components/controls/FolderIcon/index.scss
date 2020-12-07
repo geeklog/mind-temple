@@ -7,12 +7,14 @@
   .theme-light & {
     > * {
       &.white {
-        background: linear-gradient(15deg, #dedede 0%, #f4f4f4 84%);
-        border: solid 1px #e0e0e0;
+        background: linear-gradient(15deg, #d2d1d1 0%, #f1f1f1 84%);
+        border: solid 1px #f2f2f2;
+        box-shadow: 0 3px 8px rgba(#cdcdcd, .3);
       }
       &.black {
-        background: linear-gradient(15deg, #4e4d4d 0%, #646464 84%);
+        background: linear-gradient(15deg, #363636 0%, #646464 84%);
         border: solid 1px #656565;
+        box-shadow: 0 3px 8px rgba(#656565, .3);
       }
       &.glass {
         background: linear-gradient(15deg, #f8fcfe 0%, #d0eaff 84%);
@@ -22,20 +24,56 @@
       &.blue {
         background: linear-gradient(15deg, #95dcff 0%, #d0eaff 84%);
         border: solid 1px #e8f2fd;
-        box-shadow: 0 6px 10px #e1f2ff;
+        box-shadow: 0 3px 8px rgba(#d0eaff, .3);
+      }
+      &.yellow {
+        background: linear-gradient(15deg, #ffe13e 0%, #fff5b0 84%);
+        border: solid 1px #fff5b0;
+        box-shadow: 0 6px 10px rgba(#fff5b0, .3);
+      }
+      &.red {
+        background: linear-gradient(15deg, #ff4f4f 0%, #ffa1b2 84%);
+        border: solid 1px #ffaebc;
+        box-shadow: 0 6px 10px rgba(#ffaebc, .3);
+      }
+      &.green {
+        background: linear-gradient(15deg, #6ddc6d 0%, #98ff98 84%);
+        border: solid 1px #cbffcb;
+        box-shadow: 0 6px 10px rgba(#cbffcb, .3);
       }
     }
   }
   .theme-dark & {
     > * {
+      &.white {
+        background: linear-gradient(15deg, #d2d1d1 0%, #f9f9f9 84%);
+        border: solid 1px #eaeaea;
+        box-shadow: 0 3px 8px rgba(#eaeaea, .3);
+      }
       &.black {
         background: linear-gradient(15deg, #4e4d4d 0%, #646464 84%);
         border: solid 1px #656565;
+        box-shadow: 0 3px 8px rgba(#656565, .3);
       }
       &.blue {
         background: linear-gradient(15deg, #5eb2dd 0%, #d0eaff 84%);
         border: solid 1px #c6e1ff;
-        box-shadow: 0 3px 8px #43adfe78;
+        box-shadow: 0 3px 8px rgba(#5eb2dd, .3);
+      }
+      &.yellow {
+        background: linear-gradient(15deg, #ffe13e 0%, #fff5b0 84%);
+        border: solid 1px #fff5b0;
+        box-shadow: 0 6px 10px rgba(#ffe13e, .3);
+      }
+      &.red {
+        background: linear-gradient(15deg, #ff4f4f 0%, #ffa1b2 84%);
+        border: solid 1px #ffaebc;
+        box-shadow: 0 6px 10px rgba(#ff4f4f, .3);
+      }
+      &.green {
+        background: linear-gradient(15deg, #6ddc6d 0%, #98ff98 84%);
+        border: solid 1px #cbffcb;
+        box-shadow: 0 6px 10px rgba(#6ddc6d, .3);
       }
     }
   }

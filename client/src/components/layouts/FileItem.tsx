@@ -10,27 +10,27 @@ export default class FileItem extends PureComponent<FileItemProps> {
     const {file, index, onContextMenu} = this.props;
     const x = event.pageX;
     const y = event.pageY;
-    onContextMenu({visible: true, x, y, index, file});
+    onContextMenu?.({visible: true, x, y, index, file});
   }
 
   onClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const {file, index} = this.props;
-    this.props.onClick(file, index);
+    this.props.onClick?.(file, index);
   }
 
   onDoubleClick = () => {
     const {file, index} = this.props;
-    this.props.onDoubleClick(file, index);
+    this.props.onDoubleClick?.(file, index);
   }
 
   onDragStart = (event: React.DragEvent<HTMLElement>) => {
     const {file, index} = this.props;
-    this.props.onDragStart(file, index, event);
+    this.props.onDragStart?.(file, index, event);
   }
 
   onDragEnd = (event: React.DragEvent<HTMLElement>) => {
     const {file, index} = this.props;
-    this.props.onDragEnd(file, index, event);
+    this.props.onDragEnd?.(file, index, event);
   }
 
   onDragOver = (event: React.DragEvent<HTMLElement>) => {
@@ -39,17 +39,17 @@ export default class FileItem extends PureComponent<FileItemProps> {
 
   onDragEnter = (event: React.DragEvent<HTMLElement>) => {
     const {file, index} = this.props;
-    this.props.onDragEnter(file, index, event);
+    this.props.onDragEnter?.(file, index, event);
   }
 
   onDragLeave = (event: React.DragEvent<HTMLElement>) => {
     const {file, index} = this.props;
-    this.props.onDragLeave(file, index, event);
+    this.props.onDragLeave?.(file, index, event);
   }
 
   onDrop = () => {
     const {file, index} = this.props;
-    this.props.onDrop(file, index);
+    this.props.onDrop?.(file, index);
   }
 
   render() {

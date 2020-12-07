@@ -9,6 +9,7 @@ export const mapAppState = (state: RootState) => {
     currPath,
     error,
     pathHistory,
+    favorites,
     topbarOpened,
     sidebarOpened,
     rightPaneOpened,
@@ -30,6 +31,7 @@ export const mapAppState = (state: RootState) => {
   return ({
     currPath,
     theme,
+    favorites,
     showHiddenFiles,
     fileContextMenu,
     topbarOpened,
@@ -54,6 +56,14 @@ export const mapAppState = (state: RootState) => {
     canNavigateBackward: pathHistory.currIndex > 0,
     currError: error,
     getFolder: (path: string) => folders[path],
+    getFileColor: (path: string) => {
+      const fav = favorites.find(fav => fav.file.path === path);
+      if (fav) {
+        return fav.color;
+      } else {
+        return null;
+      }
+    },
     getNextAvaliableFileName: (name: string) => {
       let originName = name;
       let i = 0;
@@ -101,6 +111,8 @@ export const mapAppDispatch = (dispatch: Dispatch) => ({
   toggleTopbar: dispatch.app.toggleTopbar,
   toggleSidebar: dispatch.app.toggleSidebar,
   toggleRightPane: dispatch.app.toggleRightPane,
+  removeFavorite: dispatch.app.removeFavorite,
+  addFavorite: dispatch.app.addFavorite,
   setEditorUnsaved: (saved: string) => dispatch.app.setEditorSaved(saved),
   setEditorLayout: (layout: 'edit' | 'preview' | 'both') => dispatch.app.setEditorLayout(layout),
   setEditorTheme: (theme: string) => dispatch.app.setEditorTheme(theme),

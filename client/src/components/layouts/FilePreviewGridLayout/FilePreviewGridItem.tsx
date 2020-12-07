@@ -7,6 +7,7 @@ import FileNameLabel from '../FileNameLabel';
 interface Props {
   index: number;
   file: FileDesc;
+  color?: string;
   selected: boolean;
   onClick: (file: FileDesc, index: number) => void;
   onDoubleClick: (file: FileDesc, index: number) => void;
@@ -44,7 +45,7 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
   }
 
   render() {
-    const { file, selected,  }: Props = this.props;
+    const { color, file, selected,  }: Props = this.props;
 
     return (
       <div
@@ -62,6 +63,7 @@ export default class FilePreviewGridItem extends React.PureComponent<Props> {
           size={80}
           selected={selected}
           file={file}
+          color={color}
         />
         <FileNameLabel
           name={file.name}

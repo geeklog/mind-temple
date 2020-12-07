@@ -45,6 +45,7 @@ const defaultState = {
       error: ''
     }
   },
+  favorites: [],
   showHiddenFiles: true,
   fileContextMenu: {
     visible: false

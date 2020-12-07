@@ -9,9 +9,15 @@
   .content {
     width: var(--sidebar-width);
     padding: 10px;
+    padding-top: 20px;
     &.hide {
       display: none;
     }
+  }
+  .emoji {
+    font-size: 20px;
+    margin-left: -7px;
+    margin-right: 10px;
   }
   .sidebar-btn {
     position: absolute;
@@ -28,6 +34,26 @@
       margin: 0;
       width: 23px;
       height: 23px;
+    }
+  }
+  .title {
+    margin-bottom: 10px;
+    font-weight: 100;
+    font-size: 17px;
+    text-transform: uppercase;
+  }
+  .fav-item {
+    padding: 2px 0;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    .file-item {
+      display: flex;
+      flex-wrap: nowrap;
+      height: 25px;
+      .file-name {
+        overflow: hidden;
+      }
     }
   }
 }

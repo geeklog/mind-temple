@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
-import Thumb from '../Thumb';
-import { FileItemProps } from '../type';
-import Label from '../../controls/Label/index';
-import FileNameLabel from '../FileNameLabel';
-import { FileDesc } from '../../../models/file';
-import FileItem from '../FileItem';
+import Thumb from '../../Thumb';
+import { FileItemProps } from '../../type';
+import Label from '../../../controls/Label/index';
+import FileNameLabel from '../../FileNameLabel';
+import { FileDesc } from '../../../../models/file';
+import FileItem from '../../FileItem';
+import './index.scss';
 
 interface Props extends FileItemProps {
   icon?: number;
@@ -24,16 +25,19 @@ export default class FileListItem extends PureComponent<Props> {
   }
 
   render() {
-    const {file, selected, icon, text, isFileName} = this.props;
+    const {color, file, selected, icon, text, isFileName} = this.props;
 
     return (
-      <FileItem {...this.props} >
+      <FileItem
+        {...this.props}
+      >
         {icon &&
           <Thumb
             type="list"
             size={icon}
             selected={selected}
             file={file}
+            color={color}
           />
         }
         {

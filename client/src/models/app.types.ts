@@ -21,6 +21,11 @@ export interface FolderDesc {
   error: string;
 }
 
+export interface Favorite {
+  color: string;
+  file: FileDesc;
+}
+
 export interface History {
   history: string[];
   currIndex: number;
@@ -35,6 +40,7 @@ export interface AppState {
   paths: {[path: string]: FolderDesc};
   pathHistory: History;
   currPath: string;
+  favorites: Favorite[];
   theme: string;
   error: string;
   showHiddenFiles: boolean;

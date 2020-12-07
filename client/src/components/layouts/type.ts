@@ -1,6 +1,7 @@
 import { FileDesc } from "../../models/file";
 
 export interface FileItemProps {
+  color?: string;
   file: FileDesc;
   selected: boolean;
   dragging: boolean;

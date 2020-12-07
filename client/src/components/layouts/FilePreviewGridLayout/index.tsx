@@ -213,7 +213,7 @@ class FileGridLayout extends React.PureComponent<AppProps> {
   }
 
   render() {
-    const {showingFiles, currFile: {selectIndices}} = this.props;
+    const {showingFiles, currFile: {selectIndices}, getFileColor} = this.props;
     return (
       <div
         className="files-layout-grid"
@@ -226,6 +226,7 @@ class FileGridLayout extends React.PureComponent<AppProps> {
           <FilePreviewGridItem
             index={i}
             key={i}
+            color={getFileColor(file.path)}
             file={file}
             selected={selectIndices.indexOf(i) >= 0 }
             onClick={this.onItemClick}
